@@ -27,11 +27,11 @@ export default function Home() {
     const duration = 1500 // 1.5 seconds
     const startTime = performance.now()
 
-    // --- GOLDEN RATIO GEOMETRY ---
+    // --- GOLDEN RATIO SPIRAL  ---
     const phi = 1.61803398875
     
     // 1. Calculate the "Eye" of the spiral (The End Point)
-    // We place it in the upper half, at the Golden Section.
+    // at the Golden Section.
     // If center is 0, top is -innerHeight/2.
     const screenHalf = window.innerHeight / 2
     const spiralCenterY = -(screenHalf / phi) // The mathematical destination
@@ -61,7 +61,7 @@ export default function Home() {
         const currentDistanceToEye = startRadius * (1 - ease)
 
         // B. ANGLE: Increases as we approach the center (Conservation of Angular Momentum)
-        // We start at Math.PI/2 (90 degrees) which is "Down" relative to the spiral center.
+        // Start at Math.PI/2 (90 degrees) which is "Down" relative to the spiral center.
         // Since the Spiral Center is ABOVE the object, looking "Down" points to the Object at (0,0).
         const startAngle = Math.PI / 2 
         const currentAngle = startAngle + (ease * totalRotations * 2 * Math.PI)
@@ -73,8 +73,8 @@ export default function Home() {
 
         // D. ABSOLUTE POSITIONING
         // Shift points so they rotate around the calculated Spiral Center
-        // We negate X to make it spiral clockwise (Right -> Up -> Left)
-        // or keep positive for counter-clockwise. Let's do Clockwise for a nice arc.
+        // Negate X to make it spiral counter-clockwise(golden spiral) (Right -> Up -> Left)
+        // or keep positive for clockwise(reverse golden spiral). Let's do Counter-clockwise for a nice arc.
         const x = -relX 
         const y = spiralCenterY + relY // Shift Y by the spiral center offset
 
