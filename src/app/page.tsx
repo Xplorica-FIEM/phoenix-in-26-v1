@@ -4,12 +4,12 @@ import React, { useState, useEffect, useRef } from 'react'
 import Image from "next/image";
 
 export default function Home() {
-  const [stage, setStage] = useState('loading') // 'loading' | 'spiraling' | 'finished'
+  const [stage, setStage] = useState('loading')
   const pokeballRef = useRef(null)
   const requestRef = useRef()
 
   useEffect(() => {
-    // 1. Loading Phase
+    // Wait briefly before starting the spiral.
     const loadTimer = setTimeout(() => {
       setStage('spiraling')
     }, 2000)
@@ -17,7 +17,7 @@ export default function Home() {
     return () => clearTimeout(loadTimer)
   }, [])
 
-  // 2. The Golden Spiral (Center -> Upwards -> Inward)
+  // Executing the golden spiral animation.
   useEffect(() => {
     if (stage !== 'spiraling') return
 
@@ -27,63 +27,48 @@ export default function Home() {
     const duration = 1500 // 1.5 seconds
     const startTime = performance.now()
 
-    // --- GOLDEN RATIO SPIRAL  ---
+    // The Golden Ratio (phi) defines the geometric relationship of the spiral.
     const phi = 1.61803398875
     
-    // 1. Calculate the "Eye" of the spiral (The End Point)
-    // at the Golden Section.
-    // If center is 0, top is -innerHeight/2.
+    // Establish the spiral's focal point (origin) relative to the viewport center.
+    // Placing the origin at the golden section provides a visually balanced ascent.
     const screenHalf = window.innerHeight / 2
-    const spiralCenterY = -(screenHalf / phi) // The mathematical destination
+    const spiralCenterY = -(screenHalf / phi)
     
-    // 2. Determine Start Conditions
-    // The object starts at (0,0).
-    // The spiral center is at (0, spiralCenterY).
-    // Therefore, the starting radius (distance from object to spiral eye) is just the absolute distance.
+    // Determine the initial radius as the distance from the element (0,0) to the focal point.
     const startRadius = Math.abs(spiralCenterY)
     
-    // 3. Spiral Physics
-    const totalRotations = 3 // 3 full turns into the center
+    const totalRotations = 3
     
     const animate = (currentTime) => {
       const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1) // 0 to 1
+      const progress = Math.min(elapsed / duration, 1)
 
-      // Easing: Cubic ease-out to make it feel like a natural throw/magnetic pull
-      // Fast start (grows out), slows down as it tightens (spirals in)
+      // Apply cubic ease-out for natural deceleration into the center.
       const ease = 1 - Math.pow(1 - progress, 3)
 
       if (progress < 1) {
-        // --- INVERSE LOGARITHMIC SPIRAL MATH ---
-        
-        // A. RADIUS: Decays from StartRadius -> 0
-        // As it gets closer to the eye, it gets tighter.
+        // Reduce the radius over time to create the inward spiral trajectory.
         const currentDistanceToEye = startRadius * (1 - ease)
 
-        // B. ANGLE: Increases as we approach the center (Conservation of Angular Momentum)
-        // Start at Math.PI/2 (90 degrees) which is "Down" relative to the spiral center.
-        // Since the Spiral Center is ABOVE the object, looking "Down" points to the Object at (0,0).
+        // Increment the angle to rotate around the focal point.
+        // Starting at PI/2 or 90deg aligns the initial position with the screen center.
         const startAngle = Math.PI / 2 
         const currentAngle = startAngle + (ease * totalRotations * 2 * Math.PI)
 
-        // C. CARTESIAN CONVERSION (Relative to Spiral Center)
-        // Basic polar coordinates
+        // Convert polar coordinates (distance, angle) to Cartesian coordinates (x, y).
         let relX = currentDistanceToEye * Math.cos(currentAngle)
         let relY = currentDistanceToEye * Math.sin(currentAngle)
 
-        // D. ABSOLUTE POSITIONING
-        // Shift points so they rotate around the calculated Spiral Center
-        // Negate X to make it spiral counter-clockwise(golden spiral) (Right -> Up -> Left)
-        // or keep positive for clockwise(reverse golden spiral). Let's do Counter-clockwise for a nice arc.
+        // Translate coordinates from the focal point back to the screen space.
+        // Inverting X creates a counter-clockwise path.
         const x = -relX 
-        const y = spiralCenterY + relY // Shift Y by the spiral center offset
+        const y = spiralCenterY + relY
 
-        // E. SCALE & ROTATION
-        // Shrink to 0 as it enters the eye
+        // Scale down and rotate the element.
         const scale = 1 - ease
         const rotation = ease * 1080
 
-        // Apply
         element.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotation}deg)`
         
         requestRef.current = requestAnimationFrame(animate)
@@ -102,25 +87,9 @@ export default function Home() {
 
   return (
     <>
-      {/* --- PRELOADER ANIMATION OVERLAY --- */}
+      {/* Full screen preloader overlay. */}
       <div className={`fixed inset-0 z-50 transition-all duration-1000 ${stage === 'finished' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        {/* Background Video for Loader */}
-        <div className="absolute inset-0 bg-black overflow-hidden -z-10">
-            <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className={`w-full h-full object-cover transition-all duration-[1500ms] ease-out ${
-                stage !== 'finished' ? 'blur-xl scale-110 brightness-50' : 'blur-0 scale-100 brightness-100'
-            }`}
-            >
-            <source src="/rayloop.mp4" type="video/mp4" />
-            </video>
-            <div className="absolute inset-0 bg-black/40" />
-        </div>
-
-        {/* Animation Container - CENTERED AT (0,0) */}
+        {/* Centered container for the animation. */}
         <div className="absolute inset-0 flex items-center justify-center">
             {stage !== 'finished' && (
             <img 
@@ -135,7 +104,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* --- ORIGINAL PAGE CONTENT --- */}
+      {/* Main page content. */}
       <div className={`transition-opacity duration-1000 ${stage === 'finished' ? 'opacity-100' : 'opacity-0'}`}>
         <div className="flex min-h-screen items-center justify-center font-sans bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/background.png)' }}>
           <div className="absolute inset-0 bg-white/20 dark:bg-black/30 backdrop-blur-md"></div>
