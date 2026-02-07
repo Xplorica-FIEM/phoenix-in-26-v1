@@ -53,7 +53,7 @@ const Navbar = () => {
         <div className="relative pointer-events-auto mt-1">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="relative w-10 h-10 transition-transform duration-300 hover:scale-110 focus:outline-none"
+            className="relative w-10 h-16 transition-transform duration-300 hover:scale-110 focus:outline-none"
             aria-label="Toggle menu"
           >
             <Image
