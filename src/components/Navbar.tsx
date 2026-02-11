@@ -8,22 +8,49 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [pokeballImage, setPokeballImage] = useState('/pball.png');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [flashRed, setFlashRed] = useState(false);
+  const [flashWhite, setFlashWhite] = useState(false);
 
   // Handle pokeball animation sequence
   useEffect(() => {
     if (isMenuOpen) {
-      // Opening sequence: pball.png → pball-open.png → pball-open-full.png
+      // Opening sequence: pball.png → pball-open.png → pball-open-full.png → white flash → dropdown
       setPokeballImage('/pball-open.png');
-      const timer = setTimeout(() => {
+      const timer1 = setTimeout(() => {
         setPokeballImage('/pball-open-full.png');
-        setShowDropdown(true);
       }, 100);
-      return () => clearTimeout(timer);
+      const timer2 = setTimeout(() => {
+        setFlashWhite(true);
+      }, 150);
+      const timer3 = setTimeout(() => {
+        setFlashWhite(false);
+        setShowDropdown(true);
+      }, 400);
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+        clearTimeout(timer3);
+      };
     } else {
-      // Hide dropdown immediately when closing
-      setShowDropdown(false);
-      // Closing sequence: pball-open-full.png → pball-open.png → pball.png
-      if (pokeballImage !== '/pball.png') {
+      // Closing sequence: red flash → hide dropdown → pball-open.png → pball.png
+      if (showDropdown) {
+        setFlashRed(true);
+        const timer1 = setTimeout(() => {
+          setFlashRed(false);
+          setShowDropdown(false);
+        }, 500);
+        const timer2 = setTimeout(() => {
+          setPokeballImage('/pball-open.png');
+        }, 500);
+        const timer3 = setTimeout(() => {
+          setPokeballImage('/pball.png');
+        }, 600);
+        return () => {
+          clearTimeout(timer1);
+          clearTimeout(timer2);
+          clearTimeout(timer3);
+        };
+      } else if (pokeballImage !== '/pball.png') {
         setPokeballImage('/pball-open.png');
         const timer = setTimeout(() => {
           setPokeballImage('/pball.png');
@@ -36,7 +63,7 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none select-none">
       {/* Mobile Layout */}
-      <div className="flex md:hidden items-center justify-center gap-3 w-full px-4 pt-3 pb-2 bg-gradient-to-b from-black/60 to-transparent">
+      <div className="flex md:hidden flex-shrink-0 items-center justify-center gap-1 w-full px-5 pt-4 pb-4 bg-gradient-to-b from-black/60 to-transparent">
         {/* Pokeball Menu Button - left of logo */}
         <div className="relative pointer-events-auto">
           <button
@@ -53,12 +80,12 @@ const Navbar = () => {
           </button>
           
           {/* Fullscreen Dropdown Menu Overlay */}
-          <div className={`fixed left-[5px] right-[5px] top-[calc(9rem+5px)] bottom-[5px] transition-all duration-300 ${showDropdown ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-            <div className="h-full bg-gradient-to-b from-slate-900/98 via-slate-950/98 to-black/98 backdrop-blur-md border border-white/10 rounded-lg overflow-hidden">
+          <div className={`fixed left-[5px] right-[5px] top-[calc(9rem+5px)] bottom-[5px] transition-all duration-150 ${flashRed || flashWhite ? 'opacity-100 pointer-events-auto' : showDropdown ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+            <div className={`h-full backdrop-blur-md border border-white/10 rounded-lg overflow-hidden transition-all duration-150 ${flashRed ? 'bg-red-500/80' : flashWhite ? 'bg-gradient-to-b from-cyan-100/90 via-blue-200/80 to-cyan-200/90' : 'bg-gradient-to-b from-slate-900/98 via-slate-950/98 to-black/98'}`}>
               {/* Top accent bar - cyan/blue gradient */}
-              <div className="h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400" />
+              <div className={`h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 transition-opacity duration-150 ${flashRed || flashWhite ? 'opacity-0' : 'opacity-100'}`} />
               
-              <div className="flex flex-col items-center justify-center h-full py-8 space-y-6">
+              <div className={`flex flex-col items-center justify-center h-full py-8 space-y-6 transition-opacity duration-150 ${flashRed || flashWhite ? 'opacity-0' : 'opacity-100'}`}>
                 <Link 
                   href="/about" 
                   onClick={() => setIsMenuOpen(false)}
@@ -102,7 +129,7 @@ const Navbar = () => {
               </div>
               
               {/* Bottom accent bar - red/orange gradient */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 via-orange-500 to-red-400" />
+              <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 via-orange-500 to-red-400 transition-opacity duration-150 ${flashRed || flashWhite ? 'opacity-0' : 'opacity-100'}`} />
             </div>
           </div>
         </div>
