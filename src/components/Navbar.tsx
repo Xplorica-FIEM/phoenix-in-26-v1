@@ -36,24 +36,12 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none select-none">
       {/* Mobile Layout */}
-      <div className="flex md:hidden flex-col items-center w-full px-4 pt-4 pb-5 bg-gradient-to-b from-black/60 to-transparent">
-        {/* Logo */}
-        <div className="relative w-48 h-24 flex-shrink-0 drop-shadow-2xl pointer-events-auto">
-          <Link href="/">
-            <Image
-              src="/logo-text.png"
-              alt="Logo"
-              fill
-              className="object-contain"
-            />
-          </Link>
-        </div>
-        
-        {/* Pokeball Menu Button - below logo */}
-        <div className="relative pointer-events-auto mt-1">
+      <div className="flex md:hidden items-center justify-center gap-3 w-full px-4 pt-3 pb-2 bg-gradient-to-b from-black/60 to-transparent">
+        {/* Pokeball Menu Button - left of logo */}
+        <div className="relative pointer-events-auto">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="relative w-10 h-16 transition-transform duration-300 hover:scale-110 focus:outline-none"
+            className={`relative w-14 h-24 transition-transform duration-300 hover:scale-110 focus:outline-none ${!isMenuOpen ? 'animate-wiggle' : ''}`}
             aria-label="Toggle menu"
           >
             <Image
@@ -64,55 +52,71 @@ const Navbar = () => {
             />
           </button>
           
-          {/* Dropdown Menu */}
-          <div className={`absolute left-1/2 -translate-x-1/2 mt-4 w-52 transition-all duration-300 origin-top ${showDropdown ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
-            <div className="relative bg-gradient-to-b from-slate-900 to-slate-950 rounded-lg border-2 border-cyan-400/60 overflow-hidden shadow-[0_0_20px_rgba(34,211,238,0.3)]">
-              {/* Top accent bar */}
+          {/* Fullscreen Dropdown Menu Overlay */}
+          <div className={`fixed left-[5px] right-[5px] top-[calc(9rem+5px)] bottom-[5px] transition-all duration-300 ${showDropdown ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+            <div className="h-full bg-gradient-to-b from-slate-900/98 via-slate-950/98 to-black/98 backdrop-blur-md border border-white/10 rounded-lg overflow-hidden">
+              {/* Top accent bar - cyan/blue gradient */}
               <div className="h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400" />
               
-              <div className="p-2 space-y-1">
+              <div className="flex flex-col items-center justify-center h-full py-8 space-y-6">
                 <Link 
                   href="/about" 
                   onClick={() => setIsMenuOpen(false)}
-                  className="group flex items-center gap-3 px-4 py-3 rounded-md text-white font-orbitron tracking-wider uppercase text-sm transition-all duration-200 hover:bg-cyan-500/20 hover:translate-x-1"
+                  className="group flex items-center justify-center px-6 py-4 text-white font-bold font-orbitron tracking-widest uppercase text-xl transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)]"
                 >
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                  <span className="group-hover:text-cyan-300 transition-colors duration-200">About</span>
+                  <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-3">[</span>
+                  <span className="group-hover:text-cyan-300 transition-colors duration-100">About</span>
+                  <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-3">]</span>
                 </Link>
                 <Link 
                   href="/trainers" 
                   onClick={() => setIsMenuOpen(false)}
-                  className="group flex items-center gap-3 px-4 py-3 rounded-md text-white font-orbitron tracking-wider uppercase text-sm transition-all duration-200 hover:bg-cyan-500/20 hover:translate-x-1"
+                  className="group flex items-center justify-center px-6 py-4 text-white font-bold font-orbitron tracking-widest uppercase text-xl transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)]"
                 >
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                  <span className="group-hover:text-cyan-300 transition-colors duration-200">Trainers</span>
+                  <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-3">[</span>
+                  <span className="group-hover:text-cyan-300 transition-colors duration-100">Trainers</span>
+                  <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-3">]</span>
                 </Link>
                 
                 {/* Divider */}
-                <div className="mx-2 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                <div className="w-48 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                 
                 <Link 
                   href="/events" 
                   onClick={() => setIsMenuOpen(false)}
-                  className="group flex items-center gap-3 px-4 py-3 rounded-md text-white font-orbitron tracking-wider uppercase text-sm transition-all duration-200 hover:bg-red-500/20 hover:translate-x-1"
+                  className="group flex items-center justify-center px-6 py-4 text-white font-bold font-orbitron tracking-widest uppercase text-xl transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)]"
                 >
-                  <span className="w-2 h-2 rounded-full bg-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                  <span className="group-hover:text-red-300 transition-colors duration-200">Events</span>
+                  <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-3">[</span>
+                  <span className="group-hover:text-red-300 transition-colors duration-100">Events</span>
+                  <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-3">]</span>
                 </Link>
                 <Link 
                   href="/sponsors" 
                   onClick={() => setIsMenuOpen(false)}
-                  className="group flex items-center gap-3 px-4 py-3 rounded-md text-white font-orbitron tracking-wider uppercase text-sm transition-all duration-200 hover:bg-red-500/20 hover:translate-x-1"
+                  className="group flex items-center justify-center px-6 py-4 text-white font-bold font-orbitron tracking-widest uppercase text-xl transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)]"
                 >
-                  <span className="w-2 h-2 rounded-full bg-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                  <span className="group-hover:text-red-300 transition-colors duration-200">Sponsors</span>
+                  <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-3">[</span>
+                  <span className="group-hover:text-red-300 transition-colors duration-100">Sponsors</span>
+                  <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-3">]</span>
                 </Link>
               </div>
               
-              {/* Bottom accent bar */}
-              <div className="h-1 bg-gradient-to-r from-red-400 via-orange-500 to-red-400" />
+              {/* Bottom accent bar - red/orange gradient */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 via-orange-500 to-red-400" />
             </div>
           </div>
+        </div>
+
+        {/* Logo */}
+        <div className="relative w-72 h-36 flex-shrink-0 drop-shadow-2xl pointer-events-auto">
+          <Link href="/">
+            <Image
+              src="/logo-text.png"
+              alt="Logo"
+              fill
+              className="object-contain"
+            />
+          </Link>
         </div>
       </div>
 

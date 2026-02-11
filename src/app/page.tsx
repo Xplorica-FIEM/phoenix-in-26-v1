@@ -132,9 +132,11 @@ export default function Home() {
 
       {/* Main page content. */}
       <div className={`transition-opacity duration-1000 ${stage === 'finished' ? 'opacity-100' : 'opacity-0'}`}>
+        <div>
         <Navbar />
-        <div className="fixed inset-0 flex items-center justify-center font-sans bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/background.png)' }}>
-          <main className="flex flex-col items-center justify-center px-4 -mt-24 md:-mt-32">
+        </div>
+        <div className="fixed inset-0 flex items-center justify-center font-sans bg-cover bg-center bg-no-repeat pt-4 md:pt-0" style={{ backgroundImage: 'url(/background.png)' }}>
+          <main className="flex flex-col items-center justify-center px-4 md:-mt-32">
             {/* Countdown Timer */}
             <div className="flex flex-col items-center gap-8">
               <div className="flex flex-col items-center gap-2">
