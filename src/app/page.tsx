@@ -112,6 +112,22 @@ export default function Home() {
 
   return (
     <>
+      {/*
+        Background music: Pokemon theme song.
+        - Autoplays and loops on page load.
+        - Volume is set to 25% (see useRef/useEffect above for enforcement).
+        - Controls are present for accessibility, but the element is visually hidden.
+        - File must exist at /public/02 - Title Screen.mp3.
+        - This enhances the Pokemon atmosphere without being intrusive.
+      */}
+      {/*<audio
+        src="/02%20-%20Title%20Screen.mp3"
+        autoPlay
+        loop
+        controls
+        style={{ position: 'absolute', left: '-9999px', width: 0, height: 0 }}
+        aria-label="Pokemon Theme Song Background Audio"
+      />*/}
       {/* Full screen preloader overlay. */}
       <div className={`fixed inset-0 z-50 transition-all duration-1000 select-none cursor-none ${stage === 'finished' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         {/* Centered container for the animation. */}
@@ -140,7 +156,7 @@ export default function Home() {
             {/* Countdown Timer */}
             <div className="flex flex-col items-center gap-8">
               <div className="flex flex-col items-center gap-2">
-                <span className="text-xs md:text-sm font-orbitron tracking-[0.3em] text-cyan-400/60 uppercase">
+                <span className="text-xs md:text-sm font-orbitron tracking-[0.3em] text-yellow-400/100 uppercase">
                   The Journey Begins
                 </span>
                 <h2 className="text-2xl md:text-3xl font-orbitron tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-white uppercase">
