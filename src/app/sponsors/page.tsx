@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
+import styled from 'styled-components';
 
 const sponsors = [
   { name: 'Sponsor 1' },
@@ -16,13 +17,25 @@ const sponsors = [
 
 export default function Sponsors() {
   const duplicated = [...sponsors, ...sponsors];
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+  };
+
+  const handleCloseForm = () => {
+    setIsFormOpen(false);
+    setTimeout(() => setIsSubmitted(false), 300);
+  };
 
   return (
     <>
       <Navbar />
       <div className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[180px] md:pt-[190px] bg-cover bg-center bg-no-repeat bg-fixed" style={{ backgroundImage: 'url(/background.png)' }}>
         <main className="flex flex-col items-center w-full text-center space-y-8">
-          <h1 className="text-3xl md:text-5xl font-bold font-press-start tracking-wider text-yellow-400 drop-shadow-lg" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+          <h1 className="text-3xl md:text-5xl font-bold font-press-start tracking-wider text-yellow-400 drop-shadow-lg" style={{ WebkitTextStroke: '1px black', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
             Sponsors
           </h1>
 
@@ -36,7 +49,7 @@ export default function Sponsors() {
               <button className="retro-button">
                 <div><span>Be a Sponsor</span></div>
               </button>
-              <button className="retro-button">
+              <button className="retro-button" onClick={() => setIsFormOpen(true)}>
                 <div><span>Schedule a Call</span></div>
               </button>
             </div>
@@ -57,7 +70,58 @@ export default function Sponsors() {
         </main>
       </div>
 
+      {/* Contact Form */}
+      {isFormOpen && (
+        <>
+          <div className="form-overlay" onClick={handleCloseForm} />
+          <StyledWrapper className={`form-container ${isFormOpen ? 'open' : ''}`}>
+            <form className="form" onSubmit={handleSubmit}>
+              <button 
+                type="button" 
+                className="close-button"
+                onClick={handleCloseForm}
+              >
+                ✕
+              </button>
+              
+              {!isSubmitted ? (
+                <>
+                  <div className="title">Schedule a Call<br /><span>We'll get back to you soon</span></div>
+                  <input type="email" placeholder="Enter Email" name="email" className="input" required />
+                  <input type="tel" placeholder="Enter WhatsApp Number" name="whatsapp" className="input" required />
+                  <button type="submit" className="button-confirm">Submit →</button>
+                </>
+              ) : (
+                <div className="success-message">
+                  <svg className="check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="#4ade80" stroke="#22c55e" strokeWidth="2"/>
+                    <path d="M8 12.5L10.5 15L16 9.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <p className="success-text">Our team will contact you shortly</p>
+                </div>
+              )}
+            </form>
+          </StyledWrapper>
+        </>
+      )}
+
       <style jsx>{`
+        .form-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 999;
+          animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
         .retro-button {
           --stone-50: #fafaf9;
           --stone-800: #292524;
@@ -179,3 +243,167 @@ export default function Sponsors() {
     </>
   );
 }
+
+const StyledWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  right: -400px;
+  height: 100vh;
+  width: 350px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  &.open {
+    right: 0;
+  }
+
+  .form {
+    --input-focus: #2d8cf0;
+    --font-color: #323232;
+    --font-color-sub: #666;
+    --bg-color: #fff;
+    --main-color: #323232;
+    padding: 30px 20px;
+    background: lightgrey;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    box-shadow: 4px 4px var(--main-color);
+    position: relative;
+    width: 100%;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--main-color);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+  }
+
+  .close-button:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .title {
+    color: var(--font-color);
+    font-weight: 900;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .title span {
+    color: var(--font-color-sub);
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .input {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px var(--main-color);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--font-color);
+    padding: 5px 10px;
+    outline: none;
+  }
+
+  .input::placeholder {
+    color: var(--font-color-sub);
+    opacity: 0.8;
+  }
+
+  .input:focus {
+    border: 2px solid var(--input-focus);
+  }
+
+  .button-confirm {
+    margin: 20px auto 0 auto;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px var(--main-color);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--font-color);
+    cursor: pointer;
+  }
+
+  .button-confirm:active {
+    box-shadow: 0px 0px var(--main-color);
+    transform: translate(3px, 3px);
+  }
+
+  .success-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    text-align: center;
+    animation: scaleIn 0.4s ease-out;
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .check-icon {
+    width: 80px;
+    height: 80px;
+    animation: checkBounce 0.6s ease-out;
+  }
+
+  @keyframes checkBounce {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .success-text {
+    color: var(--font-color);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.5;
+  }
+`;
