@@ -33,13 +33,13 @@ export default function Sponsors() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 items-center justify-center !mt-4">
-            <button className="retro-button">
-              <div><span>Sponsor Us</span></div>
-            </button>
-            <button className="retro-button">
-              <div><span>Schedule a Call</span></div>
-            </button>
-          </div>
+              <button className="retro-button">
+                <div><span>Be a Sponsor</span></div>
+              </button>
+              <button className="retro-button">
+                <div><span>Schedule a Call</span></div>
+              </button>
+            </div>
 
           {/* Marquee */}
           <div className="w-full overflow-hidden py-4">
@@ -66,6 +66,7 @@ export default function Sponsors() {
           font-size: 1rem;
           cursor: pointer;
           position: relative;
+          z-index: 1;
           font-family: "Rubik", sans-serif;
           font-weight: bold;
           line-height: 1;
