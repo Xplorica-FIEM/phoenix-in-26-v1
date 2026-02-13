@@ -35,7 +35,7 @@ export default function Sponsors() {
       <Navbar />
       <div className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[180px] md:pt-[190px] bg-cover bg-center bg-no-repeat bg-fixed" style={{ backgroundImage: 'url(/background.png)' }}>
         <main className="flex flex-col items-center w-full text-center space-y-8">
-          <h1 className="text-3xl md:text-5xl font-bold font-press-start tracking-wider text-yellow-400 drop-shadow-lg" style={{ WebkitTextStroke: '1px black', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+          <h1 className="text-3xl md:text-5xl font-bold font-press-start tracking-wider text-yellow-400 drop-shadow-lg" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
             Sponsors
           </h1>
 
