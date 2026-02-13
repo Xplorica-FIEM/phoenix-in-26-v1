@@ -24,12 +24,10 @@ export default function About() {
           About Phoenix
         </h1>
         
-        <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl">
+        <p className="text-3xl md:text-5xl text-gray-300 leading-relaxed max-w-2xl">
           Training in a specific branch of applied science, such as engineering, agriculture, weaving, spinning, etc., is considered technical education. It contrasts with liberal education which aims to impart general knowledge of arts and sciences. In the modern era, technical education is extremely important. Today, a country’s prosperity is determined by its industrial development. The more advanced the country is in industry, the more prosperous the country is. Technical knowledge is now the backbone of industrial progress, which holds the key to national prosperity.
 
-The need for technical education in India is high. The Central Government has made major efforts to build heavy industry since independence. People trained in technical education are required to run various industrial units. Technical education offers a student good prospects. Today, engineering graduates are more likely to find jobs than science or arts graduates.
-
-
+          The need for technical education in India is high. The Central Government has made major efforts to build heavy industry since independence. People trained in technical education are required to run various industrial units. Technical education offers a student good prospects. Today, engineering graduates are more likely to find jobs than science or arts graduates.
         </p>
 
         {/* Social Media Links */}
