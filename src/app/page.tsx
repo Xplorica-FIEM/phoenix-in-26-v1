@@ -120,14 +120,14 @@ export default function Home() {
         - File must exist at /public/02 - Title Screen.mp3.
         - This enhances the Pokemon atmosphere without being intrusive.
       */}
-      {/*<audio
+      <audio
         src="/02%20-%20Title%20Screen.mp3"
         autoPlay
         loop
         controls
         style={{ position: 'absolute', left: '-9999px', width: 0, height: 0 }}
         aria-label="Pokemon Theme Song Background Audio"
-      />*/}
+      />
       {/* Full screen preloader overlay. */}
       <div className={`fixed inset-0 z-50 transition-all duration-1000 select-none cursor-none ${stage === 'finished' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         {/* Centered container for the animation. */}

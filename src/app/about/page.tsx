@@ -18,13 +18,13 @@ export default function About() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[215px] md:pt-[225px] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/background.png)' }}>
+      <div className="min-h-screen w-full flex flex-col items-center font-sans p-4 pt-[215px] md:pt-[225px] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/background.png)' }}>
         <main className="flex flex-col items-center max-w-4xl text-center space-y-8">
         <h1 className="text-4xl md:text-6xl font-bold font-orbitron tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 drop-shadow-lg">
           About Phoenix
         </h1>
         
-        <p className="text-3xl md:text-5xl text-gray-300 leading-relaxed max-w-2xl">
+        <p className="text-2xl md:text-5xl text-gray-300 leading-relaxed ">
           Training in a specific branch of applied science, such as engineering, agriculture, weaving, spinning, etc., is considered technical education. It contrasts with liberal education which aims to impart general knowledge of arts and sciences. In the modern era, technical education is extremely important. Today, a country’s prosperity is determined by its industrial development. The more advanced the country is in industry, the more prosperous the country is. Technical knowledge is now the backbone of industrial progress, which holds the key to national prosperity.
 
           The need for technical education in India is high. The Central Government has made major efforts to build heavy industry since independence. People trained in technical education are required to run various industrial units. Technical education offers a student good prospects. Today, engineering graduates are more likely to find jobs than science or arts graduates.
