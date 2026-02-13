@@ -20,8 +20,8 @@ export default function Sponsors() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[215px] md:pt-[225px] bg-cover bg-center bg-no-repeat bg-fixed" style={{ backgroundImage: 'url(/background.png)' }}>
-        <main className="flex flex-col items-center w-full text-center space-y-12">
+      <div className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[180px] md:pt-[190px] bg-cover bg-center bg-no-repeat bg-fixed" style={{ backgroundImage: 'url(/background.png)' }}>
+        <main className="flex flex-col items-center w-full text-center space-y-8">
           <h1 className="text-4xl md:text-6xl font-bold font-orbitron tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-red-300 to-orange-500 drop-shadow-lg">
             Sponsors
           </h1>
@@ -32,17 +32,17 @@ export default function Sponsors() {
           </p>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 items-center justify-center mt-8">
-            <button className="custom-button sponsor-btn">
-              Sponsor Us
+          <div className="flex flex-col sm:flex-row gap-6 items-center justify-center !mt-4">
+            <button className="retro-button">
+              <div><span>Sponsor Us</span></div>
             </button>
-            <button className="custom-button schedule-btn">
-              Schedule a Call
+            <button className="retro-button">
+              <div><span>Schedule a Call</span></div>
             </button>
           </div>
 
           {/* Marquee */}
-          <div className="w-full overflow-hidden py-8">
+          <div className="w-full overflow-hidden py-4">
             <div className="marquee-track flex gap-10">
               {duplicated.map((s, i) => (
                 <div key={i} className="flex-shrink-0 w-28 h-28 md:w-36 md:h-36 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-110 transition-transform duration-300">
@@ -58,70 +58,112 @@ export default function Sponsors() {
       </div>
 
       <style jsx>{`
-        .custom-button {
+        .retro-button {
+          --stone-50: #fafaf9;
+          --stone-800: #292524;
+          --yellow-400: #facc15;
+
+          font-size: 1rem;
           cursor: pointer;
           position: relative;
-          padding: 10px 24px;
-          font-size: 18px;
-          border: 2px solid;
-          border-radius: 34px;
-          background-color: transparent;
-          font-weight: 600;
-          transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-          overflow: hidden;
+          font-family: "Rubik", sans-serif;
+          font-weight: bold;
+          line-height: 1;
+          padding: 1px;
+          transform: translate(-4px, -4px);
+          outline: 2px solid transparent;
+          outline-offset: 5px;
+          border-radius: 9999px;
+          background-color: var(--stone-800);
+          color: var(--stone-800);
+          transition:
+            transform 150ms ease,
+            box-shadow 150ms ease;
+          text-align: center;
+          box-shadow:
+            0.5px 0.5px 0 0 var(--stone-800),
+            1px 1px 0 0 var(--stone-800),
+            1.5px 1.5px 0 0 var(--stone-800),
+            2px 2px 0 0 var(--stone-800),
+            2.5px 2.5px 0 0 var(--stone-800),
+            3px 3px 0 0 var(--stone-800),
+            0 0 0 2px var(--stone-50),
+            0.5px 0.5px 0 2px var(--stone-50),
+            1px 1px 0 2px var(--stone-50),
+            1.5px 1.5px 0 2px var(--stone-50),
+            2px 2px 0 2px var(--stone-50),
+            2.5px 2.5px 0 2px var(--stone-50),
+            3px 3px 0 2px var(--stone-50),
+            3.5px 3.5px 0 2px var(--stone-50),
+            4px 4px 0 2px var(--stone-50);
         }
 
-        .custom-button::before {
-          content: '';
+        .retro-button:hover {
+          transform: translate(0, 0);
+          box-shadow: 0 0 0 2px var(--stone-50);
+        }
+
+        .retro-button:active,
+        .retro-button:focus-visible {
+          outline-color: var(--yellow-400);
+        }
+
+        .retro-button:focus-visible {
+          outline-style: dashed;
+        }
+
+        .retro-button > div {
+          position: relative;
+          pointer-events: none;
+          background-color: var(--yellow-400);
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          border-radius: 9999px;
+        }
+
+        .retro-button > div::before {
+          content: "";
           position: absolute;
           inset: 0;
-          margin: auto;
-          width: 50px;
-          height: 50px;
-          border-radius: inherit;
-          scale: 0;
-          z-index: -1;
-          transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+          border-radius: 9999px;
+          opacity: 0.5;
+          background-image: radial-gradient(
+              rgb(255 255 255 / 80%) 20%,
+              transparent 20%
+            ),
+            radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
+          background-position:
+            0 0,
+            4px 4px;
+          background-size: 8px 8px;
+          mix-blend-mode: hard-light;
+          animation: dots 0.5s infinite linear;
         }
 
-        .custom-button:hover::before {
-          scale: 3;
+        .retro-button > div > span {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.75rem 1.25rem;
+          gap: 0.25rem;
+          filter: drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.25));
         }
 
-        .custom-button:hover {
-          scale: 1.1;
+        .retro-button > div > span:active {
+          transform: translateY(2px);
         }
 
-        .custom-button:active {
-          scale: 1;
-        }
-
-        .sponsor-btn {
-          color: rgb(255, 88, 88);
-          border-color: rgb(255, 88, 88);
-        }
-
-        .sponsor-btn::before {
-          background-color: rgb(255, 88, 88);
-        }
-
-        .sponsor-btn:hover {
-          color: #212121;
-          box-shadow: 0 0px 20px rgba(255, 88, 88, 0.4);
-        }
-
-        .schedule-btn {
-          color: rgb(255, 154, 88);
-          border-color: rgb(255, 154, 88);
-        }
-
-        .schedule-btn::before {
-          background-color: rgb(255, 154, 88);
-        }
-
-        .schedule-btn:hover {
-          color: #212121;
-          box-shadow: 0 0px 20px rgba(255, 154, 88, 0.4);
+        @keyframes dots {
+          0% {
+            background-position:
+              0 0,
+              4px 4px;
+          }
+          100% {
+            background-position:
+              8px 0,
+              12px 4px;
+          }
         }
 
         @keyframes scroll {
