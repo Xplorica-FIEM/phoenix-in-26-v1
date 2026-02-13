@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState, useRef } from 'react';
 import Navbar from '@/components/Navbar';
 
 const SocialIcon = ({ href, d }: { href: string; d: string }) => (
@@ -15,20 +17,76 @@ const SocialIcon = ({ href, d }: { href: string; d: string }) => (
 )
 
 export default function About() {
+  const [isVisible, setIsVisible] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  
+  const fullText = `Training in a specific branch of applied science, such as engineering, agriculture, weaving, spinning, etc., is considered technical education. It contrasts with liberal education which aims to impart general knowledge of arts and sciences. In the modern era, technical education is extremely important. Today, a country's prosperity is determined by its industrial development. The more advanced the country is in industry, the more prosperous the country is. Technical knowledge is now the backbone of industrial progress, which holds the key to national prosperity.
+
+The need for technical education in India is high. The Central Government has made major efforts to build heavy industry since independence. People trained in technical education are required to run various industrial units. Technical education offers a student good prospects. Today, engineering graduates are more likely to find jobs than science or arts graduates.`;
+
+  const words = fullText.split(' ');
+  const wordsPerChunk = 5;
+  const chunks = [];
+  
+  for (let i = 0; i < words.length; i += wordsPerChunk) {
+    chunks.push(words.slice(i, i + wordsPerChunk).join(' '));
+  }
+
+  useEffect(() => {
+    const isDesktop = window.innerWidth >= 768;
+
+    if (isDesktop) {
+      // Desktop: start animation immediately
+      setTimeout(() => setIsVisible(true), 100);
+    } else {
+      // Mobile: observe scroll
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        },
+        { threshold: 0.1 }
+      );
+
+      const currentRef = contentRef.current;
+      if (currentRef) {
+        observer.observe(currentRef);
+      }
+
+      return () => {
+        if (currentRef) {
+          observer.unobserve(currentRef);
+        }
+      };
+    }
+  }, []);
+
   return (
     <>
       <Navbar />
       <div className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[215px] md:pt-[225px] bg-cover bg-center bg-no-repeat bg-fixed" style={{ backgroundImage: 'url(/background.png)' }}>
         <main className="flex flex-col items-center w-full max-w-6xl text-center space-y-8">
-        <h1 className="text-4xl md:text-6xl font-bold font-orbitron tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 drop-shadow-lg">
+        <h1 className="text-3xl md:text-5xl font-bold font-press-start tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 drop-shadow-lg">
           About Phoenix
         </h1>
         
-          <p className="text-3xl md:text-xl text-gray-300 leading-relaxed w-full px-4 md-px-16">
-          Training in a specific branch of applied science, such as engineering, agriculture, weaving, spinning, etc., is considered technical education. It contrasts with liberal education which aims to impart general knowledge of arts and sciences. In the modern era, technical education is extremely important. Today, a country’s prosperity is determined by its industrial development. The more advanced the country is in industry, the more prosperous the country is. Technical knowledge is now the backbone of industrial progress, which holds the key to national prosperity.
-
-          The need for technical education in India is high. The Central Government has made major efforts to build heavy industry since independence. People trained in technical education are required to run various industrial units. Technical education offers a student good prospects. Today, engineering graduates are more likely to find jobs than science or arts graduates.
-        </p>
+          <div 
+            ref={contentRef}
+            className="text-3xl md:text-xl text-gray-300 leading-relaxed w-full px-4 md-px-16"
+          >
+            {chunks.map((chunk, index) => (
+              <span
+                key={index}
+                className={`text-chunk ${isVisible ? 'chunk-visible' : 'chunk-hidden'}`}
+                style={{ 
+                  animationDelay: `${index * 0.12}s`
+                }}
+              >
+                {chunk}{' '}
+              </span>
+            ))}
+          </div>
 
         {/* Social Media Links */}
         <div className="flex gap-6 items-center justify-center pt-8">
