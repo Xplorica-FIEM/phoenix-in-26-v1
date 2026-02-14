@@ -126,6 +126,24 @@ const Navbar = () => {
                   <span className="group-hover:text-red-300 transition-colors duration-100">Sponsors</span>
                   <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-3">]</span>
                 </Link>
+                <Link 
+                  href="/gallery" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="group flex items-center justify-center px-6 py-4 text-white font-bold font-orbitron tracking-widest uppercase text-xl transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)]"
+                >
+                  <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-3">[</span>
+                  <span className="group-hover:text-yellow-300 transition-colors duration-100">Gallery</span>
+                  <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-3">]</span>
+                </Link>
+                <Link 
+                  href="/contactus" 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="group flex items-center justify-center px-6 py-4 text-white font-bold font-orbitron tracking-widest uppercase text-xl transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.6)]"
+                >
+                  <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-3">[</span>
+                  <span className="group-hover:text-red-300 transition-colors duration-100">Contact Us</span>
+                  <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-3">]</span>
+                </Link>
               </div>
               
               {/* Bottom accent bar - red/orange gradient */}
@@ -148,18 +166,23 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden md:flex items-center justify-center gap-12 px-4 pt-4 pb-5 bg-gradient-to-b from-black/60 to-transparent">
-        <Link href="/about" className="inline-flex items-center justify-center group pointer-events-auto text-white font-bold text-lg tracking-widest uppercase font-orbitron transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+      <div className="hidden md:flex items-center justify-center gap-6 px-4 pt-4 pb-5 bg-gradient-to-b from-black/60 to-transparent">
+        <Link href="/about" className="inline-flex items-center justify-center group pointer-events-auto text-white font-bold text-base tracking-widest uppercase font-orbitron transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
           <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-2">[</span>
           <span className="group-hover:text-cyan-300 transition-colors duration-100">About</span>
           <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-2">]</span>
         </Link>
-        <Link href="/trainers" className="inline-flex items-center justify-center group pointer-events-auto text-white font-bold text-lg tracking-widest uppercase font-orbitron transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+        <Link href="/trainers" className="inline-flex items-center justify-center group pointer-events-auto text-white font-bold text-base tracking-widest uppercase font-orbitron transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
           <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-2">[</span>
           <span className="group-hover:text-cyan-300 transition-colors duration-100">Trainers</span>
           <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-2">]</span>
         </Link>
-        <div className="relative w-64 h-32 flex-shrink-0 drop-shadow-2xl pointer-events-auto">
+        <Link href="/events" className="inline-flex items-center justify-center group pointer-events-auto text-white font-bold text-base tracking-widest uppercase font-orbitron transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+          <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-2">[</span>
+          <span className="group-hover:text-red-300 transition-colors duration-100">Events</span>
+          <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-2">]</span>
+        </Link>
+        <div className="relative w-64 h-32 flex-shrink-0 drop-shadow-2xl pointer-events-auto mx-4">
           <Link href="/">
             <Image
               src="/logo-text.png"
@@ -169,14 +192,19 @@ const Navbar = () => {
             />
           </Link>
         </div>
-        <Link href="/events" className="inline-flex items-center justify-center group pointer-events-auto text-white font-bold text-lg tracking-widest uppercase font-orbitron transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
-          <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-2">[</span>
-          <span className="group-hover:text-red-300 transition-colors duration-100">Events</span>
-          <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-2">]</span>
-        </Link>
-        <Link href="/sponsors" className="inline-flex items-center justify-center group pointer-events-auto text-white font-bold text-lg tracking-widest uppercase font-orbitron transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+        <Link href="/sponsors" className="inline-flex items-center justify-center group pointer-events-auto text-white font-bold text-base tracking-widest uppercase font-orbitron transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
           <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-2">[</span>
           <span className="group-hover:text-red-300 transition-colors duration-100">Sponsors</span>
+          <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-2">]</span>
+        </Link>
+        <Link href="/gallery" className="inline-flex items-center justify-center group pointer-events-auto text-white font-bold text-base tracking-widest uppercase font-orbitron transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+          <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-2">[</span>
+          <span className="group-hover:text-yellow-300 transition-colors duration-100">Gallery</span>
+          <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-2">]</span>
+        </Link>
+        <Link href="/contactus" className="inline-flex items-center justify-center group pointer-events-auto text-white font-bold text-sm tracking-wide uppercase font-orbitron transition-all duration-100 hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+          <span className="inline-block opacity-0 translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white mr-2">[</span>
+          <span className="group-hover:text-red-300 transition-colors duration-100">Contact Us</span>
           <span className="inline-block opacity-0 -translate-x-4 transition-all duration-100 group-hover:opacity-100 group-hover:translate-x-0 text-white ml-2">]</span>
         </Link>
       </div>
