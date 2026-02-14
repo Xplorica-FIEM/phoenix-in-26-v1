@@ -3,6 +3,49 @@
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 
+const faqData = [
+  { 
+    id: 1, 
+    question: 'What is Phoenix 2026?', 
+    answer: 'Phoenix 2026 is an exciting tech fest organized to bring together innovators, developers, and tech enthusiasts from around the world.' 
+  },
+  { 
+    id: 2, 
+    question: 'How can I register for the event?', 
+    answer: 'You can register by visiting our registration page and filling out the required information. Early bird registrations get special discounts!' 
+  },
+  { 
+    id: 3, 
+    question: 'What are the event dates?', 
+    answer: 'The event is scheduled for March 15-17, 2026. Please check back regularly for any updates or changes.' 
+  },
+  { 
+    id: 4, 
+    question: 'Are there accommodation facilities?', 
+    answer: 'Yes, we have partnered with nearby hotels to provide accommodation at special rates for our attendees.' 
+  },
+  { 
+    id: 5, 
+    question: 'What competitions are available?', 
+    answer: 'We offer various competitions including coding challenges, hackathons, robotics, and innovation showcases with exciting prizes.' 
+  },
+  { 
+    id: 6, 
+    question: 'Is there a fee to attend?', 
+    answer: 'Entry fees vary based on the category you choose. Students get special discounted rates. Check our pricing page for details.' 
+  },
+  { 
+    id: 7, 
+    question: 'Can I volunteer for the event?', 
+    answer: 'Absolutely! We welcome volunteers. Please fill out the volunteer form on our website or contact us directly.' 
+  },
+  { 
+    id: 8, 
+    question: 'Are workshops included in the registration?', 
+    answer: 'Yes, all registered participants get access to our workshops and keynote sessions as part of their registration package.' 
+  },
+];
+
 export default function ContactUs() {
   const [formData, setFormData] = useState({
     name: '',
@@ -12,6 +55,7 @@ export default function ContactUs() {
     message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [openFaqId, setOpenFaqId] = useState<number | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,91 +80,128 @@ export default function ContactUs() {
     });
   };
 
+  const toggleFaq = (id: number) => {
+    setOpenFaqId(openFaqId === id ? null : id);
+  };
+
   return (
     <>
       <Navbar />
       <div className="min-h-screen w-full flex flex-col items-center justify-center font-sans p-4 pt-[140px] md:pt-[150px] pb-4 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/background.png)' }}>
-        <main className="flex flex-col items-center max-w-4xl text-center w-full">
-          <h1 className="text-2xl md:text-4xl font-bold font-press-start tracking-wider text-red-500 drop-shadow-lg mb-4">
+        <main className="flex flex-col items-center max-w-7xl text-center w-full">
+          <h1 className="text-2xl md:text-4xl font-bold font-press-start tracking-wider text-red-500 drop-shadow-lg mb-6">
             Contact Us
           </h1>
 
-          {!isSubmitted ? (
-            <form onSubmit={handleSubmit} className="contact-form">
-              <div className="title">Get in Touch,<br /><span>we&apos;re here to help</span></div>
-              
-              <input 
-                type="text" 
-                placeholder="Name" 
-                name="name" 
-                className="input"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-              
-              <input 
-                type="email" 
-                placeholder="Email" 
-                name="email" 
-                className="input"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              
-              <input 
-                type="tel" 
-                placeholder="Phone Number" 
-                name="phone" 
-                className="input"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-              />
-              
-              <select 
-                name="subject" 
-                className="input select"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select Subject</option>
-                <option value="general">General Query</option>
-                <option value="registration">Registration Issue</option>
-                <option value="technical">Technical Support</option>
-                <option value="feedback">Feedback & Suggestions</option>
-                <option value="sponsorship">Sponsorship Inquiry</option>
-                <option value="other">Other</option>
-              </select>
+          <div className="contact-container">
+            {!isSubmitted ? (
+              <form onSubmit={handleSubmit} className="contact-form">
+                <div className="title">Get in Touch,<br /><span>we&apos;re here to help</span></div>
+                
+                <input 
+                  type="text" 
+                  placeholder="Name" 
+                  name="name" 
+                  className="input"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+                
+                <input 
+                  type="email" 
+                  placeholder="Email" 
+                  name="email" 
+                  className="input"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+                
+                <input 
+                  type="tel" 
+                  placeholder="Phone Number" 
+                  name="phone" 
+                  className="input"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+                
+                <select 
+                  name="subject" 
+                  className="input select"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Subject</option>
+                  <option value="general">General Query</option>
+                  <option value="registration">Registration Issue</option>
+                  <option value="technical">Technical Support</option>
+                  <option value="feedback">Feedback & Suggestions</option>
+                  <option value="sponsorship">Sponsorship Inquiry</option>
+                  <option value="other">Other</option>
+                </select>
 
-              <textarea 
-                placeholder="Your Message (Optional)" 
-                name="message" 
-                className="input textarea"
-                value={formData.message}
-                onChange={handleChange}
-                rows={4}
-              />
-              
-              <button type="submit" className="button-confirm">Submit →</button>
-            </form>
-          ) : (
-            <div className="success-message">
-              <div className="checkmark">
-                <svg className="checkmark-icon" viewBox="0 0 52 52">
-                  <circle className="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                  <path className="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                </svg>
+                <textarea 
+                  placeholder="Your Message (Optional)" 
+                  name="message" 
+                  className="input textarea"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={4}
+                />
+                
+                <button type="submit" className="button-confirm">Submit →</button>
+              </form>
+            ) : (
+              <div className="success-message">
+                <div className="checkmark">
+                  <svg className="checkmark-icon" viewBox="0 0 52 52">
+                    <circle className="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path className="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                  </svg>
+                </div>
+                <p className="success-text">Your query has been recorded, our team will contact you shortly</p>
               </div>
-              <p className="success-text">Your query has been recorded, our team will contact you shortly</p>
+            )}
+
+            {/* FAQ Section */}
+            <div className="faq-section">
+              <div className="title">FAQs<br /><span>frequently asked questions</span></div>
+              
+              <div className="faq-list">
+                {faqData.map((faq) => (
+                  <div key={faq.id} className="faq-item">
+                    <button 
+                      className="faq-question"
+                      onClick={() => toggleFaq(faq.id)}
+                    >
+                      <span>{faq.question}</span>
+                      <span className={`plus-icon ${openFaqId === faq.id ? 'open' : ''}`}>+</span>
+                    </button>
+                    <div className={`faq-answer ${openFaqId === faq.id ? 'open' : ''}`}>
+                      <p>{faq.answer}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          )}
+          </div>
         </main>
       </div>
 
       <style jsx>{`
+        .contact-container {
+          display: flex;
+          gap: 40px;
+          width: 100%;
+          max-width: 1200px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
         .contact-form {
           --input-focus: #ef4444;
           --font-color: #f3f4f6;
@@ -132,7 +213,7 @@ export default function ContactUs() {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          justify-content: center;
+          justify-content: flex-start;
           gap: 12px;
           border-radius: 8px;
           border: 3px solid var(--main-color);
@@ -140,6 +221,34 @@ export default function ContactUs() {
           max-width: 420px;
           width: 100%;
           backdrop-filter: blur(10px);
+          flex: 1;
+          min-width: 300px;
+          max-height: 480px;
+          overflow-y: auto;
+        }
+
+        .faq-section {
+          --font-color: #f3f4f6;
+          --font-color-sub: #d1d5db;
+          --bg-color: rgba(17, 24, 39, 0.95);
+          --main-color: #eab308;
+          padding: 20px;
+          background: var(--bg-color);
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
+          gap: 12px;
+          border-radius: 8px;
+          border: 3px solid var(--main-color);
+          box-shadow: 6px 6px 0px var(--main-color);
+          max-width: 500px;
+          width: 100%;
+          backdrop-filter: blur(10px);
+          flex: 1;
+          min-width: 300px;
+          max-height: 480px;
+          overflow-y: auto;
         }
 
         .title {
@@ -156,7 +265,7 @@ export default function ContactUs() {
           font-size: 16px;
         }
 
-        .input {
+       .input {
           width: 100%;
           min-height: 40px;
           border-radius: 5px;
@@ -315,8 +424,78 @@ export default function ContactUs() {
           max-width: 300px;
         }
 
+        .faq-list {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .faq-item {
+          width: 100%;
+          border: 2px solid #eab308;
+          border-radius: 5px;
+          background-color: rgba(31, 41, 55, 0.8);
+          box-shadow: 4px 4px #eab308;
+          overflow: hidden;
+          transition: all 0.3s ease;
+        }
+
+        .faq-question {
+          width: 100%;
+          padding: 12px 15px;
+          background: transparent;
+          border: none;
+          color: #f3f4f6;
+          font-size: 14px;
+          font-weight: 600;
+          text-align: left;
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 10px;
+          transition: all 0.2s ease;
+        }
+
+        .faq-question:hover {
+          background-color: rgba(234, 179, 8, 0.1);
+        }
+
+        .plus-icon {
+          font-size: 24px;
+          font-weight: bold;
+          color: #eab308;
+          transition: transform 0.3s ease;
+          flex-shrink: 0;
+        }
+
+        .plus-icon.open {
+          transform: rotate(45deg);
+        }
+
+        .faq-answer {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease, padding 0.3s ease;
+          padding: 0 15px;
+        }
+
+        .faq-answer.open {
+          max-height: 500px;
+          padding: 0 15px 12px 15px;
+        }
+
+        .faq-answer p {
+          color: #d1d5db;
+          font-size: 13px;
+          line-height: 1.6;
+          margin: 0;
+          padding-top: 8px;
+        }
+
         @media (max-width: 768px) {
-          .contact-form {
+          .contact-form, .faq-section {
             padding: 16px;
             gap: 10px;
           }
