@@ -439,6 +439,32 @@ export default function ContactUs() {
           box-shadow: 4px 4px #eab308;
           overflow: hidden;
           transition: all 0.3s ease;
+          animation: fadeInScale 0.4s ease-out backwards;
+        }
+
+        .faq-item:nth-child(1) { animation-delay: 0.1s; }
+        .faq-item:nth-child(2) { animation-delay: 0.15s; }
+        .faq-item:nth-child(3) { animation-delay: 0.2s; }
+        .faq-item:nth-child(4) { animation-delay: 0.25s; }
+        .faq-item:nth-child(5) { animation-delay: 0.3s; }
+        .faq-item:nth-child(6) { animation-delay: 0.35s; }
+        .faq-item:nth-child(7) { animation-delay: 0.4s; }
+        .faq-item:nth-child(8) { animation-delay: 0.45s; }
+
+        .faq-item:hover {
+          transform: translateX(2px);
+          box-shadow: 6px 6px #eab308;
+        }
+
+        @keyframes fadeInScale {
+          from {
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
         }
 
         .faq-question {
@@ -477,13 +503,15 @@ export default function ContactUs() {
         .faq-answer {
           max-height: 0;
           overflow: hidden;
-          transition: max-height 0.3s ease, padding 0.3s ease;
+          transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
           padding: 0 15px;
+          opacity: 0;
         }
 
         .faq-answer.open {
           max-height: 500px;
           padding: 0 15px 12px 15px;
+          opacity: 1;
         }
 
         .faq-answer p {
@@ -492,6 +520,18 @@ export default function ContactUs() {
           line-height: 1.6;
           margin: 0;
           padding-top: 8px;
+          animation: fadeInText 0.3s ease-out 0.1s both;
+        }
+
+        @keyframes fadeInText {
+          from {
+            opacity: 0;
+            transform: translateY(-5px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         @media (max-width: 768px) {

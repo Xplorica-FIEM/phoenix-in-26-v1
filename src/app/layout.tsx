@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Orbitron, Press_Start_2P } from "next/font/google";
 import "./globals.css";
+import FloatingPokedex from "@/components/FloatingPokedex";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${pressStart2P.variable} antialiased`}
       >
         {children}
+        <FloatingPokedex />
       </body>
     </html>
   );

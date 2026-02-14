@@ -24,8 +24,8 @@ export default function Gallery() {
           </h1>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full px-4">
-            {dummyGalleryItems.map((item) => (
-              <div key={item.id} className="gallery-card">
+            {dummyGalleryItems.map((item, index) => (
+              <div key={item.id} className="gallery-card group" style={{ animationDelay: `${index * 100}ms` }}>
                 <div className="imge">
                   <div className="Usericon">
                     <Image
@@ -43,7 +43,13 @@ export default function Gallery() {
                 </div>
                 <div className="button-container">
                   <button className="retro-button">
-                    <div><span>View Recaps</span></div>
+                    <div>
+                      <span>
+                        <span className="bracket-left">[</span>
+                        <span className="button-text">View Recaps</span>
+                        <span className="bracket-right">]</span>
+                      </span>
+                    </div>
                   </button>
                 </div>
               </div>
@@ -63,11 +69,61 @@ export default function Gallery() {
           border-radius: 8px;
           overflow: hidden;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
+          opacity: 0;
+          animation: slideInUp 0.6s ease-out forwards;
+          position: relative;
+        }
+
+        .gallery-card::before,
+        .gallery-card::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 3rem;
+          font-weight: bold;
+          color: #eab308;
+          opacity: 0;
+          transition: all 0.3s ease;
+          pointer-events: none;
+          z-index: 10;
+          text-shadow: 0 0 10px #eab308;
+        }
+
+        .gallery-card::before {
+          content: '[';
+          left: -30px;
+        }
+
+        .gallery-card::after {
+          content: ']';
+          right: -30px;
+        }
+
+        .gallery-card:hover::before {
+          opacity: 1;
+          left: -15px;
+        }
+
+        .gallery-card:hover::after {
+          opacity: 1;
+          right: -15px;
         }
 
         .gallery-card:hover {
           transform: translateY(-5px);
           box-shadow: 10px 8px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        @keyframes slideInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .imge {
@@ -225,6 +281,36 @@ export default function Gallery() {
           color: #1f2937;
           font-size: 0.75rem;
           font-weight: bold;
+        }
+
+        .bracket-left,
+        .bracket-right {
+          display: inline-block;
+          opacity: 0;
+          transition: all 0.2s ease;
+          color: #1f2937;
+        }
+
+        .bracket-left {
+          transform: translateX(5px);
+        }
+
+        .bracket-right {
+          transform: translateX(-5px);
+        }
+
+        .retro-button:hover .bracket-left {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        .retro-button:hover .bracket-right {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        .button-text {
+          margin: 0 2px;
         }
 
         .retro-button > div > span:active {
