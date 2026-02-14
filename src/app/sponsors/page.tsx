@@ -36,7 +36,7 @@ export default function Sponsors() {
       <div className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[180px] md:pt-[190px] bg-cover bg-center bg-no-repeat bg-fixed" style={{ backgroundImage: 'url(/background.png)' }}>
         <main className="flex flex-col items-center w-full text-center space-y-8">
           <h1 className="text-3xl md:text-5xl font-bold font-press-start tracking-wider text-yellow-400 drop-shadow-lg" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-            Sponsors
+            OUR SPONSORS
           </h1>
 
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl">
@@ -53,6 +53,28 @@ export default function Sponsors() {
                 <div><span>Schedule a Call</span></div>
               </button>
             </div>
+
+          <h2 className="text-xl md:text-2xl font-semibold text-yellow-300 tracking-wide">
+            This Year's Sponsor
+          </h2>
+
+          {/* Right-to-Left Marquee */}
+          <div className="w-full overflow-hidden py-4">
+            <div className="marquee-track-reverse flex gap-10">
+              {duplicated.map((s, i) => (
+                <div key={`reverse-${i}`} className="flex-shrink-0 w-28 h-28 md:w-36 md:h-36 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                  {/* Dummy profile icon – replace with <Image src={...} /> later */}
+                  <svg className="w-14 h-14 md:w-20 md:h-20 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+                  </svg>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <h2 className="text-xl md:text-2xl font-semibold text-yellow-300 tracking-wide">
+            Last Year's Sponsor
+          </h2>
 
           {/* Marquee */}
           <div className="w-full overflow-hidden py-4">
@@ -237,6 +259,10 @@ export default function Sponsors() {
         }
         .marquee-track {
           animation: scroll 25s linear infinite;
+          width: max-content;
+        }
+        .marquee-track-reverse {
+          animation: scroll 25s linear infinite reverse;
           width: max-content;
         }
       `}</style>
