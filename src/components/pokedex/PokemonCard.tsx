@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Pokemon } from '@/hooks/usePokemon';
 
@@ -51,13 +51,14 @@ const typeGlows: Record<string, string> = {
 };
 
 export default function PokemonCard({ pokemon }: PokemonCardProps) {
+  const [imageLoaded, setImageLoaded] = useState(false);
   const primaryType = pokemon.types[0].type.name;
   const glowColor = typeGlows[primaryType] || typeGlows.normal;
 
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
+      animate={{ opacity: imageLoaded ? 1 : 0, scale: imageLoaded ? 1 : 0.9 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ type: 'spring', duration: 0.5 }}
       className="pokemon-container"
@@ -68,10 +69,21 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
           <div className="stack">
             <div className="card">
               <div className="image-frame">
+                {!imageLoaded && (
+                  <div className="image-loader">
+                    <div className="pokeball-spinner">
+                      <div className="pokeball-top"></div>
+                      <div className="pokeball-middle"></div>
+                      <div className="pokeball-bottom"></div>
+                    </div>
+                  </div>
+                )}
                 <img
                   src={pokemon.sprites.other['official-artwork'].front_default}
                   alt={pokemon.name}
                   className="pokemon-image"
+                  style={{ opacity: imageLoaded ? 1 : 0 }}
+                  onLoad={() => setImageLoaded(true)}
                 />
               </div>
             </div>
@@ -222,6 +234,69 @@ export default function PokemonCard({ pokemon }: PokemonCardProps) {
           height: 100%;
           object-fit: contain;
           filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+          transition: opacity 0.3s ease;
+        }
+
+        .image-loader {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1;
+        }
+
+        .pokeball-spinner {
+          width: 50px;
+          height: 50px;
+          position: relative;
+          animation: spin 1s linear infinite;
+        }
+
+        .pokeball-top {
+          width: 100%;
+          height: 50%;
+          background: #f44336;
+          border-radius: 50px 50px 0 0;
+          border: 3px solid #1f2937;
+          border-bottom: none;
+        }
+
+        .pokeball-middle {
+          width: 100%;
+          height: 4px;
+          background: #1f2937;
+          position: relative;
+        }
+
+        .pokeball-middle::after {
+          content: '';
+          width: 16px;
+          height: 16px;
+          background: white;
+          border: 3px solid #1f2937;
+          border-radius: 50%;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        .pokeball-bottom {
+          width: 100%;
+          height: 50%;
+          background: white;
+          border-radius: 0 0 50px 50px;
+          border: 3px solid #1f2937;
+          border-top: none;
+        }
+
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
         }
 
         /* Stats Section */
