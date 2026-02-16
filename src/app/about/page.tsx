@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Navbar from '@/components/Navbar';
 
 const SocialIcon = ({ href, d }: { href: string; d: string }) => (
@@ -17,71 +17,63 @@ const SocialIcon = ({ href, d }: { href: string; d: string }) => (
 )
 
 export default function About() {
-  const [isVisible, setIsVisible] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
-  
+  // Track visibility for each word
+  const [visibleWords, setVisibleWords] = useState<boolean[]>([]);
+  const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
   const fullText = `Phoenix is a cutting-edge AI-powered code generation tool designed to revolutionize the way developers write code. With its advanced natural language processing capabilities, Phoenix can understand complex programming concepts and generate high-quality code snippets in various programming languages. Whether you're a seasoned developer looking to boost productivity or a beginner seeking to learn coding, Phoenix provides an intuitive interface that allows you to describe your coding needs in plain English and receive accurate, efficient code solutions. Experience the future of coding with Phoenix and unlock your full potential as a developer.`;
 
   const words = fullText.split(' ');
-  const wordsPerChunk = 5;
-  const chunks = [];
-  
-  for (let i = 0; i < words.length; i += wordsPerChunk) {
-    chunks.push(words.slice(i, i + wordsPerChunk).join(' '));
-  }
 
   useEffect(() => {
-    const isDesktop = window.innerWidth >= 768;
+    // Simple per-word observer: show when in view, hide when out
+    setVisibleWords(Array(words.length).fill(false));
+    const observers: IntersectionObserver[] = [];
 
-    if (isDesktop) {
-      // Desktop: start animation immediately
-      setTimeout(() => setIsVisible(true), 100);
-    } else {
-      // Mobile: observe scroll
+    wordRefs.current.forEach((ref, idx) => {
+      if (!ref) return;
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
+          setVisibleWords(prev => {
+            const updated = [...prev];
+            updated[idx] = entry.isIntersecting;
+            return updated;
+          });
         },
         { threshold: 0.1 }
       );
+      observer.observe(ref);
+      observers.push(observer);
+    });
 
-      const currentRef = contentRef.current;
-      if (currentRef) {
-        observer.observe(currentRef);
-      }
-
-      return () => {
-        if (currentRef) {
-          observer.unobserve(currentRef);
-        }
-      };
-    }
-  }, []);
+    return () => observers.forEach(o => o.disconnect());
+  }, [words.length]);
 
   return (
     <>
       <Navbar />
       <div className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[215px] md:pt-[225px] bg-cover bg-center bg-no-repeat bg-fixed" style={{ backgroundImage: 'url(/background.png)' }}>
         <main className="flex flex-col items-center w-full max-w-6xl text-center space-y-8">
-        <h1 className="text-3xl md:text-5xl font-bold font-press-start tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 drop-shadow-lg">
-          About Phoenix
-        </h1>
+        <h1 className="title-fade text-3xl md:text-6xl font-bold font-press-start mb-24 text-transparent bg-clip-text bg-gradient-to-b from-white to-cyan-400 text-center drop-shadow-[0_0_20px_rgba(34,211,238,0.6)] px-4">
+            ABOUT PHOENIX
+          </h1>
         
-          <div 
-            ref={contentRef}
-            className="text-3xl md:text-xl text-gray-300 leading-relaxed w-full px-4 md-px-16"
+          <div
+            className="text-lg xs:text-xl sm:text-2xl md:text-xl text-gray-300 leading-relaxed w-full px-2 xs:px-4 md:px-16 flex flex-wrap gap-y-1 gap-x-1 justify-center"
+            style={{wordBreak: 'break-word'}}
           >
-            {chunks.map((chunk, index) => (
+            {words.map((word, index) => (
               <span
                 key={index}
-                className={`text-chunk ${isVisible ? 'chunk-visible' : 'chunk-hidden'}`}
-                style={{ 
-                  animationDelay: `${index * 0.12}s`
+                ref={el => (wordRefs.current[index] = el)}
+                className={`inline-block align-baseline transition-opacity duration-500 ease-out ${visibleWords[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'} whitespace-pre-wrap`}
+                style={{
+                  transitionDelay: '0s',
+                  willChange: 'opacity, transform',
+                  maxWidth: '100vw',
                 }}
               >
-                {chunk}{' '}
+                {word + (index !== words.length - 1 ? ' ' : '')}
               </span>
             ))}
           </div>

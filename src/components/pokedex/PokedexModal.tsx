@@ -154,7 +154,7 @@ export default function PokedexModal({ isPage = false }: PokedexModalProps) {
           margin-bottom: 2rem;
           display: flex;
           flex-direction: column;
-          gap: 2rem;
+          gap: 2nrem;
         }
 
         .search-form {
