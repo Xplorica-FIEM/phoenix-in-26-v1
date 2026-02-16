@@ -36,7 +36,7 @@ export default function Sponsors() {
       <div className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[180px] md:pt-[190px] bg-cover bg-center bg-no-repeat bg-fixed" style={{ backgroundImage: 'url(/background.png)' }}>
         <main className="flex flex-col items-center w-full text-center space-y-8">
           <h1 className="text-3xl md:text-5xl font-bold font-press-start tracking-wider text-yellow-400 drop-shadow-lg" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-            OUR SPONSORS
+            SPONSORS
           </h1>
 
           <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl">
@@ -160,7 +160,7 @@ export default function Sponsors() {
           transform: translate(-4px, -4px);
           outline: 2px solid transparent;
           outline-offset: 5px;
-          border-radius: 9999px;
+          border-radius: 5px;
           background-color: var(--stone-800);
           color: var(--stone-800);
           transition:
@@ -204,7 +204,7 @@ export default function Sponsors() {
           pointer-events: none;
           background-color: var(--yellow-400);
           border: 2px solid rgba(255, 255, 255, 0.3);
-          border-radius: 9999px;
+          border-radius: 5px;
         }
 
         .retro-button > div::before {

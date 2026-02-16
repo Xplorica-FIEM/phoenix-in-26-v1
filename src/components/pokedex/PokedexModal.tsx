@@ -154,7 +154,7 @@ export default function PokedexModal({ isPage = false }: PokedexModalProps) {
           margin-bottom: 2rem;
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          gap: 2rem;
         }
 
         .search-form {
@@ -201,7 +201,7 @@ export default function PokedexModal({ isPage = false }: PokedexModalProps) {
           transform: translate(-4px, -4px);
           outline: 2px solid transparent;
           outline-offset: 5px;
-          border-radius: 9999px;
+          border-radius: 5px;
           background-color: var(--stone-800);
           color: var(--stone-800);
           transition: transform 150ms ease, box-shadow 150ms ease;
@@ -269,7 +269,7 @@ export default function PokedexModal({ isPage = false }: PokedexModalProps) {
           position: relative;
           pointer-events: none;
           border: 2px solid rgba(255, 255, 255, 0.5);
-          border-radius: 9999px;
+          border-radius: 5px;
           overflow: hidden;
           margin: 1px;
         }
