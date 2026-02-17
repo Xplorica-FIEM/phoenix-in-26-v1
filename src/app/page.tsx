@@ -1,6 +1,9 @@
 import ContactUs from "./contact";
 import Events from "./event";
 import Sponsors from "./sponsors";
+import FAQs from "./faq";
+
+
 
 export default function Home() {
     return (
@@ -8,6 +11,7 @@ export default function Home() {
             <ContactUs />
             <Events />
             <Sponsors />
-        </main>
+            <FAQs />
+        </main> 
     );
 }
