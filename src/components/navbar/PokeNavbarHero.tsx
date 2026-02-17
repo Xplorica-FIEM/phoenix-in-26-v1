@@ -31,73 +31,101 @@ const NavButton = ({ href, label, hoverColor }) => {
     );
 };
 
+// --- RETRO POKEMON TIMER COMPONENT ---
+const TimerSlot = ({ value, label }) => (
+    <div className="flex flex-col items-center mx-2 sm:mx-3 group">
+        
+        {/* The Retro Blue Box (Gen 3 Menu Style) */}
+        <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-blue-600 border-2 border-white rounded-lg flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] transition-transform hover:-translate-y-1">
+            
+            {/* Inner Dark Blue Shadow/Inset */}
+            <div className="absolute inset-1 border-2 border-blue-800/30 rounded-md pointer-events-none" />
+            
+            {/* The Number */}
+            <span className="font-mono text-3xl sm:text-4xl font-bold text-white drop-shadow-md z-10">
+                {String(value).padStart(2, '0')}
+            </span>
+
+            {/* Corner Highlight (Shiny Effect) */}
+            <div className="absolute top-1 left-1 w-2 h-2 bg-white/40 rounded-full" />
+        </div>
+
+        {/* The Label Badge */}
+        <div className="mt-3 bg-yellow-400 border-2 border-black px-2 py-0.5 rounded-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            <span className="text-[10px] sm:text-xs font-bold font-mono text-black uppercase tracking-wider">
+                {label}
+            </span>
+        </div>
+    </div>
+);
+
 export default function PokeNavbarHero() {
     const { scrollY } = useScroll();
 
     /* ---------------- SCROLL ANIMATION CONFIG ---------------- */
 
     // 1. Logo Animation
-    // Moves upward
-    const logoY = useTransform(scrollY, [0, 260], [0, -280]); 
-    // Scales down to 0.6
-    const logoScale = useTransform(scrollY, [0, 260], [1.2, 0.6]); 
+    const logoY = useTransform(scrollY, [0, 260], [0, -280]);
+    const logoScale = useTransform(scrollY, [0, 260], [1.2, 0.6]);
 
     // 2. Links Animation
     const linkOpacity = useTransform(scrollY, [120, 260], [0, 1]);
-    const leftSlide = useTransform(scrollY, [120, 260], [-100, 0]); 
-    const rightSlide = useTransform(scrollY, [120, 260], [100, 0]); 
+    const leftSlide = useTransform(scrollY, [120, 260], [-100, 0]);
+    const rightSlide = useTransform(scrollY, [120, 260], [100, 0]);
 
     // 3. Hero Countdown Fade Out
     const countdownY = useTransform(scrollY, [0, 200], [0, -50]);
     const countdownOpacity = useTransform(scrollY, [0, 150], [1, 0]);
 
     /* ---------------- LOGIC STATE ---------------- */
-
     const [docked, setDocked] = useState(false);
     const [timerDocked, setTimerDocked] = useState(false);
 
     useEffect(() => {
         return scrollY.on("change", (y) => {
-            setDocked(y > 260);     
-            setTimerDocked(y > 200); 
+            setDocked(y > 260);
+            setTimerDocked(y > 200);
         });
     }, [scrollY]);
 
     /* ---------------- COUNTDOWN TIMER ---------------- */
-
     const targetDate = new Date("2026-04-17T00:00:00");
-    const [timeLeft, setTimeLeft] = useState("");
+    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+    const [hasStarted, setHasStarted] = useState(false);
 
     useEffect(() => {
         const updateTimer = () => {
             const now = new Date();
             const diff = targetDate.getTime() - now.getTime();
             if (diff <= 0) {
-                setTimeLeft("Event has begun");
+                setHasStarted(true);
                 return;
             }
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
             const minutes = Math.floor(diff / (1000 * 60)) % 60;
             const seconds = Math.floor(diff / 1000) % 60;
-            setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+            
+            setTimeLeft({ days, hours, minutes, seconds });
         };
         updateTimer();
         const interval = setInterval(updateTimer, 1000);
         return () => clearInterval(interval);
     }, []);
 
+    const dockedTimerString = hasStarted 
+        ? "EVENT STARTED" 
+        : `${String(timeLeft.days).padStart(2,'0')}d ${String(timeLeft.hours).padStart(2,'0')}h ${String(timeLeft.minutes).padStart(2,'0')}m ${String(timeLeft.seconds).padStart(2,'0')}s`;
+
     return (
         <div className="relative min-h-[220vh] text-white font-bold font-orbitron">
             
             {/* ================= NAVBAR CONTAINER ================= */}
-            {/* h-24 (96px) is our reference height */}
-            <div className="fixed top-0 left-0 w-full h-48 z-40 pointer-events-none">
-                
-                {/* Flex Container */}
+            {/* Z-50: Above Everything */}
+            <div className="fixed top-0 left-0 w-full h-48 z-50 pointer-events-none">
                 <div className="relative h-full w-full max-w-[1920px] mx-auto px-4 flex items-center justify-between">
                     
-                    {/* LEFT LINKS GROUP - items-center ensures vertical centering */}
+                    {/* LEFT LINKS */}
                     <motion.div
                         style={{ opacity: linkOpacity, x: leftSlide }}
                         className="flex-1 flex justify-end items-center gap-8 pr-4" 
@@ -107,10 +135,10 @@ export default function PokeNavbarHero() {
                         <NavButton href="#events" label="Events" hoverColor="group-hover:text-red-400" />
                     </motion.div>
 
-                    {/* SPACER: Reserves space for the logo. */}
+                    {/* SPACER */}
                     <div className="w-[420px] h-full shrink-0" />
 
-                    {/* RIGHT LINKS GROUP - items-center ensures vertical centering */}
+                    {/* RIGHT LINKS */}
                     <motion.div
                         style={{ opacity: linkOpacity, x: rightSlide }}
                         className="flex-1 flex justify-start items-center gap-8 pl-4"
@@ -123,11 +151,13 @@ export default function PokeNavbarHero() {
             </div>
 
             {/* ================= HERO SECTION ================= */}
-            <div className="sticky top-0 h-screen pt-20 overflow-hidden">
+            {/* Z-0: Base Layer (Sticky) */}
+            <div className="sticky top-0 h-screen pt-20 overflow-hidden z-0">
                 <div className="flex flex-col items-center justify-center h-full w-full">
                     
                     {/* LOGO */}
-                    <Link className="z-50" href="/">
+                    {/* Z-60: Highest Priority */}
+                    <Link className="z-[60]" href="/">
                         <motion.div
                             style={
                                 !docked
@@ -136,10 +166,8 @@ export default function PokeNavbarHero() {
                             }
                             className={
                                 docked
-                                    // -top-4 pulls the logo up ~16px.
-                                    // Logo Center (64px) - 16px = 48px (Matches h-24 center)
-                                    ? "fixed -top-4 left-1/2 -translate-x-1/2" 
-                                    : "relative"
+                                    ? "fixed -top-4 left-1/2 -translate-x-1/2 pointer-events-auto" 
+                                    : "relative pointer-events-auto"
                             }
                         >
                             <Image
@@ -153,23 +181,40 @@ export default function PokeNavbarHero() {
                         </motion.div>
                     </Link>
 
-                    {/* HERO COUNTDOWN */}
+                    {/* HERO COUNTDOWN (RETRO THEMED) */}
                     <motion.div
                         style={{ y: countdownY, opacity: countdownOpacity }}
-                        className="mt-10"
+                        className="mt-12"
                     >
-                        <div className="px-10 py-5 text-center">
-                            <p className="text-xs tracking-[0.3em] text-yellow-100/60 mb-2 uppercase">
-                                Launch Sequence Initiated
-                            </p>
-                            <p className="text-4xl sm:text-5xl tracking-widest text-yellow-300 font-bold font-mono">
-                                {timeLeft}
-                            </p>
+                        <div className="px-10 py-5 text-center flex flex-col items-center">
+                            
+                            {/* Retro Dialog Box Text */}
+                            <div className="mb-8 bg-white border-2 border-black rounded-lg px-6 py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
+                                <p className="text-black font-bold font-mono text-sm sm:text-base uppercase tracking-widest flex items-center gap-2">
+                                    <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"/>
+                                    Launching In
+                                    <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"/>
+                                </p>
+                            </div>
+
+                            {hasStarted ? (
+                                <p className="text-4xl text-yellow-300 font-bold font-mono animate-pulse drop-shadow-md">
+                                    EVENT HAS BEGUN
+                                </p>
+                            ) : (
+                                // THEMED TIMER
+                                <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4">
+                                    <TimerSlot value={timeLeft.days} label="Days" />
+                                    <TimerSlot value={timeLeft.hours} label="Hours" />
+                                    <TimerSlot value={timeLeft.minutes} label="Mins" />
+                                    <TimerSlot value={timeLeft.seconds} label="Secs" />
+                                </div>
+                            )}
                         </div>
                     </motion.div>
                 </div>
 
-                {/* FLOATING CORNER TIMER */}
+                {/* FLOATING CORNER TIMER (Pixel Style) */}
                 <motion.div
                     initial={false}
                     animate={{
@@ -179,13 +224,15 @@ export default function PokeNavbarHero() {
                     transition={{ duration: 0.4 }}
                     className="fixed bottom-6 right-6 z-50 pointer-events-none"
                 >
-                    <div className="text-sm tracking-widest text-yellow-300 font-mono font-bold">
-                        {timeLeft}
+                    <div className="px-4 py-2 bg-blue-600 border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-white font-mono font-bold text-sm tracking-widest rounded-sm">
+                        {dockedTimerString}
                     </div>
                 </motion.div>
             </div>
 
             {/* ================= CONTENT / ABOUT ================= */}
+            {/* Z-20: Middle Layer (Scrolls over Hero) */}
+            {/* bg-black is required here to visually cover the sticky hero text */}
             <div className="relative flex items-end justify-center -z-10 pb-20">
                 <AboutPhoenix />
             </div>
