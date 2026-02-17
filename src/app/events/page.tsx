@@ -45,9 +45,7 @@ export default function Events() {
 
   return (
     <>
-      <Navbar />
-      <div className="min-h-screen w-full flex flex-col items-center font-sans p-4 pt-[140px] md:pt-[150px] pb-8 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/background.png)' }}>
-        <main className="flex flex-col items-center max-w-7xl w-full space-y-8">
+      <section className="min-h-screen w-full flex flex-col items-center font-sans p-4 pt-[140px] md:pt-[150px] pb-8 bg-cover bg-center bg-no-repeat" id="events" >
           <div className="header-search-row">
             <div className="header-container">
               <h1 className="text-2xl md:text-4xl font-bold font-press-start tracking-wider text-yellow-400 drop-shadow-lg pixelated">
@@ -156,7 +154,7 @@ export default function Events() {
             ))}
           </div>
         </main>
-      </div>
+      </section>
 
       <style jsx>{`
         .header-search-row {
