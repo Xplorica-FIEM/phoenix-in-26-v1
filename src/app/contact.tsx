@@ -48,7 +48,7 @@ export default function ContactUs() {
     >
       <main className="flex flex-col items-center max-w-7xl w-full">
 
-        <h2 className="text-2xl md:text-4xl font-press-start mb-10 text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-yellow-400 drop-shadow-[0_0_20px_rgba(234,179,8,0.6)] font-bold tracking-wider">
+        <h2 className="text-3xl md:text-6xl font-press-start mb-10 text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-yellow-400 drop-shadow-[0_0_20px_rgba(234,179,8,0.6)] font-bold tracking-wider">
           Contact Us
         </h2>
 
