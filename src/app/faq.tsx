@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function FAQSection() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -32,9 +33,9 @@ export default function FAQSection() {
         "Yes, participation and winning certificates will be provided to all eligible participants."
     },
     {
-        question: "How can I stay updated about the event?",
-        answer:
-          "Follow our social media channels and subscribe to our newsletter for the latest updates and announcements."  
+      question: "How can I stay updated about the event?",
+      answer:
+        "Follow our social media channels and subscribe to our newsletter for the latest updates and announcements."
     }
   ];
 
@@ -60,12 +61,30 @@ export default function FAQSection() {
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className={`faq-item ${activeIndex === index ? "active" : ""}`}
+                className="faq-item"
                 onClick={() => toggleFAQ(index)}
               >
                 <div className="faq-question">
-                  {faq.question}
-                  <span>{activeIndex === index ? "−" : "+"}</span>
+
+                  {/* LEFT SIDE (ICON + QUESTION) */}
+                  <div className="question-left">
+                    <Image
+                      src="/pball.png"
+                      alt="pokeball bullet"
+                      width={22}
+                      height={22}
+                      className={`faq-icon ${
+                        activeIndex === index ? "rotate" : ""
+                      }`}
+                    />
+                    <span>{faq.question}</span>
+                  </div>
+
+                  {/* TOGGLE SYMBOL */}
+                  <span className="toggle-symbol">
+                    {activeIndex === index ? "−" : "+"}
+                  </span>
+
                 </div>
 
                 {activeIndex === index && (
@@ -123,6 +142,24 @@ export default function FAQSection() {
           align-items: center;
           font-weight: bold;
           font-size: 14px;
+        }
+
+        .question-left {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .faq-icon {
+          transition: transform 0.4s ease;
+        }
+
+        .rotate {
+          transform: rotate(180deg);
+        }
+
+        .toggle-symbol {
+          font-size: 20px;
         }
 
         .faq-answer {
