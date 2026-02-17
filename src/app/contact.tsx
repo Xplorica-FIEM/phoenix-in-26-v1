@@ -1,48 +1,47 @@
 'use client';
 
 import React, { useState } from 'react';
-import Navbar from '@/components/Navbar';
 
 const faqData = [
-  { 
-    id: 1, 
-    question: 'What is Phoenix 2026?', 
-    answer: 'Phoenix 2026 is an exciting tech fest organized to bring together innovators, developers, and tech enthusiasts from around the world.' 
+  {
+    id: 1,
+    question: 'What is Phoenix 2026?',
+    answer: 'Phoenix 2026 is an exciting tech fest organized to bring together innovators, developers, and tech enthusiasts from around the world.'
   },
-  { 
-    id: 2, 
-    question: 'How can I register for the event?', 
-    answer: 'You can register by visiting our registration page and filling out the required information. Early bird registrations get special discounts!' 
+  {
+    id: 2,
+    question: 'How can I register for the event?',
+    answer: 'You can register by visiting our registration page and filling out the required information. Early bird registrations get special discounts!'
   },
-  { 
-    id: 3, 
-    question: 'What are the event dates?', 
-    answer: 'The event is scheduled for March 15-17, 2026. Please check back regularly for any updates or changes.' 
+  {
+    id: 3,
+    question: 'What are the event dates?',
+    answer: 'The event is scheduled for March 15-17, 2026. Please check back regularly for any updates or changes.'
   },
-  { 
-    id: 4, 
-    question: 'Are there accommodation facilities?', 
-    answer: 'Yes, we have partnered with nearby hotels to provide accommodation at special rates for our attendees.' 
+  {
+    id: 4,
+    question: 'Are there accommodation facilities?',
+    answer: 'Yes, we have partnered with nearby hotels to provide accommodation at special rates for our attendees.'
   },
-  { 
-    id: 5, 
-    question: 'What competitions are available?', 
-    answer: 'We offer various competitions including coding challenges, hackathons, robotics, and innovation showcases with exciting prizes.' 
+  {
+    id: 5,
+    question: 'What competitions are available?',
+    answer: 'We offer various competitions including coding challenges, hackathons, robotics, and innovation showcases with exciting prizes.'
   },
-  { 
-    id: 6, 
-    question: 'Is there a fee to attend?', 
-    answer: 'Entry fees vary based on the category you choose. Students get special discounted rates. Check our pricing page for details.' 
+  {
+    id: 6,
+    question: 'Is there a fee to attend?',
+    answer: 'Entry fees vary based on the category you choose. Students get special discounted rates. Check our pricing page for details.'
   },
-  { 
-    id: 7, 
-    question: 'Can I volunteer for the event?', 
-    answer: 'Absolutely! We welcome volunteers. Please fill out the volunteer form on our website or contact us directly.' 
+  {
+    id: 7,
+    question: 'Can I volunteer for the event?',
+    answer: 'Absolutely! We welcome volunteers. Please fill out the volunteer form on our website or contact us directly.'
   },
-  { 
-    id: 8, 
-    question: 'Are workshops included in the registration?', 
-    answer: 'Yes, all registered participants get access to our workshops and keynote sessions as part of their registration package.' 
+  {
+    id: 8,
+    question: 'Are workshops included in the registration?',
+    answer: 'Yes, all registered participants get access to our workshops and keynote sessions as part of their registration package.'
   },
 ];
 
@@ -86,8 +85,7 @@ export default function ContactUs() {
 
   return (
     <>
-      <Navbar />
-      <div className="min-h-screen w-full flex flex-col items-center justify-center font-sans p-4 pt-[140px] md:pt-[150px] pb-4 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/background.png)' }}>
+      <section className="min-h-screen w-full flex flex-col items-center justify-center font-sans p-4 pt-[140px] md:pt-[150px] pb-4 bg-cover bg-center bg-no-repeat"  id='contact'>
         <main className="flex flex-col items-center max-w-7xl text-center w-full">
           <h1 className="text-2xl md:text-4xl font-bold font-press-start tracking-wider text-red-500 drop-shadow-lg mb-6">
             Contact Us
@@ -97,39 +95,39 @@ export default function ContactUs() {
             {!isSubmitted ? (
               <form onSubmit={handleSubmit} className="contact-form">
                 <div className="title">Get in Touch,<br /><span>we&apos;re here to help</span></div>
-                
-                <input 
-                  type="text" 
-                  placeholder="Name" 
-                  name="name" 
+
+                <input
+                  type="text"
+                  placeholder="Name"
+                  name="name"
                   className="input"
                   value={formData.name}
                   onChange={handleChange}
                   required
                 />
-                
-                <input 
-                  type="email" 
-                  placeholder="Email" 
-                  name="email" 
+
+                <input
+                  type="email"
+                  placeholder="Email"
+                  name="email"
                   className="input"
                   value={formData.email}
                   onChange={handleChange}
                   required
                 />
-                
-                <input 
-                  type="tel" 
-                  placeholder="Phone Number" 
-                  name="phone" 
+
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  name="phone"
                   className="input"
                   value={formData.phone}
                   onChange={handleChange}
                   required
                 />
-                
-                <select 
-                  name="subject" 
+
+                <select
+                  name="subject"
                   className="input select"
                   value={formData.subject}
                   onChange={handleChange}
@@ -144,15 +142,15 @@ export default function ContactUs() {
                   <option value="other">Other</option>
                 </select>
 
-                <textarea 
-                  placeholder="Your Message (Optional)" 
-                  name="message" 
+                <textarea
+                  placeholder="Your Message (Optional)"
+                  name="message"
                   className="input textarea"
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
                 />
-                
+
                 <button type="submit" className="button-confirm">Submit →</button>
               </form>
             ) : (
@@ -170,11 +168,11 @@ export default function ContactUs() {
             {/* FAQ Section */}
             <div className="faq-section">
               <div className="title">FAQs<br /><span>frequently asked questions</span></div>
-              
+
               <div className="faq-list">
                 {faqData.map((faq) => (
                   <div key={faq.id} className="faq-item">
-                    <button 
+                    <button
                       className="faq-question"
                       onClick={() => toggleFaq(faq.id)}
                     >
@@ -190,7 +188,7 @@ export default function ContactUs() {
             </div>
           </div>
         </main>
-      </div>
+      </section>
 
       <style jsx>{`
         .contact-container {
