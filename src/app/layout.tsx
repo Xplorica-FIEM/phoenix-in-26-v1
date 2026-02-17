@@ -24,8 +24,12 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${pressStart2P.variable} antialiased bg-black`}
             >
+              <nav className="relative z-50">
                 <PokeNavbarHeroResponsive />
+              </nav>
+                <main className="relative z-0">
                 {children}
+                </main>
             </body>
         </html>
     );
