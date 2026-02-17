@@ -36,7 +36,7 @@ export default function Events() {
   });
 
   return (
-    <section className="min-h-screen w-full flex flex-col items-center font-sans p-4 pt-36 md:pt-40 pb-8 bg-neutral-900 text-white" id="events">
+    <section className="min-h-screen w-full flex flex-col items-center font-sans p-4 pt-36 md:pt-40 pb-8 text-white" id="events">
       
       {/* --- HEADER & SEARCH ROW --- */}
       <div className="w-full grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4 mb-8">
@@ -100,10 +100,10 @@ export default function Events() {
       {/* --- EVENTS GRID --- */}
       <div className="w-full px-4 flex flex-col gap-12">
         {Object.entries(groupedEvents).map(([category, events]) => (
-          <div key={category} className="w-full">
+          <div key={category} className={`w-full${category === 'Tech Events' ? ' flex flex-col items-center' : ''}`}> 
             
             {/* Category Heading */}
-            <h2 className="text-xl md:text-2xl font-bold text-yellow-500 uppercase font-['Press_Start_2P',sans-serif] mb-6 relative inline-block pb-3 tracking-widest drop-shadow-[3px_3px_0_#1f2937] after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[4px] after:bg-yellow-500 after:shadow-[2px_2px_0_#1f2937]">
+            <h2 className={`text-xl md:text-2xl font-bold text-yellow-500 uppercase font-['Press_Start_2P',sans-serif] mb-6 tracking-widest drop-shadow-[3px_3px_0_#1f2937]${category === 'Tech Events' ? ' text-center relative inline-block pb-0 after:hidden' : ' relative inline-block pb-3 after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[4px] after:bg-yellow-500 after:shadow-[2px_2px_0_#1f2937]'}`}> 
               {category}
             </h2>
 
@@ -173,7 +173,7 @@ export default function Events() {
                   </div>
 
                   {/* Footer */}
-                  <div className="bg-gray-800 p-2 text-center border-t-2 border-yellow-500">
+                  <div className="p-2 text-center border-t-2 border-yellow-500">
                     <p className="text-yellow-500 text-[11px] font-semibold uppercase tracking-wide m-0 mb-1">
                       {item.status === 'live' ? 'Ends in:' : 'Starts in:'} <strong className="text-white">{item.endsIn}</strong>
                     </p>
@@ -188,16 +188,7 @@ export default function Events() {
       </div>
 
       {/* --- Keyframes (Inline for ease of use, or move to tailwind.config.js) --- */}
-      <style jsx global>{`
-        @keyframes slideInUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes dots {
-          0% { background-position: 0 0, 3px 3px; }
-          100% { background-position: 6px 0, 9px 3px; }
-        }
-      `}</style>
+      {/* Keyframes removed as background effects are no longer needed */}
     </section>
   );
 }
