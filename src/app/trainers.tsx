@@ -36,7 +36,7 @@ export default function TrainerComparison() {
   ];
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[215px] md:pt-[225px] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/background.png)' }}>
+    <section className="min-h-screen w-full flex flex-col items-center font-sans p-8 pt-[215px] md:pt-[225px] bg-cover bg-center bg-no-repeat" id='trainers'>
       <main className="flex flex-col items-center max-w-7xl text-center space-y-16 w-full">
         {/* Full Size Card */}
         <div>
@@ -83,6 +83,6 @@ export default function TrainerComparison() {
           </p>
         </div>
       </main>
-    </div>
+    </section>
   );
 }
