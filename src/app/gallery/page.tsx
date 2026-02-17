@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Navbar from '@/components/Navbar';
 import Image from 'next/image';
 
 const dummyGalleryItems = [
@@ -16,13 +15,12 @@ const dummyGalleryItems = [
 export default function Gallery() {
   return (
     <>
-      <Navbar />
       <div className="min-h-screen w-full flex flex-col items-center font-sans p-4 pt-[140px] md:pt-[150px] pb-8 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/background.png)' }}>
         <main className="flex flex-col items-center max-w-7xl w-full space-y-8">
           <h1 className="text-2xl md:text-4xl font-bold font-press-start tracking-wider text-yellow-400 drop-shadow-lg mb-4">
             Gallery
           </h1>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full px-4">
             {dummyGalleryItems.map((item, index) => (
               <div key={item.id} className="gallery-card group" style={{ animationDelay: `${index * 100}ms` }}>

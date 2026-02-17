@@ -1,0 +1,112 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Navbar from "@/components/Navbar";
+import AboutSection from "@/components/AboutSection";
+import IntroSpiral from "@/components/IntroSpiral";
+
+export default function Home() {
+    const [showIntro, setShowIntro] = useState(false);
+    const [ready, setReady] = useState(false);
+
+    const [timeLeft, setTimeLeft] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+    });
+
+    /* ---------- INTRO ONLY ONCE ---------- */
+
+    useEffect(() => {
+        const seen = sessionStorage.getItem("introPlayed");
+
+        if (!seen) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setShowIntro(true);
+            sessionStorage.setItem("introPlayed", "true");
+        } else {
+            setReady(true);
+        }
+    }, []);
+
+    const finishIntro = () => {
+        setShowIntro(false);
+        setReady(true);
+    };
+
+    /* ---------- COUNTDOWN ---------- */
+
+    useEffect(() => {
+        const target = new Date("2026-04-17T00:00:00").getTime();
+
+        const update = () => {
+            const diff = target - Date.now();
+            if (diff <= 0) return;
+
+            setTimeLeft({
+                days: Math.floor(diff / 86400000),
+                hours: Math.floor((diff % 86400000) / 3600000),
+                minutes: Math.floor((diff % 3600000) / 60000),
+            });
+        };
+
+        update();
+        const id = setInterval(update, 60000);
+        return () => clearInterval(id);
+    }, []);
+
+    return (
+        <>
+            {/* INTRO ANIMATION */}
+            {showIntro && <IntroSpiral onFinish={finishIntro} />}
+
+            {/* PAGE */}
+            <div
+                className={`transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
+            >
+
+                <div
+                    className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center text-center px-4"
+                    style={{ backgroundImage: "url(/background.png)" }}
+                >
+                    {/* COUNTDOWN */}
+                    <section className="mt-32 mb-20">
+                        <span className="text-xs font-orbitron tracking-[0.3em] text-yellow-400 uppercase">
+                            The Journey Begins
+                        </span>
+
+                        <h2 className="text-2xl md:text-3xl font-orbitron tracking-widest text-transparent bg-clip-text bg-linear-to-r from-white via-cyan-200 to-white uppercase mb-10">
+                            Launching In
+                        </h2>
+
+                        <div className="flex gap-6 md:gap-10 justify-center">
+                            {[
+                                ["Days", timeLeft.days],
+                                ["Hours", timeLeft.hours],
+                                ["Minutes", timeLeft.minutes],
+                            ].map(([label, value]) => (
+                                <div key={label} className="text-center">
+                                    <div className="bg-black/40 backdrop-blur border border-white/10 rounded-xl px-6 py-5">
+                                        <span className="text-4xl md:text-6xl font-bold font-orbitron text-white">
+                                            {String(value).padStart(2, "0")}
+                                        </span>
+                                    </div>
+                                    <span className="mt-2 block text-xs tracking-widest text-white/40 uppercase">
+                                        {label}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <p className="text-yellow-400/70 font-orbitron tracking-widest mt-8">
+                            17 . 04 . 2026
+                        </p>
+                    </section>
+
+                    {/* ABOUT SECTION */}
+                    <AboutSection />
+                </div>
+            </div>
+        </>
+    );
+}
