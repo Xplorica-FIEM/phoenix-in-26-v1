@@ -27,7 +27,7 @@ const Navbar = () => {
         setShowDropdown(true);
       }, 400);
       return () => {
-        clearTimeout(timer1);
+        clearTimeout(gittimer1);
         clearTimeout(timer2);
         clearTimeout(timer3);
       };
