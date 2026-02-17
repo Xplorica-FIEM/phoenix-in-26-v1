@@ -37,9 +37,9 @@ export default function PokeNavbarHero() {
     /* ---------------- SCROLL ANIMATION CONFIG ---------------- */
 
     // 1. Logo Animation
-    // Moves from y:0 to y:-280.
+    // Moves upward
     const logoY = useTransform(scrollY, [0, 260], [0, -280]); 
-    // Scales down to 0.6. (Original height 215px * 0.6 = ~129px)
+    // Scales down to 0.6
     const logoScale = useTransform(scrollY, [0, 260], [1.2, 0.6]); 
 
     // 2. Links Animation
@@ -88,33 +88,32 @@ export default function PokeNavbarHero() {
     }, []);
 
     return (
-        <div className="relative min-h-[220vh] text-white font-orbitron">
+        <div className="relative min-h-[220vh] text-white font-bold font-orbitron">
             
             {/* ================= NAVBAR CONTAINER ================= */}
-            {/* Increased height to h-32 (128px) to align links with the vertical center of the logo */}
-            <div className="fixed top-0 left-0 w-full h-32 z-40 pointer-events-none">
+            {/* h-24 (96px) is our reference height */}
+            <div className="fixed top-0 left-0 w-full h-48 z-40 pointer-events-none">
                 
                 {/* Flex Container */}
                 <div className="relative h-full w-full max-w-[1920px] mx-auto px-4 flex items-center justify-between">
                     
-                    {/* LEFT LINKS GROUP */}
+                    {/* LEFT LINKS GROUP - items-center ensures vertical centering */}
                     <motion.div
                         style={{ opacity: linkOpacity, x: leftSlide }}
-                        className="flex-1 flex justify-end gap-8 pr-6 pt-2" 
+                        className="flex-1 flex justify-end items-center gap-8 pr-4" 
                     >
-                        {/* Added subtle pt-2 above to micro-adjust alignment if font baseline is off */}
                         <NavButton href="#trainers" label="Trainers" hoverColor="group-hover:text-cyan-300" />
                         <NavButton href="#gallery" label="Gallery" hoverColor="group-hover:text-yellow-300" />
                         <NavButton href="#events" label="Events" hoverColor="group-hover:text-red-400" />
                     </motion.div>
 
-                    {/* SPACER: Reserves space for the logo. Matches logo width roughly. */}
+                    {/* SPACER: Reserves space for the logo. */}
                     <div className="w-[420px] h-full shrink-0" />
 
-                    {/* RIGHT LINKS GROUP */}
+                    {/* RIGHT LINKS GROUP - items-center ensures vertical centering */}
                     <motion.div
                         style={{ opacity: linkOpacity, x: rightSlide }}
-                        className="flex-1 flex justify-start gap-8 pl-6 pt-2"
+                        className="flex-1 flex justify-start items-center gap-8 pl-4"
                     >
                         <NavButton href="#sponsors" label="Sponsors" hoverColor="group-hover:text-green-300" />
                         <NavButton href="#contact" label="Contact" hoverColor="group-hover:text-blue-300" />
@@ -133,11 +132,13 @@ export default function PokeNavbarHero() {
                             style={
                                 !docked
                                     ? { y: logoY, scale: logoScale }
-                                    : { scale: 0.6 } 
+                                    : { scale: 0.7 } 
                             }
                             className={
                                 docked
-                                    ? "fixed top-0 left-1/2 -translate-x-1/2 mt-4" // mt-4 centers it vertically within the h-32 nav
+                                    // -top-4 pulls the logo up ~16px.
+                                    // Logo Center (64px) - 16px = 48px (Matches h-24 center)
+                                    ? "fixed -top-4 left-1/2 -translate-x-1/2" 
                                     : "relative"
                             }
                         >
