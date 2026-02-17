@@ -15,17 +15,29 @@ const dummyGalleryItems = [
 export default function Gallery() {
   return (
     <>
-      <div className="min-h-screen w-full flex flex-col items-center font-sans p-4 pt-[140px] md:pt-[150px] pb-8 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/background.png)' }}>
+      <section 
+        className="min-h-screen w-full flex flex-col items-center font-sans p-4 pt-[140px] md:pt-[150px] pb-8 bg-cover bg-center bg-no-repeat" 
+        id="gallery"
+      >
         <main className="flex flex-col items-center max-w-7xl w-full space-y-8">
-          <h1 className="text-2xl md:text-4xl font-bold font-press-start tracking-wider text-yellow-400 drop-shadow-lg mb-4">
+          <h1 className="text-2xl md:text-4xl font-bold tracking-wider text-yellow-400 drop-shadow-lg mb-4 font-press-start">
             Gallery
           </h1>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full px-4">
             {dummyGalleryItems.map((item, index) => (
-              <div key={item.id} className="gallery-card group" style={{ animationDelay: `${index * 100}ms` }}>
-                <div className="imge">
-                  <div className="Usericon">
+              <div
+                key={item.id}
+                className="group relative w-full max-w-[240px] mx-auto h-[300px] bg-[rgb(38,38,38)] rounded-lg overflow-visible transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[10px_8px_20px_rgba(255,215,0,0.3)] shadow-[7px_5px_10px_rgba(0,0,0,0.5)] opacity-0 animate-slideUp"
+                style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'forwards' }}
+              >
+                {/* Floating Brackets Effect */}
+                <span className="absolute top-1/2 -translate-y-1/2 -left-8 text-5xl font-bold text-yellow-500 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:-left-4 pointer-events-none select-none drop-shadow-[0_0_10px_#eab308] z-10">[</span>
+                <span className="absolute top-1/2 -translate-y-1/2 -right-8 text-5xl font-bold text-yellow-500 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:-right-4 pointer-events-none select-none drop-shadow-[0_0_10px_#eab308] z-10">]</span>
+
+                {/* Card Header */}
+                <div className="h-20 bg-yellow-500 relative rounded-t-lg">
+                  <div className="absolute top-4 left-4 w-[50px] h-[50px] rounded-[10px] overflow-hidden bg-white/20">
                     <Image
                       src="/pball.png"
                       alt="Pokeball"
@@ -33,19 +45,32 @@ export default function Gallery() {
                       className="object-contain"
                     />
                   </div>
-                  <p className="UserName">{item.title}</p>
-                  <p className="Id">{item.subtitle}</p>
+                  <p className="absolute top-[18px] left-[75px] text-gray-800 text-sm font-bold m-0 p-0">
+                    {item.title}
+                  </p>
+                  <p className="absolute top-[42px] left-[75px] text-gray-700 text-xs font-semibold m-0 p-0">
+                    {item.subtitle}
+                  </p>
                 </div>
-                <div className="Description">
-                  {/* Image will be added here */}
+
+                {/* Image Area */}
+                <div className="bg-[#414141] m-2.5 h-[150px] rounded-lg overflow-hidden flex items-center justify-center relative sm:h-[130px] md:h-[150px]">
+                  {/* <Image src={item.image} alt={item.title} fill className="object-cover" /> */}
                 </div>
-                <div className="button-container">
-                  <button className="retro-button">
-                    <div>
-                      <span>
-                        <span className="bracket-left">[</span>
-                        <span className="button-text">View Recaps</span>
-                        <span className="bracket-right">]</span>
+
+                {/* Button Container */}
+                <div className="flex justify-center items-center py-2">
+                  <button className="relative z-10 font-bold text-sm cursor-pointer p-[1px] -translate-x-[3px] -translate-y-[3px] bg-gray-800 rounded-full transition-transform duration-150 ease-in-out text-gray-800 shadow-[2px_2px_0px_2px_#fafaf9,3px_3px_0px_2px_#1f2937] hover:translate-x-0 hover:translate-y-0 hover:shadow-[0_0_0_2px_#fafaf9] active:outline-none group/btn">
+                    <div className="relative bg-yellow-500 rounded-full border-2 border-white/20 overflow-hidden">
+                      {/* Dotted Pattern Overlay */}
+                      <div className="absolute inset-0 opacity-30 animate-dots bg-[length:6px_6px] mix-blend-hard-light" 
+                           style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.6) 20%, transparent 20%), radial-gradient(rgba(255,255,255,0.8) 20%, transparent 20%)' }}>
+                      </div>
+                      
+                      <span className="relative flex items-center justify-center px-4 py-2 gap-1 text-xs text-gray-800 drop-shadow-[0_-1px_0_rgba(255,255,255,0.15)] active:translate-y-[1px]">
+                        <span className="opacity-0 translate-x-[5px] transition-all duration-200 group-hover/btn:opacity-100 group-hover/btn:translate-x-0">[</span>
+                        <span className="mx-0.5">View Recaps</span>
+                        <span className="opacity-0 -translate-x-[5px] transition-all duration-200 group-hover/btn:opacity-100 group-hover/btn:translate-x-0">]</span>
                       </span>
                     </div>
                   </button>
@@ -54,293 +79,28 @@ export default function Gallery() {
             ))}
           </div>
         </main>
-      </div>
+      </section>
 
-      <style jsx>{`
-        .gallery-card {
-          width: 100%;
-          max-width: 240px;
-          margin: 0 auto;
-          height: 300px;
-          background: rgb(38, 38, 38);
-          box-shadow: 7px 5px 10px rgba(0, 0, 0, 0.5);
-          border-radius: 8px;
-          overflow: hidden;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          opacity: 0;
-          animation: slideInUp 0.6s ease-out forwards;
-          position: relative;
-        }
-
-        .gallery-card::before,
-        .gallery-card::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          font-size: 3rem;
-          font-weight: bold;
-          color: #eab308;
-          opacity: 0;
-          transition: all 0.3s ease;
-          pointer-events: none;
-          z-index: 10;
-          text-shadow: 0 0 10px #eab308;
-        }
-
-        .gallery-card::before {
-          content: '[';
-          left: -30px;
-        }
-
-        .gallery-card::after {
-          content: ']';
-          right: -30px;
-        }
-
-        .gallery-card:hover::before {
-          opacity: 1;
-          left: -15px;
-        }
-
-        .gallery-card:hover::after {
-          opacity: 1;
-          right: -15px;
-        }
-
-        .gallery-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 10px 8px 20px rgba(255, 215, 0, 0.3);
-        }
-
+      {/* 
+        We use a minimal style block for custom Keyframes 
+        because Tailwind configuration is not accessible here.
+      */}
+      <style jsx global>{`
         @keyframes slideInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-
-        .imge {
-          height: 80px;
-          background-color: #eab308;
-          position: relative;
+        .animate-slideUp {
+          animation: slideInUp 0.6s ease-out forwards;
         }
-
-        .imge .Usericon {
-          position: absolute;
-          top: 15px;
-          left: 15px;
-          width: 50px;
-          height: 50px;
-          border-radius: 10px;
-        }
-
-        .imge .UserName {
-          color: #1f2937;
-          font-size: 14px;
-          font-weight: bold;
-          position: absolute;
-          top: 18px;
-          left: 75px;
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          padding: 0;
-          margin: 0;
-        }
-
-        .imge .Id {
-          color: #374151;
-          font-size: 12px;
-          font-weight: 600;
-          position: absolute;
-          top: 42px;
-          left: 75px;
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          padding: 0;
-          margin: 0;
-        }
-
-        .Description {
-          background-color: #414141;
-          margin: 10px;
-          height: 150px;
-          border-radius: 8px;
-          padding: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          position: relative;
-        }
-
-        .Description img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .button-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 10px 0;
-        }
-
-        .retro-button {
-          --stone-50: #fafaf9;
-          --stone-800: #1f2937;
-          --yellow-400: #000000;
-
-          font-size: 0.875rem;
-          cursor: pointer;
-          position: relative;
-          z-index: 1;
-          font-family: "Rubik", sans-serif;
-          font-weight: bold;
-          line-height: 1;
-          padding: 1px;
-          transform: translate(-3px, -3px);
-          outline: 2px solid transparent;
-          outline-offset: 3px;
-          border-radius: 9999px;
-          background-color: var(--stone-800);
-          color: var(--stone-800);
-          transition:
-            transform 150ms ease,
-            box-shadow 150ms ease;
-          text-align: center;
-          box-shadow:
-            0.5px 0.5px 0 0 var(--stone-800),
-            1px 1px 0 0 var(--stone-800),
-            1.5px 1.5px 0 0 var(--stone-800),
-            2px 2px 0 0 var(--stone-800),
-            2.5px 2.5px 0 0 var(--stone-800),
-            3px 3px 0 0 var(--stone-800),
-            0 0 0 2px var(--stone-50),
-            0.5px 0.5px 0 2px var(--stone-50),
-            1px 1px 0 2px var(--stone-50),
-            1.5px 1.5px 0 2px var(--stone-50),
-            2px 2px 0 2px var(--stone-50),
-            2.5px 2.5px 0 2px var(--stone-50),
-            3px 3px 0 2px var(--stone-50);
-        }
-
-        .retro-button:hover {
-          transform: translate(0, 0);
-          box-shadow: 0 0 0 2px var(--stone-50);
-        }
-
-        .retro-button:active {
-          outline-color: var(--yellow-400);
-        }
-
-        .retro-button > div {
-          position: relative;
-          pointer-events: none;
-          background-color: #eab308;
-          border: 2px solid rgba(255, 255, 255, 0.2);
-          border-radius: 9999px;
-        }
-
-        .retro-button > div::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border-radius: 9999px;
-          opacity: 0.3;
-          background-image: radial-gradient(
-              rgb(255 255 255 / 60%) 20%,
-              transparent 20%
-            ),
-            radial-gradient(rgb(255 255 255 / 80%) 20%, transparent 20%);
-          background-position:
-            0 0,
-            3px 3px;
-          background-size: 6px 6px;
-          mix-blend-mode: hard-light;
-          animation: dots 0.5s infinite linear;
-        }
-
-        .retro-button > div > span {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 0.5rem 1rem;
-          gap: 0.25rem;
-          filter: drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.15));
-          color: #1f2937;
-          font-size: 0.75rem;
-          font-weight: bold;
-        }
-
-        .bracket-left,
-        .bracket-right {
-          display: inline-block;
-          opacity: 0;
-          transition: all 0.2s ease;
-          color: #1f2937;
-        }
-
-        .bracket-left {
-          transform: translateX(5px);
-        }
-
-        .bracket-right {
-          transform: translateX(-5px);
-        }
-
-        .retro-button:hover .bracket-left {
-          opacity: 1;
-          transform: translateX(0);
-        }
-
-        .retro-button:hover .bracket-right {
-          opacity: 1;
-          transform: translateX(0);
-        }
-
-        .button-text {
-          margin: 0 2px;
-        }
-
-        .retro-button > div > span:active {
-          transform: translateY(1px);
-        }
-
         @keyframes dots {
-          0% {
-            background-position:
-              0 0,
-              3px 3px;
-          }
-          100% {
-            background-position:
-              6px 0,
-              9px 3px;
-          }
+          0% { background-position: 0 0, 3px 3px; }
+          100% { background-position: 6px 0, 9px 3px; }
         }
-
-        @media (max-width: 640px) {
-          .gallery-card {
-            max-width: 220px;
-            height: 280px;
-          }
-
-          .Description {
-            height: 130px;
-          }
+        .animate-dots {
+          animation: dots 0.5s infinite linear;
         }
       `}</style>
     </>
   );
 }
-import Image from 'next/image';
-import React from 'react';

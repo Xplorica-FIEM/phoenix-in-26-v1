@@ -116,7 +116,7 @@ export default function Sponsors() {
                             <div className="font-black text-lg">
                                 Schedule a Call
                                 <div className="text-sm font-semibold text-gray-600">
-                                    We$apos;ll get back to you soon
+                                    We&apos;ll get back to you soon
                                 </div>
                             </div>
 
