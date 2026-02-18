@@ -119,7 +119,6 @@ export default function TrainerComparison() {
           
           <div className="mb-8">
             <h2 className="text-xl font-orbitron text-blue-300 mb-4">Full Size Card - Legendary Trainer</h2>
-            <p className="text-sm text-blue-300/70 mb-4">Click card to flip and view stats • Hover for 3D tilt and shine effects</p>
             <div className="flex justify-center">
               <TrainerCard
                 name={trainerData.name}
