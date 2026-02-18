@@ -209,12 +209,6 @@ export default function PokeNavbarHero() {
                         {dockedTimerString}
                     </div>
                 </motion.div>
-
-            </div>
-
-            {/* CONTENT */}
-            <div className="relative flex items-end justify-center -z-10 pb-20">
-                <AboutPhoenix />
             </div>
         </div>
     );
