@@ -33,13 +33,13 @@ export default function PokeNavbarHeroMobile() {
             setMenuState("opening");
             setTimeout(() => {
                 setMenuState("open");
-            }, 150); // Delay for the 'half-open' frame
+            }, 100); // Delay for the 'half-open' frame
         } else if (menuState === "open") {
             // Start closing sequence
             setMenuState("closing");
             setTimeout(() => {
                 setMenuState("closed");
-            }, 150); // Delay for the 'half-open' frame
+            }, 100); // Delay for the 'half-open' frame
         }
     };
 

@@ -1,194 +1,261 @@
 'use client';
-
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
+
+// --- Assets & Icons (SVG components for cleanliness) ---
+const PokeballIcon = ({ className }) => (
+  <svg viewBox="0 0 100 100" className={className} fill="currentColor">
+    <path d="M50 5A45 45 0 0 0 5 50a45 45 0 0 0 45 45 45 45 0 0 0 45-45A45 45 0 0 0 50 5zm0 82a37 37 0 0 1-37-37c0-18.1 13-33.2 30-36.4V46h14V13.6C87 16.8 100 31.9 100 50a37 37 0 0 1-37 37z" />
+    <circle cx="50" cy="50" r="12" />
+    <path d="M50 38a12 12 0 0 0-12 12h-9a21 21 0 1 1 42 0h-9a12 12 0 0 0-12-12z" />
+  </svg>
+);
 
 // --- Dummy Data ---
 const dummyEvents = [
-  { id: 1, title: 'Event 1', subtitle: 'Tech Workshop', image: '/placeholder-image.jpg', status: 'live', endsIn: '2 hours 30 mins', endDate: 'Feb 17, 2026', category: 'Tech Events' },
-  { id: 2, title: 'Event 2', subtitle: 'AI Hackathon', image: '/placeholder-image.jpg', status: 'upcoming', endsIn: '5 days', endDate: 'Feb 22, 2026', category: 'Tech Events' },
-  { id: 3, title: 'Event 3', subtitle: 'Code Marathon', image: '/placeholder-image.jpg', status: 'live', endsIn: '45 mins', endDate: 'Feb 17, 2026', category: 'Tech Events' },
-  { id: 4, title: 'Event 4', subtitle: 'Design Sprint', image: '/placeholder-image.jpg', status: 'upcoming', endsIn: '3 days', endDate: 'Feb 20, 2026', category: 'Tech Events' },
+  { id: 1, title: 'Hackathon X', subtitle: 'Full Stack Battle', image: '/placeholder-image.jpg', status: 'live', endsIn: '2h 30m', progress: 90, endDate: 'Feb 17, 2026', category: 'Tech Events', type: 'electric' },
+  { id: 2, title: 'AI Summit', subtitle: 'Neural Networks', image: '/placeholder-image.jpg', status: 'upcoming', endsIn: '5 days', progress: 10, endDate: 'Feb 22, 2026', category: 'Tech Events', type: 'psychic' },
+  { id: 3, title: 'Speed Code', subtitle: 'Algorithm Race', image: '/placeholder-image.jpg', status: 'live', endsIn: '45 mins', progress: 95, endDate: 'Feb 17, 2026', category: 'Competitions', type: 'fire' },
+  { id: 4, title: 'UX Sprint', subtitle: 'Design System', image: '/placeholder-image.jpg', status: 'upcoming', endsIn: '3 days', progress: 30, endDate: 'Feb 20, 2026', category: 'Workshops', type: 'grass' },
+  { id: 5, title: 'Game Jam', subtitle: 'Retro Dev', image: '/placeholder-image.jpg', status: 'upcoming', endsIn: '7 days', progress: 0, endDate: 'Feb 24, 2026', category: 'Gaming Events', type: 'water' },
 ];
 
 export default function Events() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const categories = [
     'All Categories', 'Tech Events', 'Gaming Events', 'Sports Events', 'Cultural Events', 'Workshops', 'Competitions'
   ];
 
-  // Group events logic
-  const groupedEvents = dummyEvents.reduce((acc, event) => {
-    if (!acc[event.category]) acc[event.category] = [];
-    acc[event.category].push(event);
-    return acc;
-  }, {});
+  // Logic: Filter -> Group -> Sort
+  const processedEvents = useMemo(() => {
+    // 1. Filter by Category & Search
+    let filtered = dummyEvents.filter(event => {
+      const matchesCategory = selectedCategory === 'All Categories' || event.category === selectedCategory;
+      const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            event.subtitle.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
 
-  // Sort events logic
-  Object.keys(groupedEvents).forEach(category => {
-    groupedEvents[category].sort((a, b) => {
+    // 2. Sort (Live first)
+    filtered.sort((a, b) => {
       if (a.status === 'live' && b.status !== 'live') return -1;
       if (a.status !== 'live' && b.status === 'live') return 1;
       return 0;
     });
-  });
+
+    // 3. Group
+    return filtered.reduce((acc, event) => {
+      if (!acc[event.category]) acc[event.category] = [];
+      acc[event.category].push(event);
+      return acc;
+    }, {});
+  }, [selectedCategory, searchQuery]);
+
+  // Helper to get Type Color
+  const getTypeColor = (type) => {
+    switch(type) {
+      case 'fire': return 'bg-red-500';
+      case 'water': return 'bg-blue-500';
+      case 'grass': return 'bg-green-500';
+      case 'electric': return 'bg-yellow-400';
+      case 'psychic': return 'bg-purple-500';
+      default: return 'bg-gray-500';
+    }
+  };
 
   return (
-    <section className="min-h-screen w-full flex flex-col items-center font-sans p-4 pt-36 md:pt-40 pb-8 text-white" id="events">
-      
-      {/* --- HEADER & SEARCH ROW --- */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-4 mb-8">
+    <section className="min-h-screen w-full flex flex-col items-center font-sans text-slate-900 relative overflow-x-hidden selection:bg-yellow-400 selection:text-black" id="events">
+
+      <div className="w-full max-w-7xl z-10 px-4 pt-24 pb-12 flex flex-col gap-8">
         
-        {/* Title Container (Centered on MD+) */}
-        <div className="md:col-start-2 text-center">
-          <h1 className="text-2xl md:text-4xl font-bold tracking-wider text-yellow-400 drop-shadow-[4px_4px_0_rgba(31,41,55,1)] font-['Press_Start_2P',sans-serif]">
-            Events
-          </h1>
+        {/* --- HEADER --- */}
+        {/* FIX: Removed 'overflow-hidden' and added 'z-20' so dropdown is visible over content */}
+        <div className="w-full flex flex-col md:flex-row justify-between items-end md:items-center gap-6 border-b-4 border-black pb-8 bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)] rounded-xl relative z-20">
+          {/* Decorative Corner Triangles */}
+          <div className="absolute top-0 left-0 w-0 h-0 border-t-[40px] border-black-600 border-r-[40px] border-r-transparent"></div>
+          <div className="absolute bottom-0 right-0 w-0 h-0 border-b-[40px] border-b-red-600 border-l-[40px] border-l-transparent"></div>
+
+          {/* Title Block */}
+          <div className="relative z-10">
+            <h2 className="text-xs font-bold tracking-widest text-slate-500 mb-1 uppercase font-sans">
+              System Region: FIEM-Campus
+            </h2>
+            <h1 className="text-3xl md:text-5xl font-black text-slate-900 font-['Press_Start_2P',sans-serif] tracking-tighter drop-shadow-sm">
+              EVENT<span className="text-red-600">DEX</span>
+            </h1>
+          </div>
+
+          {/* Controls */}
+          <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto z-10">
+            
+            {/* Custom Select Box */}
+            <div className="relative min-w-[200px]">
+              <button 
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="w-full h-12 bg-slate-100 border-2 border-black flex items-center justify-between px-4 hover:bg-yellow-100 transition-colors focus:ring-4 ring-yellow-400/50"
+              >
+                <span className="font-bold text-sm uppercase truncate font-['Press_Start_2P',sans-serif] text-xs">
+                  {selectedCategory === 'All Categories' ? 'SELECT TYPE' : selectedCategory}
+                </span>
+                <span className={`transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}>▼</span>
+              </button>
+              
+              {isDropdownOpen && (
+                <div className="absolute top-full left-0 w-full mt-2 bg-white border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] z-50 max-h-60 overflow-y-auto">
+                  {categories.map((cat) => (
+                    <div 
+                      key={cat}
+                      onClick={() => { setSelectedCategory(cat); setIsDropdownOpen(false); }}
+                      className="p-3 hover:bg-blue-600 hover:text-white cursor-pointer font-bold text-xs uppercase transition-colors"
+                    >
+                      {cat}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Search Input */}
+            <div className="relative">
+              <input 
+                type="text" 
+                placeholder="Search..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full sm:w-64 h-12 pl-4 pr-10 bg-slate-100 border-2 border-black font-bold focus:outline-none focus:bg-white focus:shadow-[4px_4px_0px_#eab308] transition-all placeholder:text-slate-400"
+              />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Search & Filter Container (Right Aligned) */}
-        <div className="md:col-start-3 justify-self-center md:justify-self-end flex items-center gap-0">
-          
-          {/* CATEGORY DROPDOWN */}
-          <div className="relative">
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-[50px] h-[40px] bg-yellow-500 border-[2.5px] border-gray-800 flex items-center justify-center transition-all duration-200 hover:shadow-[-3px_-3px_0px_#1f2937] active:shadow-[-1px_-1px_0px_#1f2937] active:translate-x-[-2px] active:translate-y-[-2px]"
-            >
-              <span className="text-black font-bold text-base">▼</span>
-            </button>
-            
-            {isDropdownOpen && (
-              <div className="absolute top-[45px] left-0 md:right-0 md:left-auto bg-black border-[2.5px] border-yellow-500 min-w-[200px] z-50 shadow-[5px_5px_0px_rgba(0,0,0,0.5)]">
-                {categories.map((cat) => (
-                  <div
-                    key={cat}
-                    onClick={() => {
-                      setSelectedCategory(cat);
-                      setIsDropdownOpen(false);
-                    }}
-                    className="p-3 text-yellow-500 cursor-pointer text-sm font-semibold uppercase tracking-wide border-b border-yellow-500 last:border-b-0 hover:bg-yellow-500 hover:text-black transition-colors"
+        {/* --- CONTENT GRID --- */}
+        {Object.keys(processedEvents).length === 0 ? (
+          <div className="w-full h-64 flex flex-col items-center justify-center border-4 border-dashed border-slate-300 rounded-xl bg-slate-100/50">
+             <PokeballIcon className="w-16 h-16 text-slate-300 mb-4 animate-spin-slow" />
+             <p className="font-bold text-slate-400 text-lg">NO DATA FOUND IN POKEDEX</p>
+          </div>
+        ) : (
+          Object.entries(processedEvents).map(([category, events]) => (
+            <div key={category} className="w-full animate-[fadeIn_0.5s_ease-out]">
+              
+              {/* Category Divider */}
+              <div className="flex items-center gap-4 mb-6">
+                 <div className="w-4 h-4 bg-black rotate-45"></div>
+                 <h2 className="text-xl font-bold uppercase tracking-wider font-['Press_Start_2P',sans-serif] text-slate-100">
+                   {category}
+                 </h2>
+                 <div className="h-1 flex-grow bg-black opacity-20 rounded-full"></div>
+              </div>
+
+              {/* Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {events.map((event) => (
+                  <div 
+                    key={event.id}
+                    className="group relative bg-white border-4 border-black rounded-2xl p-1 shadow-[8px_8px_0px_rgba(0,0,0,0.2)] hover:shadow-[12px_12px_0px_rgba(0,0,0,1)] hover:-translate-y-2 transition-all duration-200 flex flex-col"
                   >
-                    {cat}
+                    
+                    {/* Card Inner Frame */}
+                    <div className="bg-slate-100 border-2 border-slate-200 rounded-xl overflow-hidden h-full flex flex-col relative z-10">
+                      
+                      {/* Image Area */}
+                      <div className="relative h-40 bg-slate-800 overflow-hidden border-b-4 border-black group-hover:bg-slate-700 transition-colors">
+                        <div className="absolute top-2 right-2 z-20">
+                           <span className={`inline-block px-2 py-1 text-[10px] font-bold text-white uppercase tracking-wider border border-white/50 rounded shadow-sm ${event.status === 'live' ? 'bg-red-500 animate-pulse' : 'bg-blue-500'}`}>
+                             {event.status === 'live' ? '● Live Battle' : 'Upcoming'}
+                           </span>
+                        </div>
+                        
+                        {/* Abstract Background pattern for image */}
+                        <div className={`absolute inset-0 opacity-40 ${getTypeColor(event.type)} mix-blend-overlay`}></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                           {/* Placeholder for actual image */}
+                           <PokeballIcon className="w-20 h-20 text-white/20 group-hover:text-white/40 transition-all duration-300 group-hover:scale-110 rotate-12" />
+                        </div>
+                      </div>
+
+                      {/* Content Area */}
+                      <div className="p-4 flex flex-col flex-grow bg-white">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h3 className="text-lg font-black leading-tight text-slate-900 line-clamp-2 uppercase">
+                              {event.title}
+                            </h3>
+                            <p className="text-xs font-bold text-slate-500 mt-1 uppercase tracking-wide">
+                              {event.subtitle}
+                            </p>
+                          </div>
+                          {/* Type Icon/Dot */}
+                          <div className={`w-4 h-4 rounded-full border-2 border-black ${getTypeColor(event.type)} shadow-sm`}></div>
+                        </div>
+
+                        {/* HP Bar / Time Remaining */}
+                        <div className="mt-4 mb-2">
+                           <div className="flex justify-between text-[10px] font-bold uppercase mb-1">
+                              <span>Time Rem:</span>
+                              <span className={event.status === 'live' ? 'text-red-600' : 'text-slate-600'}>{event.endsIn}</span>
+                           </div>
+                           <div className="w-full h-3 bg-slate-200 rounded-full border-2 border-slate-400 relative overflow-hidden">
+                              <div 
+                                className={`h-full ${event.progress > 80 ? 'bg-red-500' : event.progress > 50 ? 'bg-yellow-400' : 'bg-green-500'} border-r-2 border-white/50 transition-all duration-1000`}
+                                style={{ width: `${100 - event.progress}%` }}
+                              ></div>
+                              {/* HP Gloss */}
+                              <div className="absolute top-0 left-0 w-full h-[2px] bg-white/40"></div>
+                           </div>
+                        </div>
+
+                        {/* Data Grid */}
+                        <div className="grid grid-cols-2 gap-2 mt-auto pt-4 border-t-2 border-dashed border-slate-200">
+                           <div className="bg-slate-50 p-1.5 rounded border border-slate-200 text-center">
+                              <span className="block text-[9px] text-slate-400 font-bold uppercase">Date</span>
+                              <span className="block text-[10px] font-bold text-slate-800">{event.endDate.split(',')[0]}</span>
+                           </div>
+                           <div className="bg-slate-50 p-1.5 rounded border border-slate-200 text-center">
+                              <span className="block text-[9px] text-slate-400 font-bold uppercase">Class</span>
+                              <span className="block text-[10px] font-bold text-slate-800 truncate">{event.category.split(' ')[0]}</span>
+                           </div>
+                        </div>
+
+                        {/* Action Button */}
+                        <button className="w-full mt-4 group/btn relative h-10 bg-yellow-400 border-2 border-black rounded-lg shadow-[2px_2px_0_rgba(0,0,0,1)] active:shadow-none active:translate-y-[2px] active:translate-x-[2px] transition-all flex items-center justify-center gap-2 overflow-hidden">
+                          <span className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-200"></span>
+                          <span className="relative z-10 font-black text-xs uppercase tracking-wider text-black font-['Press_Start_2P',sans-serif]">
+                            {event.status === 'live' ? 'JOIN NOW' : 'DETAILS'}
+                          </span>
+                          <span className="relative z-10 w-0 h-0 border-t-[6px] border-t-transparent border-l-[8px] border-l-black border-b-[6px] border-b-transparent"></span>
+                        </button>
+
+                      </div>
+                    </div>
+
+                    {/* Decorative Card Backing Elements */}
+                    <div className="absolute top-1/2 -right-3 w-1 h-12 bg-gray-300 border border-gray-400 rounded-r-md"></div>
+                    <div className="absolute -bottom-3 left-4 w-20 h-1 bg-gray-300 border border-gray-400 rounded-b-md"></div>
+
                   </div>
                 ))}
               </div>
-            )}
-          </div>
-
-          {/* INPUT CONTAINER */}
-          <div className="relative w-[220px] group">
-            <input
-              type="text"
-              placeholder="search for events"
-              className="w-full h-[40px] p-2.5 bg-black border-[2.5px] border-yellow-500 text-yellow-500 text-sm uppercase tracking-widest placeholder:text-yellow-500/60 placeholder:lowercase focus:outline-none focus:shadow-[-5px_-5px_0px_#eab308] transition-all duration-200"
-            />
-            <span className="absolute right-2.5 top-1/2 -translate-y-1/2 group-hover:animate-bounce">
-              <svg width="19px" height="19px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 5H20" stroke="#eab308" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M14 8H17" stroke="#eab308" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="#eab308" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M22 22L20 20" stroke="#eab308" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* --- EVENTS GRID --- */}
-      <div className="w-full px-4 flex flex-col gap-12">
-        {Object.entries(groupedEvents).map(([category, events]) => (
-          <div key={category} className={`w-full${category == 'Tech Events' ? ' flex flex-col items-center' : '' }`}> 
-            
-            {/* Category Heading */}
-            <h2 className={`text-xl md:text-2xl font-bold text-yellow-500 uppercase font-['Press_Start_2P',sans-serif] mb-6 tracking-widest drop-shadow-[3px_3px_0_#1f2937]${category === 'Tech Events' ? ' text-center relative inline-block pb-0 after:hidden' : ' relative inline-block pb-3 after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[4px] after:bg-yellow-500 after:shadow-[2px_2px_0_#1f2937]'}`}> 
-              {category}
-            </h2>
-
-            {/* Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
-              {events.map((item, index) => (
-                <div
-                  key={item.id}
-                  className="group w-full max-w-[240px] mx-auto min-h-[340px] bg-neutral-800 shadow-[7px_5px_10px_rgba(0,0,0,0.5)] rounded-lg overflow-hidden relative transition-all duration-300 hover:-translate-y-1 hover:shadow-[10px_8px_20px_rgba(255,215,0,0.3)] animate-[slideInUp_0.6s_ease-out_forwards]"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  
-                  {/* Floating Brackets on Hover */}
-                  <span className="absolute top-1/2 -left-8 text-5xl font-bold text-yellow-500 opacity-0 transition-all duration-300 z-10 pointer-events-none drop-shadow-[0_0_10px_#eab308] group-hover:opacity-100 group-hover:-left-4">
-                    [
-                  </span>
-                  <span className="absolute top-1/2 -right-8 text-5xl font-bold text-yellow-500 opacity-0 transition-all duration-300 z-10 pointer-events-none drop-shadow-[0_0_10px_#eab308] group-hover:opacity-100 group-hover:-right-4">
-                    ]
-                  </span>
-
-                  {/* Status Bar */}
-                  <div className={`h-[30px] flex items-center justify-center text-[11px] font-bold uppercase tracking-widest font-['Press_Start_2P',sans-serif] border-b-[3px] border-gray-800 ${
-                    item.status === 'live' ? 'bg-red-500 text-white animate-pulse' : 'bg-yellow-500 text-gray-800'
-                  }`}>
-                    {item.status === 'live' ? '● LIVE' : '⏱ UPCOMING'}
-                  </div>
-
-                  {/* Image/Header Area */}
-                  <div className="h-[80px] bg-yellow-500 relative">
-                    <div className="absolute top-[15px] left-[15px] w-[50px] h-[50px] bg-white/20 rounded-lg overflow-hidden">
-                      <Image src="/pball.png" alt="Pokeball" fill className="object-contain" />
-                    </div>
-                    <p className="text-gray-800 text-sm font-bold absolute top-[18px] left-[75px] m-0">
-                      {item.title}
-                    </p>
-                    <p className="text-gray-700 text-xs font-semibold absolute top-[42px] left-[75px] m-0">
-                      {item.subtitle}
-                    </p>
-                  </div>
-
-                  {/* Description / Main Image Placeholder */}
-                  <div className="bg-[#414141] m-[10px] h-[150px] rounded-lg overflow-hidden relative flex items-center justify-center">
-                    {/* <Image src={item.image} fill className="object-cover" alt="Event" /> */}
-                    <span className="text-gray-500 text-xs">Image Placeholder</span>
-                  </div>
-
-                  {/* Button */}
-                  <div className="flex justify-center items-center py-2.5">
-                    <button className="relative z-10 text-sm cursor-pointer font-bold leading-none p-[1px] -translate-x-[3px] -translate-y-[3px] outline-[2px] outline-transparent rounded-full bg-gray-800 text-gray-800 transition-all duration-150 hover:translate-x-0 hover:translate-y-0 shadow-[0.5px_0.5px_0_0_#1f2937,1px_1px_0_0_#1f2937,1.5px_1.5px_0_0_#1f2937,2px_2px_0_0_#1f2937,2.5px_2.5px_0_0_#1f2937,3px_3px_0_0_#1f2937,0_0_0_2px_#fafaf9,0.5px_0.5px_0_2px_#fafaf9,1px_1px_0_2px_#fafaf9,1.5px_1.5px_0_2px_#fafaf9,2px_2px_0_2px_#fafaf9,2.5px_2.5px_0_2px_#fafaf9,3px_3px_0_2px_#fafaf9] hover:shadow-[0_0_0_2px_#fafaf9]">
-                      <div className="relative pointer-events-none bg-yellow-500 border-2 border-white/20 rounded-full overflow-hidden">
-                        {/* Dot Pattern Overlay */}
-                        <div className="absolute inset-0 opacity-30 mix-blend-hard-light animate-[dots_0.5s_infinite_linear]" 
-                             style={{ 
-                               backgroundImage: 'radial-gradient(rgba(255,255,255,0.6) 20%, transparent 20%), radial-gradient(rgba(255,255,255,0.8) 20%, transparent 20%)',
-                               backgroundSize: '6px 6px',
-                               backgroundPosition: '0 0, 3px 3px'
-                             }} 
-                        />
-                        
-                        <span className="relative flex items-center justify-center px-4 py-2 gap-1 drop-shadow-sm text-gray-800 text-xs font-bold active:translate-y-[1px]">
-                          <span className="opacity-0 translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">[</span>
-                          <span className="mx-0.5">View Details</span>
-                          <span className="opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">]</span>
-                        </span>
-                      </div>
-                    </button>
-                  </div>
-
-                  {/* Footer */}
-                  <div className="p-2 text-center border-t-2 border-yellow-500">
-                    <p className="text-yellow-500 text-[11px] font-semibold uppercase tracking-wide m-0 mb-1">
-                      {item.status === 'live' ? 'Ends in:' : 'Starts in:'} <strong className="text-white">{item.endsIn}</strong>
-                    </p>
-                    <p className="text-gray-400 text-[10px] m-0">{item.endDate}</p>
-                  </div>
-
-                </div>
-              ))}
             </div>
-          </div>
-        ))}
-      </div>
+          ))
+        )}
 
-      {/* --- Keyframes (Inline for ease of use, or move to tailwind.config.js) --- */}
-      {/* Keyframes removed as background effects are no longer needed */}
+      </div>
+      
+      {/* CSS for Keyframes and Fonts if not in global */}
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700;900&display=swap');
+        .font-sans { font-family: 'Inter', sans-serif; }
+      `}</style>
     </section>
   );
 }
