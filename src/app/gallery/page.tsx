@@ -85,7 +85,8 @@ function HacktonixSection() {
 
       <motion.div style={{ x: contentX }} className="lg:w-1/2 flex flex-col gap-8">
         <div className="border-4 border-sky-400 p-6 bg-[#111117] shadow-[4px_4px_0px_0px_#38bdf8,0_0_20px_#38bdf8]">
-          <h2 className="text-xl md:text-2xl text-sky-300" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+          <h2 className="text-xl md:text-2xl text-sky-300 flex items-center gap-2" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+            <Image src="/pball.png" alt="" width={30} height={30} />
             HACKTONIX 2025
           </h2>
         </div>
@@ -126,9 +127,10 @@ function TechEventsSection() {
       <motion.div style={{ x: leftX1 }} className="flex flex-col gap-8">
         <div className="border-4 border-emerald-400 px-6 py-5 bg-[#111117] shadow-[4px_4px_0px_0px_#34d399,0_0_12px_#34d399]">
           <h2
-            className="text-xl md:text-2xl text-emerald-300"
+            className="text-xl md:text-2xl text-emerald-300 flex items-center gap-2"
             style={{ fontFamily: "'Press Start 2P', cursive" }}
           >
+            <Image src="/pball.png" alt="" width={30} height={30} />
             TECH EVENTS
           </h2>
         </div>
@@ -250,7 +252,8 @@ function NonTechEventsSection() {
       <div className="grid lg:grid-cols-2 gap-16">
         <motion.div style={{ x: leftX }}>
           <div className="border-4 border-fuchsia-400 px-6 py-5 bg-[#111117] shadow-[4px_4px_0px_0px_#e879f9,0_0_10px_#e879f9]">
-            <h2 className="text-xl text-fuchsia-300" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+            <h2 className="text-xl text-fuchsia-300 flex items-center gap-2" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+              <Image src="/pball.png" alt="" width={30} height={30} />
               NON TECH EVENTS
             </h2>
           </div>
