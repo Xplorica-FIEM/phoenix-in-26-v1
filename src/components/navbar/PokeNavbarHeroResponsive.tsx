@@ -5,7 +5,7 @@ import PokeNavbarHeroMobile from "./PokeNavbarHeroMobile";
 import { useEffect, useState } from "react";
 
 export default function PokeNavbarHeroResponsive() {
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
     useEffect(() => {
         const check = () => setIsMobile(window.innerWidth < 768);
@@ -13,6 +13,9 @@ export default function PokeNavbarHeroResponsive() {
         window.addEventListener("resize", check);
         return () => window.removeEventListener("resize", check);
     }, []);
+
+    // Prevent rendering until screen size is determined
+    if (isMobile === null) return null;
 
     return isMobile ? <PokeNavbarHeroMobile /> : <PokeNavbarHero />;
 }
