@@ -139,9 +139,9 @@ export default function PokeNavbarHero() {
                         style={{ opacity: linkOpacity, x: leftSlide }}
                         className="flex-1 flex justify-end items-center gap-8 pr-4" 
                     >
-                        <NavButton href="#trainers" label="Trainers" hoverColor="group-hover:text-cyan-300" />
-                        <NavButton href="#gallery" label="Gallery" hoverColor="group-hover:text-yellow-300" />
-                        <NavButton href="#events" label="Events" hoverColor="group-hover:text-red-400" />
+                        <NavButton href="/#trainers" label="Trainers" hoverColor="group-hover:text-cyan-300" />
+                        <NavButton href="/#gallery" label="Gallery" hoverColor="group-hover:text-yellow-300" />
+                        <NavButton href="/#events" label="Events" hoverColor="group-hover:text-red-400" />
                     </motion.div>
 
                     {/* SPACER */}
@@ -152,8 +152,8 @@ export default function PokeNavbarHero() {
                         style={{ opacity: linkOpacity, x: rightSlide }}
                         className="flex-1 flex justify-start items-center gap-8 pl-4"
                     >
-                        <NavButton href="#sponsors" label="Sponsors" hoverColor="group-hover:text-green-300" />
-                        <NavButton href="#contact" label="Contact" hoverColor="group-hover:text-blue-300" />
+                        <NavButton href="/#sponsors" label="Sponsors" hoverColor="group-hover:text-green-300" />
+                        <NavButton href="/#contact" label="Contact" hoverColor="group-hover:text-blue-300" />
                         <NavButton href="/games" label="Games" hoverColor="group-hover:text-purple-400" />
                     </motion.div>
                 </div>
