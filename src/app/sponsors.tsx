@@ -84,75 +84,102 @@ export default function Sponsors() {
 
             {/* overlay */}
             {isFormOpen && (
-                <div
-                    className="fixed inset-0 bg-black/50 z-999"
-                    onClick={closeForm}
-                />
-            )}
-
-            {/* sliding drawer */}
             <div
-                className={`
-          fixed top-0 right-0 h-screen w-87.5 z-1000
-          flex items-center justify-center p-5
-          transition-transform duration-300
-          ${isFormOpen ? "translate-x-0" : "translate-x-full"}
-        `}
+                className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4"
+                onClick={closeForm}
             >
-                <form
-                    onSubmit={handleSubmit}
-                    className="relative w-full bg-gray-200 border-2 border-[#323232] shadow-[4px_4px_0_#323232] rounded p-6 flex flex-col gap-5"
+                {/* stop close on panel click */}
+                <div
+                onClick={(e) => e.stopPropagation()}
+                className="
+                    relative
+                    w-full max-w-md
+                    translate-x-[-6px] translate-y-[-6px]
+                    transition-all duration-150
+                    bg-stone-800
+                    shadow-[0.5px_0.5px_0_0_#292524,1px_1px_0_0_#292524,1.5px_1.5px_0_0_#292524,2px_2px_0_0_#292524,2.5px_2.5px_0_0_#292524,3px_3px_0_0_#292524,3.5px_3.5px_0_0_#292524,4px_4px_0_0_#292524,4.5px_4.5px_0_0_#292524,5px_5px_0_0_#292524,0_0_0_2px_#fafaf9,0.5px_0.5px_0_2px_#fafaf9,1px_1px_0_2px_#fafaf9,1.5px_1.5px_0_2px_#fafaf9,2px_2px_0_2px_#fafaf9,2.5px_2.5px_0_2px_#fafaf9,3px_3px_0_2px_#fafaf9,3.5px_3.5px_0_2px_#fafaf9,4px_4px_0_2px_#fafaf9]
+                "
                 >
+                {/* Inner Yellow Face */}
+                <div className="relative bg-yellow-400 border border-white/30 overflow-hidden p-8">
+
+                    {/* dotted overlay (same as RetroButton) */}
+                    <div className="absolute inset-0 opacity-50 mix-blend-hard-light animate-dots bg-[radial-gradient(rgba(255,255,255,0.8)_20%,transparent_20%),radial-gradient(rgba(255,255,255,1)_20%,transparent_20%)] bg-[length:8px_8px] bg-[position:0_0,4px_4px]" />
+
+                    <div className="relative text-stone-900">
+
+                    {/* Close */}
                     <button
                         type="button"
                         onClick={closeForm}
-                        className="absolute top-3 right-3 text-xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/10"
+                        className="absolute top-2 right-3 text-lg font-bold"
                     >
                         ✕
                     </button>
 
                     {!isSubmitted ? (
                         <>
-                            <div className="font-black text-lg">
-                                Schedule a Call
-                                <div className="text-sm font-semibold text-gray-600">
-                                    We&apos;ll get back to you soon
-                                </div>
-                            </div>
+                        {/* Heading */}
+                        <h2 className="font-press-start text-lg uppercase tracking-wider mb-3">
+                            Schedule Call
+                        </h2>
+
+                        <p className="font-sans font-semibold text-sm mb-6">
+                            Let’s discuss sponsorship.
+                        </p>
+
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-4 font-sans">
 
                             <input
-                                type="email"
-                                placeholder="Enter Email"
-                                required
-                                className="h-10 border-2 border-[#323232] rounded px-3 font-semibold shadow-[4px_4px_0_#323232] focus:border-blue-500 outline-none"
+                            type="email"
+                            placeholder="Enter Email"
+                            required
+                            className="
+                                bg-white
+                                border-2 border-stone-700
+                                px-4 py-2
+                                text-sm
+                                font-semibold
+                                focus:outline-none
+                            "
                             />
 
                             <input
-                                type="tel"
-                                placeholder="Enter WhatsApp Number"
-                                required
-                                className="h-10 border-2 border-[#323232] rounded px-3 font-semibold shadow-[4px_4px_0_#323232] focus:border-blue-500 outline-none"
+                            type="tel"
+                            placeholder="Enter WhatsApp Number"
+                            required
+                            className="
+                                bg-white
+                                border-2 border-stone-700
+                                px-4 py-2
+                                text-sm
+                                font-semibold
+                                focus:outline-none
+                            "
                             />
 
-                            <button
-                                type="submit"
-                                className="mx-auto mt-4 w-32 h-10 border-2 border-[#323232] rounded font-semibold shadow-[4px_4px_0_#323232] active:translate-x-0.75 active:translate-y-0.75 active:shadow-none"
-                            >
-                                Submit →
-                            </button>
+                            <RetroButton type="submit" className="mt-4 w-full font-bold">
+                            SEND SIGNAL
+                            </RetroButton>
+
+                        </form>
                         </>
                     ) : (
-                        <div className="flex flex-col items-center gap-4 text-center">
-                            <div className="w-20 h-20 bg-green-400 rounded-full flex items-center justify-center text-white text-3xl">
-                                ✓
-                            </div>
-                            <p className="font-semibold">
-                                Our team will contact you shortly
-                            </p>
+                        <div className="text-center py-6">
+                        <h3 className="font-press-start text-base uppercase mb-3">
+                            Transmission Sent
+                        </h3>
+                        <p className="font-sans font-semibold text-sm">
+                            Our team will contact you shortly.
+                        </p>
                         </div>
                     )}
-                </form>
-            </div>
+                    </div>
+      </div>
+    </div>
+  </div>
+)}
+
         </>
     );
 }
