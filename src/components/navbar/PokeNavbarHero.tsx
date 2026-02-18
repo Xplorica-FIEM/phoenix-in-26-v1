@@ -36,10 +36,10 @@ const TimerSlot = ({ value, label }) => (
     <div className="flex flex-col items-center mx-2 sm:mx-3 group">
         
         {/* The Retro Blue Box (Gen 3 Menu Style) */}
-        <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gray-600 border-2 border-white rounded-lg flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] transition-transform hover:-translate-y-1">
+        <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-blue-600 border-2 border-white rounded-lg flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] transition-transform hover:-translate-y-1">
             
             {/* Inner Dark Blue Shadow/Inset */}
-            <div className="absolute inset-1 border-2 border-gray-800/30 rounded-md pointer-events-none" />
+            <div className="absolute inset-1 border-2 border-blue-800/30 rounded-md pointer-events-none" />
             
             {/* The Number */}
             <span className="font-mono text-3xl sm:text-4xl font-bold text-white drop-shadow-md z-10">
