@@ -117,7 +117,7 @@ export default function PokeNavbarHeroMobile() {
     /* ================= RENDER ================= */
 
     return (
-        <div className="relative min-h-[200vh] flex flex-col items-center text-white overflow-hidden font-press-start">
+        <div className="relative h-screen flex flex-col items-center text-white overflow-hidden font-press-start">
 
             {/* ================= NAVBAR ================= */}
             <div className="fixed top-0 left-0 right-0 h-20 bg-red-600 border-b-4 border-red-800 z-50 shadow-md flex items-center px-4">
@@ -184,7 +184,7 @@ export default function PokeNavbarHeroMobile() {
             <div className="h-24 w-full" />
 
             {/* ================= HERO ================= */}
-            <div className="sticky top-20 h-[70vh] w-full flex flex-col items-center justify-center">
+            <div className="sticky top-20 h-screen w-full flex flex-col items-center justify-center">
 
                 <motion.div
                     style={{ y: logoY, scale: logoScale }}
@@ -224,15 +224,6 @@ export default function PokeNavbarHeroMobile() {
                         </div>
                     </div>
                 </motion.div>
-            </div>
-
-            {/* ================= ABOUT ================= */}
-            <div className="w-full px-4 pb-20">
-                <AboutPhoenix
-                    titleSize="text-2xl"
-                    textSize="text-sm"
-                    iconSize={20}
-                />
             </div>
 
             {/* ================= DROPDOWN ================= */}
