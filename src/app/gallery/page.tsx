@@ -270,9 +270,7 @@ function NonTechEventsSection() {
         <motion.div style={{ x: leftX }}>
           <div className="border-4 border-fuchsia-400 p-10 bg-[#111117] shadow-[4px_4px_0px_0px_#e879f9,0_0_10px_#e879f9] h-full flex items-center">
             <p className="text-white text-lg leading-relaxed" style={{ fontFamily: "'Press Start 2P', cursive" }}>
-              Cultural performances, gaming arenas, photography contests,
-              art battles, music nights, fashion shows and much more.
-            </p>
+Non-Tech Events celebrated creativity and fun! Highlights included Penchanted, Quizzomania, The Podium, and Carnival, along with art battles, music nights, photography contests, and more.            </p>
           </div>
         </motion.div>
 
