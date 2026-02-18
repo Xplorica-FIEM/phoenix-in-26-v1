@@ -1,9 +1,10 @@
 'use client';
 import React, { useState, useMemo, useEffect } from 'react';
 
-// ==========================================
-// 1. ASSETS & UTILS
-// ==========================================
+// Assets & small utilities
+// - Keep local icons and tiny helpers here so the page component stays
+//   focused on layout and interaction logic. This reduces indirection
+//   and keeps visual concerns colocated with the page that uses them.
 
 const PokeballIcon = ({ className }) => (
   <svg viewBox="0 0 100 100" className={className} fill="currentColor">
@@ -25,15 +26,16 @@ const getTypeColor = (type) => {
   return colors[type] || colors.default;
 };
 
-// ==========================================
-// 2. MODAL COMPONENT (Fixed for Navbar)
-// ==========================================
+// Modal component
+// - Rendered as a fixed overlay with a controlled z-index so the page can
+//   present modal content without interfering with the persistent navbar.
+// - Padding/top offset is used so the modal visually begins beneath the navbar.
 
 const EventModal = ({ event, onClose }) => {
   if (!event) return null;
   const typeColor = getTypeColor(event.type);
 
-  // Lock body scroll
+  // Prevent background scrolling while modal is open to avoid scroll bleed
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = 'unset'; };
@@ -180,9 +182,9 @@ const EventModal = ({ event, onClose }) => {
   );
 };
 
-// ==========================================
-// 3. UI COMPONENTS
-// ==========================================
+// Small presentational components
+// - Page-specific UI (cards, filter bar, empty state) are kept local to
+//   minimize prop drilling and make the page self-contained for maintenance.
 
 const EmptyState = () => (
   <div className="w-full h-64 flex flex-col items-center justify-center border-4 border-dashed border-slate-300 rounded-xl bg-slate-100/50">
@@ -304,9 +306,10 @@ const EventCard = ({ event, onClick }) => {
   );
 };
 
-// ==========================================
-// 4. MAIN PAGE CONTROLLER
-// ==========================================
+// Page controller (state + data shaping)
+// - Handles local UI state, filtering, and the expanded modal state.
+// - Keeps transformation/filtering logic inside the component so derived
+//   data is easy to reason about and doesn't require global state.
 
 export default function Events() {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
@@ -445,7 +448,7 @@ export default function Events() {
               
               <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
                  <div className="w-3 h-3 md:w-4 md:h-4 bg-black rotate-45"></div>
-                 <h2 className="text-base md:text-xl font-bold uppercase tracking-wider font-['Press_Start_2P',sans-serif] text-slate-900">
+                 <h2 className="text-base md:text-xl font-bold uppercase tracking-wider font-['Press_Start_2P',sans-serif] text-slate-100">
                    {category}
                  </h2>
                  <div className="h-1 flex-grow bg-black opacity-20 rounded-full"></div>

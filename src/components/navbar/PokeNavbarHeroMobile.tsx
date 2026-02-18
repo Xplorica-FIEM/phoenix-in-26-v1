@@ -20,7 +20,7 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
     { label: "TRAINERS", href: "#trainers" },
-    { label: "GALLERY", href: "#gallery" },
+    { label: "GALLERY", href: "/gallery" },
     { label: "EVENTS", href: "#events" },
     { label: "SPONSORS", href: "#sponsors" },
     { label: "CONTACT", href: "#contact" },

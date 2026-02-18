@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function GalleryPage() {
   return (
-    <div className="relative bg-[#0a0a0f] text-white overflow-hidden">
+    <div className="relative text-white overflow-hidden">
 
       {/* Grid Background */}
       <div 
