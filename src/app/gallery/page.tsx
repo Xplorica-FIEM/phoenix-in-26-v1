@@ -74,26 +74,25 @@ function HacktonixSection() {
 
   const imageX = useTransform(scrollYProgress, [0, 1], [-150, 0]);
   const contentX = useTransform(scrollYProgress, [0, 1], [150, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
     <section ref={ref} className="flex flex-col lg:flex-row gap-12 items-stretch">
-      <motion.div style={{ x: imageX, opacity }} className="lg:w-1/2">
+      <motion.div style={{ x: imageX }} className="lg:w-1/2">
         <div className="relative overflow-hidden border-4 border-lime-400 shadow-[6px_6px_0px_0px_#a3e635,0_0_25px_#a3e635]">
           <Image src="/gallery/hacktonix/main.jpg" alt="" width={1000} height={1200} className="w-full h-full object-cover" />
         </div>
       </motion.div>
 
-      <motion.div style={{ x: contentX, opacity }} className="lg:w-1/2 flex flex-col gap-8">
+      <motion.div style={{ x: contentX }} className="lg:w-1/2 flex flex-col gap-8">
         <div className="border-4 border-sky-400 p-6 bg-[#111117] shadow-[4px_4px_0px_0px_#38bdf8,0_0_20px_#38bdf8]">
           <h2 className="text-xl md:text-2xl text-sky-300" style={{ fontFamily: "'Press Start 2P', cursive" }}>
             HACKTONIX 2025
           </h2>
         </div>
 
-        <div className="border-4 border-lime-400 p-6 bg-[#111117] shadow-[4px_4px_0px_0px_#a3e635,0_0_20px_#a3e635]">
-          <p className="text-white leading-relaxed">
-            Hacktonix 2025 brought together the brightest developers and innovators.
+        <div className="border-4 border-lime-400 p-10 bg-[#111117] shadow-[4px_4px_0px_0px_#a3e635,0_0_20px_#a3e635] min-h-[150px] flex items-center">
+          <p className="text-white leading-relaxed" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+            Hacktonix 2025-The 24 hour AI hackathon brought together the brightest developers and innovators.
           </p>
         </div>
 
@@ -135,7 +134,7 @@ function TechEventsSection() {
         </div>
 
         <div className="border-4 border-amber-400 p-8 bg-[#111117] shadow-[4px_4px_0px_0px_#fbbf24,0_0_12px_#fbbf24] w-full flex-1 flex flex-col justify-center">
-          <p className="text-white leading-relaxed text-lg">
+          <p className="text-white leading-relaxed text-lg" style={{ fontFamily: "'Press Start 2P', cursive" }}>
             A fusion of competitive coding, robotics innovation,
             cybersecurity battles, and futuristic tech showcases.
             Creativity met engineering across multiple domains.
@@ -145,8 +144,8 @@ function TechEventsSection() {
 
       {/* RIGHT TOP — EVENT 1 */}
       <motion.div style={{ x: rightX1 }} className="flex flex-col gap-6">
-        <div className="border-4 border-amber-400 p-4 bg-[#111117] shadow-[4px_4px_0px_0px_#fbbf24,0_0_8px_#fbbf24] text-amber-300 text-center font-bold">
-          EVENT 1
+        <div className="border-4 border-amber-400 p-4 bg-[#111117] shadow-[4px_4px_0px_0px_#fbbf24,0_0_8px_#fbbf24] text-amber-300 text-center font-bold" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+       F-SOCIETY
         </div>
 
         <div className="grid grid-cols-2 gap-6">
@@ -174,7 +173,7 @@ function TechEventsSection() {
 
       {/* LEFT BOTTOM — EVENT 3 */}
       <motion.div style={{ x: leftX2 }} className="flex flex-col gap-6">
-        <div className="border-4 border-emerald-400 p-4 bg-[#111117] shadow-[4px_4px_0px_0px_#34d399,0_0_8px_#34d399] text-emerald-300 text-center font-bold">
+        <div className="border-4 border-emerald-400 p-4 bg-[#111117] shadow-[4px_4px_0px_0px_#34d399,0_0_8px_#34d399] text-emerald-300 text-center font-bold" style={{ fontFamily: "'Press Start 2P', cursive" }}>
           EVENT 3
         </div>
 
@@ -203,8 +202,8 @@ function TechEventsSection() {
 
       {/* RIGHT BOTTOM — EVENT 2 */}
       <motion.div style={{ x: rightX2 }} className="flex flex-col gap-6">
-        <div className="border-4 border-amber-400 p-4 bg-[#111117] shadow-[4px_4px_0px_0px_#fbbf24,0_0_8px_#fbbf24] text-amber-300 text-center font-bold">
-          EVENT 2
+        <div className="border-4 border-amber-400 p-4 bg-[#111117] shadow-[4px_4px_0px_0px_#fbbf24,0_0_8px_#fbbf24] text-amber-300 text-center font-bold" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+        WEBSCAPES  
         </div>
 
         <div className="grid grid-cols-2 gap-6">
@@ -270,7 +269,7 @@ function NonTechEventsSection() {
       <div className="grid lg:grid-cols-2 gap-16">
         <motion.div style={{ x: leftX }}>
           <div className="border-4 border-fuchsia-400 p-10 bg-[#111117] shadow-[4px_4px_0px_0px_#e879f9,0_0_10px_#e879f9] h-full flex items-center">
-            <p className="text-white text-lg leading-relaxed">
+            <p className="text-white text-lg leading-relaxed" style={{ fontFamily: "'Press Start 2P', cursive" }}>
               Cultural performances, gaming arenas, photography contests,
               art battles, music nights, fashion shows and much more.
             </p>
