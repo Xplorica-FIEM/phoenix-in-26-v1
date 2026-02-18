@@ -9,7 +9,7 @@ import AboutPhoenix from "./about";
 
 export default function Home() {
     return (
-        <main className="relative  -mt-[120vh] pt-[120vh] text-white">
+        <main className="relative text-white">
             <AboutPhoenix />
             <Trainers />
             <Events />

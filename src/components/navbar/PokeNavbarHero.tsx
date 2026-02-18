@@ -1,6 +1,5 @@
 "use client";
 
-import AboutPhoenix from "@/app/about";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -130,7 +129,7 @@ export default function PokeNavbarHero() {
           )}m ${String(timeLeft.seconds).padStart(2, "0")}s`;
 
     return (
-        <div className="relative min-h-[220vh] text-white font-bold font-orbitron">
+        <div className="relative h-screen text-white font-bold font-orbitron">
 
             {/* ================= NAVBAR ================= */}
             <div className="fixed top-0 left-0 w-full h-48 z-50 pointer-events-none">
