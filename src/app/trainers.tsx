@@ -113,7 +113,7 @@ export default function TrainerComparison() {
       <main className="flex flex-col items-center max-w-7xl text-center space-y-16 w-full">
         {/* Full Size Card */}
         <div>
-          <h1 className="text-4xl md:text-6xl font-bold font-orbitron tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 drop-shadow-lg mb-8">
+          <h1 className="text-4xl md:text-6xl font-bold font-press-start tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 drop-shadow-lg mb-8">
             Trainer Cards
           </h1>
           
