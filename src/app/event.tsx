@@ -67,13 +67,6 @@ const EventModal = ({ event, onClose }) => {
            <div className="text-[10px] md:text-xs text-slate-400 font-mono uppercase tracking-widest hidden sm:block">
              Entry #{event.id.toString().padStart(3, '0')} // Secure Connection
            </div>
-           
-           <button 
-             onClick={onClose} 
-             className="text-slate-500 hover:text-white transition-colors font-bold text-xs uppercase tracking-widest hover:underline decoration-2 underline-offset-4"
-           >
-             [ Terminate ]
-           </button>
         </div>
 
         {/* SCROLLABLE CONTENT */}
