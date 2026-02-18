@@ -15,6 +15,7 @@ interface TrainerCardProps {
   department: string;
   year: string;
   mobile: string;
+  email?: string;
   socialHandles?: string[];
   photoUrl?: string;
   rarity?: RarityLevel;
@@ -31,6 +32,7 @@ export const TrainerCard: React.FC<TrainerCardProps> = ({
   department,
   year,
   mobile,
+  email,
   socialHandles = [],
   photoUrl,
   rarity = 'Common',
@@ -330,7 +332,14 @@ export const TrainerCard: React.FC<TrainerCardProps> = ({
                 </div>
               </div>
               
-              <div className="mt-2">
+              {email && (
+                <div className="mt-2 ml-2">
+                  <label className="text-xs font-mono uppercase tracking-wider text-pink-400 font-bold">[ Email ]</label>
+                  <p className="text-xs font-semibold text-blue-100 mt-1">{email}</p>
+                </div>
+              )}
+              
+              <div className="mt-2 ml-2">
                 <label className="text-xs font-mono uppercase tracking-wider text-pink-400 font-bold block mb-1">[ Socials ]</label>
                 <div className="flex flex-wrap gap-1">
                   {socialHandles.map((handle, index) => (

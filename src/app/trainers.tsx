@@ -5,11 +5,12 @@ import { TrainerCard } from '@/components/TrainerCard';
 
 export default function TrainerComparison() {
   const trainerData = {
-    name: 'CHAMPION BLUE',
-    role: 'Lead Developer',
-    department: 'Frontend',
-    year: '2024',
+    name: 'abcdef',
+    role: 'mentor',
+    department: 'cse',
+    year: '4th',
     mobile: '+91 1234567890',
+    email: 'abcdef@example.com',
     rarity: 'Legendary' as const,
     stats: [
       { name: 'Coding Power', value: 92 },
@@ -27,11 +28,12 @@ export default function TrainerComparison() {
 
   const miniTrainers = [
     {
-      name: 'SAGE RED',
-      role: 'Backend Engineer',
-      department: 'Backend',
-      year: '2023',
+      name: 'rohan roy',
+      role: 'core member',
+      department: 'cse',
+      year: '3rd',
       mobile: '+91 9876543210',
+      email: 'rohanroy@example.com',
       rarity: 'Rare' as const,
       stats: [
         { name: 'Coding Power', value: 88 },
@@ -47,11 +49,12 @@ export default function TrainerComparison() {
       socialHandles: ['GitHub', 'Stack Overflow'],
     },
     {
-      name: 'MASTER GREEN',
-      role: 'UI/UX Designer',
-      department: 'Design',
-      year: '2022',
+      name: 'RANIT SEN',
+      role: 'coe member',
+      department: 'cseds',
+      year: '3rd',
       mobile: '+91 5555555555',
+      email: 'ranitsen@example.com',
       rarity: 'Epic' as const,
       stats: [
         { name: 'Coding Power', value: 75 },
@@ -67,11 +70,12 @@ export default function TrainerComparison() {
       socialHandles: ['Dribbble', 'Behance'],
     },
     {
-      name: 'ELITE YELLOW',
-      role: 'Full Stack',
-      department: 'Full Stack',
-      year: '2023',
+      name: 'Rima Roy',
+      role: 'working member',
+      department: 'cseds',
+      year: '2nd',
       mobile: '+91 7777777777',
+      email: 'rimaroy@example.com',
       rarity: 'Rare' as const,
       stats: [
         { name: 'Coding Power', value: 85 },
@@ -87,11 +91,12 @@ export default function TrainerComparison() {
       socialHandles: ['GitHub', 'Dev.to'],
     },
     {
-      name: 'CRYSTAL PINK',
-      role: 'Lead Designer',
-      department: 'Design',
-      year: '2021',
+      name: 'priya das',
+      role: 'coordinator',
+      department: 'ece',
+      year: '2nd',
       mobile: '+91 6666666666',
+      email: 'priyadas@example.com',
       rarity: 'Mythic' as const,
       stats: [
         { name: 'Coding Power', value: 80 },
@@ -118,7 +123,6 @@ export default function TrainerComparison() {
           </h1>
           
           <div className="mb-8">
-            <h2 className="text-xl font-orbitron text-blue-300 mb-4">Full Size Card - Legendary Trainer</h2>
             <div className="flex justify-center">
               <TrainerCard
                 name={trainerData.name}
@@ -126,6 +130,7 @@ export default function TrainerComparison() {
                 department={trainerData.department}
                 year={trainerData.year}
                 mobile={trainerData.mobile}
+                email={trainerData.email}
                 rarity={trainerData.rarity}
                 stats={trainerData.stats}
                 signatureMove={trainerData.signatureMove}
@@ -140,7 +145,6 @@ export default function TrainerComparison() {
 
         {/* Mini Cards Grid */}
         <div>
-          <h2 className="text-xl font-orbitron text-blue-300 mb-6">Trainer Collection - Various Rarities</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
             {miniTrainers.map((trainer, index) => (
               <div key={index} className="flex justify-center">
@@ -150,6 +154,7 @@ export default function TrainerComparison() {
                   department={trainer.department}
                   year={trainer.year}
                   mobile={trainer.mobile}
+                  email={trainer.email}
                   rarity={trainer.rarity}
                   stats={trainer.stats}
                   signatureMove={trainer.signatureMove}
@@ -161,16 +166,6 @@ export default function TrainerComparison() {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Info section */}
-        <div className="mt-12 pt-8 border-t border-blue-400/20 w-full">
-          <p className="text-sm md:text-base text-blue-300/70 font-mono tracking-wide">
-            [ ENHANCED TRAINER CARDS ]
-          </p>
-          <p className="text-xs md:text-sm text-gray-400 mt-2">
-            ✨ 3D Tilt Hover • 🔄 Flip Animation • ⭐ Rarity Glows • 📊 Animated Stats • 🌟 Holographic Shine
-          </p>
         </div>
       </main>
     </section>
