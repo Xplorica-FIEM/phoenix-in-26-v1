@@ -1,9 +1,8 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
-/* -------- SAME DATA (important for now) -------- */
+/* -------- DATA -------- */
 
 const EVENTS = [
   {
@@ -29,12 +28,12 @@ const EVENTS = [
 
 /* -------- META BLOCK -------- */
 
-const Meta = ({ label, value }: any) => (
-  <div className="bg-slate-100 border-2 border-black p-3 rounded-lg">
+const Meta = ({ label, value }: { label: string; value: string }) => (
+  <div className="bg-slate-100 border-2 border-black p-4 rounded-xl shadow-[2px_2px_0_rgba(0,0,0,0.3)]">
     <p className="text-[10px] uppercase font-bold text-slate-500">
       {label}
     </p>
-    <p className="text-sm font-black text-slate-900">
+    <p className="text-sm font-black text-slate-900 mt-1">
       {value}
     </p>
   </div>
@@ -47,91 +46,81 @@ export default function EventPage() {
   const router = useRouter();
   const event = EVENTS.find((e) => e.id === Number(id));
 
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, []);
-
   if (!event) return null;
 
   return (
-    <div className="fixed inset-0 z-40 flex items-start justify-center pt-28 px-4">
-      {/* BACKDROP */}
-      <div
-        className="absolute inset-0 bg-black/70"
-        onClick={() => router.push('/events')}
-      />
+    <main className="min-h-screen bg-slate-50 text-slate-900 pt-32 pb-24 px-4">
+      <div className="max-w-5xl mx-auto">
 
-      {/* MODAL */}
-      <div className="relative max-w-4xl w-full bg-white border-[6px] border-black rounded-3xl shadow-2xl overflow-y-auto max-h-[85vh]">
-        <header className="h-14 bg-slate-900 border-b-4 border-black flex items-center px-4">
+        {/* HEADER */}
+        <div className="mb-10">
           <button
             onClick={() => router.push('/events')}
-            className="text-white font-bold"
+            className="mb-6 inline-flex items-center gap-2 text-sm font-bold border-2 border-black px-4 py-2 rounded-lg bg-white shadow-[2px_2px_0_rgba(0,0,0,1)] hover:-translate-y-0.5 transition"
           >
-            ✕ Close
+            ← Back to Events
           </button>
-        </header>
 
-        <div className="p-8 text-slate-900 space-y-8">
-          <div>
-            <h1 className="font-['Press_Start_2P'] text-2xl">
-              {event.title}
-            </h1>
-            <p className="uppercase text-slate-500 text-sm mt-2">
-              {event.subtitle}
-            </p>
-          </div>
-
-          {/* META */}
-          <div className="grid sm:grid-cols-2 gap-4">
-            <Meta label="Participants" value={event.participants} />
-            <Meta label="Category" value={event.category} />
-            <Meta label="Date" value={event.date} />
-            <Meta label="Event Fee" value={event.eventFee} />
-          </div>
-
-          {/* DESCRIPTION */}
-          <div>
-            <h3 className="font-black uppercase text-xs mb-2">
-              Description
-            </h3>
-            <p className="text-sm">{event.description}</p>
-          </div>
-
-          {/* RULES */}
-          <div>
-            <h3 className="font-black uppercase text-xs mb-2">
-              Rules
-            </h3>
-            <ul className="space-y-1 text-sm">
-              {event.rules.map((r, i) => (
-                <li key={i}>• {r}</li>
-              ))}
-            </ul>
-          </div>
-
-          {/* CONTACTS */}
-          <div>
-            <h3 className="font-black uppercase text-xs mb-2">
-              Contacts
-            </h3>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {event.contacts.map((c, i) => (
-                <div
-                  key={i}
-                  className="border-2 border-black p-4 rounded-lg"
-                >
-                  <p className="font-black">{c.name}</p>
-                  <p className="text-sm">{c.phone}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <h1 className="font-['Press_Start_2P'] text-3xl leading-tight">
+            {event.title}
+          </h1>
+          <p className="uppercase text-slate-500 text-sm mt-3 tracking-widest">
+            {event.subtitle}
+          </p>
         </div>
+
+        {/* META GRID */}
+        <section className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          <Meta label="Participants" value={event.participants} />
+          <Meta label="Category" value={event.category} />
+          <Meta label="Date" value={event.date} />
+          <Meta label="Event Fee" value={event.eventFee} />
+        </section>
+
+        {/* DESCRIPTION */}
+        <section className="mb-10">
+          <h3 className="font-black uppercase text-xs mb-3 tracking-wider">
+            Description
+          </h3>
+          <p className="text-sm leading-relaxed max-w-3xl">
+            {event.description}
+          </p>
+        </section>
+
+        {/* RULES */}
+        <section className="mb-10">
+          <h3 className="font-black uppercase text-xs mb-3 tracking-wider">
+            Rules
+          </h3>
+          <ul className="space-y-2 text-sm max-w-3xl">
+            {event.rules.map((r, i) => (
+              <li key={i} className="flex gap-2">
+                <span>•</span>
+                <span>{r}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* CONTACTS */}
+        <section>
+          <h3 className="font-black uppercase text-xs mb-4 tracking-wider">
+            Contacts
+          </h3>
+
+          <div className="grid sm:grid-cols-2 gap-4 max-w-xl">
+            {event.contacts.map((c, i) => (
+              <div
+                key={i}
+                className="border-2 border-black p-5 rounded-xl bg-white shadow-[3px_3px_0_rgba(0,0,0,0.6)]"
+              >
+                <p className="font-black text-base">{c.name}</p>
+                <p className="text-sm mt-1">{c.phone}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
