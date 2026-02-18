@@ -79,7 +79,7 @@ function HacktonixSection() {
     <section ref={ref} className="flex flex-col lg:flex-row gap-12 items-stretch">
       <motion.div style={{ x: imageX }} className="lg:w-1/2">
         <div className="relative overflow-hidden border-4 border-lime-400 shadow-[6px_6px_0px_0px_#a3e635,0_0_25px_#a3e635]">
-          <Image src="/gallery/hacktonix/main.jpg" alt="" width={1000} height={1200} className="w-full h-full object-cover" />
+          <Image src="/gallery/okk.png" alt="" width={1000} height={1200} className="w-full h-full object-cover" />
         </div>
       </motion.div>
 
@@ -151,7 +151,7 @@ function TechEventsSection() {
         <div className="grid grid-cols-2 gap-6">
           <div className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399]">
             <Image
-              src="/gallery/tech/event1a.jpg"
+              src="/okk.png"
               alt="Event 1 pic"
               width={500}
               height={500}
@@ -161,7 +161,7 @@ function TechEventsSection() {
 
           <div className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399]">
             <Image
-              src="/gallery/tech/event1b.jpg"
+              src="/pho.jpg"
               alt="Event 1 pic"
               width={500}
               height={500}
@@ -180,7 +180,7 @@ function TechEventsSection() {
         <div className="grid grid-cols-2 gap-6">
           <div className="border-4 border-amber-400 overflow-hidden shadow-[4px_4px_0px_0px_#fbbf24,0_0_10px_#fbbf24]">
             <Image
-              src="/gallery/tech/event3a.jpg"
+              src="/pho.jpg"
               alt="Event 3 pic"
               width={500}
               height={500}
@@ -190,7 +190,7 @@ function TechEventsSection() {
 
           <div className="border-4 border-amber-400 overflow-hidden shadow-[4px_4px_0px_0px_#fbbf24,0_0_10px_#fbbf24]">
             <Image
-              src="/gallery/tech/event3b.jpg"
+              src="/pho.jpg"
               alt="Event 3 pic"
               width={500}
               height={500}
@@ -209,7 +209,7 @@ function TechEventsSection() {
         <div className="grid grid-cols-2 gap-6">
           <div className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399]">
             <Image
-              src="/gallery/tech/event2a.jpg"
+              src="/okk.png"
               alt="Event 2 pic"
               width={500}
               height={500}
@@ -219,7 +219,7 @@ function TechEventsSection() {
 
           <div className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399]">
             <Image
-              src="/gallery/tech/event2b.jpg"
+              src="/pho.jpg"
               alt="Event 2 pic"
               width={500}
               height={500}

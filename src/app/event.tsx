@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useMemo, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 // Assets & small utilities
 // - Keep local icons and tiny helpers here so the page component stays
@@ -247,61 +248,109 @@ const FilterBar = ({ categories, selectedCategory, setSelectedCategory, searchQu
   );
 };
 
-const EventCard = ({ event, onClick }) => {
+const EventCard = ({ event }) => {
+  const router = useRouter();
   const typeColor = getTypeColor(event.type);
   const isLive = event.status === 'live';
 
+  const goToEvent = () => {
+    router.push(`/events/${event.id}`);
+  };
+
   return (
-    <div onClick={onClick} className="cursor-pointer group relative w-full max-w-sm md:max-w-none mx-auto bg-white border-4 border-black rounded-2xl p-1 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] md:shadow-[8px_8px_0px_rgba(0,0,0,0.2)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] md:hover:shadow-[12px_12px_0px_rgba(0,0,0,1)] hover:-translate-y-1 md:hover:-translate-y-2 transition-all duration-200 flex flex-col">
+    <div
+      onClick={goToEvent}
+      className="cursor-pointer group relative w-full max-w-sm md:max-w-none mx-auto bg-white border-4 border-black rounded-2xl p-1 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] md:shadow-[8px_8px_0px_rgba(0,0,0,0.2)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] md:hover:shadow-[12px_12px_0px_rgba(0,0,0,1)] hover:-translate-y-1 md:hover:-translate-y-2 transition-all duration-200 flex flex-col"
+    >
       <div className="bg-slate-100 border-2 border-slate-200 rounded-xl overflow-hidden h-full flex flex-col relative z-10">
         <div className="relative h-40 bg-slate-800 overflow-hidden border-b-4 border-black group-hover:bg-slate-700 transition-colors">
           <div className="absolute top-2 right-2 z-20">
-              <span className={`inline-block px-2 py-1 text-[10px] font-bold text-white uppercase tracking-wider border border-white/50 rounded shadow-sm ${isLive ? 'bg-red-500 animate-pulse' : 'bg-blue-500'}`}>
-                {isLive ? '● Live' : 'Upcoming'}
-              </span>
+            <span
+              className={`inline-block px-2 py-1 text-[10px] font-bold text-white uppercase tracking-wider border border-white/50 rounded shadow-sm ${
+                isLive ? 'bg-red-500 animate-pulse' : 'bg-blue-500'
+              }`}
+            >
+              {isLive ? '● Live' : 'Upcoming'}
+            </span>
           </div>
-          <div className={`absolute inset-0 opacity-40 ${typeColor} mix-blend-overlay`}></div>
+
+          <div className={`absolute inset-0 opacity-40 ${typeColor} mix-blend-overlay`} />
+
           <div className="absolute inset-0 flex items-center justify-center">
-              <PokeballIcon className="w-20 h-20 text-white/20 group-hover:text-white/40 transition-all duration-300 group-hover:scale-110 rotate-12" />
+            <PokeballIcon className="w-20 h-20 text-white/20 group-hover:text-white/40 transition-all duration-300 group-hover:scale-110 rotate-12" />
           </div>
         </div>
+
         <div className="p-4 flex flex-col flex-grow bg-white">
           <div className="flex justify-between items-start mb-2">
             <div>
-              <h3 className="text-lg font-black leading-tight text-slate-900 line-clamp-2 uppercase">{event.title}</h3>
-              <p className="text-xs font-bold text-slate-500 mt-1 uppercase tracking-wide">{event.subtitle}</p>
+              <h3 className="text-lg font-black leading-tight text-slate-900 line-clamp-2 uppercase">
+                {event.title}
+              </h3>
+              <p className="text-xs font-bold text-slate-500 mt-1 uppercase tracking-wide">
+                {event.subtitle}
+              </p>
             </div>
-            <div className={`w-4 h-4 rounded-full border-2 border-black ${typeColor} shadow-sm`}></div>
+            <div className={`w-4 h-4 rounded-full border-2 border-black ${typeColor}`} />
           </div>
+
           <div className="mt-4 mb-2">
             <div className="flex justify-between text-[10px] font-bold uppercase mb-1">
               <span className="text-slate-800">Time:</span>
-              <span className={isLive ? 'text-red-600' : 'text-slate-600'}>{event.endsIn}</span>
+              <span className={isLive ? 'text-red-600' : 'text-slate-600'}>
+                {event.endsIn}
+              </span>
             </div>
-            <div className="w-full h-3 bg-slate-200 rounded-full border-2 border-slate-400 relative overflow-hidden">
-              <div className={`h-full ${event.progress > 80 ? 'bg-red-500' : event.progress > 50 ? 'bg-yellow-400' : 'bg-green-500'} border-r-2 border-white/50`} style={{ width: `${100 - event.progress}%` }}></div>
+
+            <div className="w-full h-3 bg-slate-200 rounded-full border-2 border-slate-400 overflow-hidden">
+              <div
+                className={`h-full ${
+                  event.progress > 80
+                    ? 'bg-red-500'
+                    : event.progress > 50
+                    ? 'bg-yellow-400'
+                    : 'bg-green-500'
+                }`}
+                style={{ width: `${100 - event.progress}%` }}
+              />
             </div>
           </div>
+
           <div className="grid grid-cols-2 gap-2 mt-auto pt-4 border-t-2 border-dashed border-slate-200">
             <div className="bg-slate-50 p-1.5 rounded border border-slate-200 text-center">
-              <span className="block text-[9px] text-slate-400 font-bold uppercase">Date</span>
-              <span className="block text-[10px] font-bold text-slate-800">{event.endDate.split(',')[0]}</span>
+              <span className="block text-[9px] text-slate-400 font-bold uppercase">
+                Date
+              </span>
+              <span className="block text-[10px] font-bold text-slate-800">
+                {event.endDate.split(',')[0]}
+              </span>
             </div>
+
             <div className="bg-slate-50 p-1.5 rounded border border-slate-200 text-center">
-              <span className="block text-[9px] text-slate-400 font-bold uppercase">Class</span>
-              <span className="block text-[10px] font-bold text-slate-800 truncate">{event.category.split(' ')[0]}</span>
+              <span className="block text-[9px] text-slate-400 font-bold uppercase">
+                Class
+              </span>
+              <span className="block text-[10px] font-bold text-slate-800 truncate">
+                {event.category.split(' ')[0]}
+              </span>
             </div>
           </div>
-          <button className="w-full mt-4 group/btn relative h-10 bg-yellow-400 border-2 border-black rounded-lg shadow-[2px_2px_0_rgba(0,0,0,1)] active:shadow-none active:translate-y-[2px] active:translate-x-[2px] transition-all flex items-center justify-center gap-2 overflow-hidden">
-            <span className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-200"></span>
-            <span className="relative z-10 font-black text-xs uppercase tracking-wider text-black font-['Press_Start_2P',sans-serif]">
+
+          {/* BUTTON */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              goToEvent();
+            }}
+            className="w-full mt-4 group/btn relative h-10 bg-yellow-400 border-2 border-black rounded-lg shadow-[2px_2px_0_rgba(0,0,0,1)] active:shadow-none active:translate-y-[2px] active:translate-x-[2px] transition-all flex items-center justify-center overflow-hidden"
+          >
+            <span className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-200" />
+            <span className="relative z-10 font-black text-xs uppercase tracking-wider font-['Press_Start_2P',sans-serif]">
               {isLive ? 'JOIN' : 'DETAILS'}
             </span>
           </button>
         </div>
       </div>
-      <div className="absolute top-1/2 -right-3 w-1 h-12 bg-gray-300 border border-gray-400 rounded-r-md"></div>
-      <div className="absolute -bottom-3 left-4 w-20 h-1 bg-gray-300 border border-gray-400 rounded-b-md"></div>
     </div>
   );
 };
@@ -314,7 +363,6 @@ const EventCard = ({ event, onClick }) => {
 export default function Events() {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [searchQuery, setSearchQuery] = useState('');
-  const [expandedEvent, setExpandedEvent] = useState(null);
 
   const categories = ['All Categories', 'Tech Events', 'Gaming Events', 'Sports Events', 'Cultural Events', 'Workshops', 'Competitions'];
   
@@ -419,11 +467,6 @@ export default function Events() {
 
   return (
     <section className="min-h-screen w-full flex flex-col items-center font-sans text-slate-900 relative overflow-x-hidden selection:bg-yellow-400 selection:text-black" id="events">
-
-      {/* Expanded Modal View */}
-      {expandedEvent && (
-        <EventModal event={expandedEvent} onClose={() => setExpandedEvent(null)} />
-      )}
 
       {/* Background */}
       <div className="absolute inset-0 z-0 opacity-[0.05]" 
