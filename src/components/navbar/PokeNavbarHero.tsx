@@ -36,10 +36,10 @@ const TimerSlot = ({ value, label }) => (
     <div className="flex flex-col items-center mx-2 sm:mx-3 group">
         
         {/* The Retro Blue Box (Gen 3 Menu Style) */}
-        <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-red-600 border-2 border-white rounded-lg flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] transition-transform hover:-translate-y-1">
+        <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gray-600 border-2 border-white rounded-lg flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] transition-transform hover:-translate-y-1">
             
             {/* Inner Dark Blue Shadow/Inset */}
-            <div className="absolute inset-1 border-2 border-red-800/30 rounded-md pointer-events-none" />
+            <div className="absolute inset-1 border-2 border-gray-800/30 rounded-md pointer-events-none" />
             
             {/* The Number */}
             <span className="font-mono text-3xl sm:text-4xl font-bold text-white drop-shadow-md z-10">
@@ -119,6 +119,15 @@ export default function PokeNavbarHero() {
 
     return (
         <div className="relative min-h-[220vh] text-white font-bold font-orbitron">
+            {/*
+            Decorative PokeBar (top bar)
+            <div className="w-full h-4 bg-red-600 border-b-4 border-black fixed top-0 z-50 flex items-center px-4 gap-2 shadow-lg">
+                <div className="w-12 h-2 bg-blue-400 rounded-full animate-pulse shadow-[0_0_10px_#60a5fa]"></div>
+                <div className="w-2 h-2 bg-red-800 rounded-full"></div>
+                <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            </div>
+            */}
             
             {/* ================= NAVBAR CONTAINER ================= */}
             {/* Z-50: Above Everything */}
