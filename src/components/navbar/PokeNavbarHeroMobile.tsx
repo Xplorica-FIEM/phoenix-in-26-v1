@@ -226,15 +226,6 @@ export default function PokeNavbarHeroMobile() {
                 </motion.div>
             </div>
 
-            {/* ================= ABOUT ================= */}
-            <div className="w-full px-4 pb-20">
-                <AboutPhoenix
-                    titleSize="text-2xl"
-                    textSize="text-sm"
-                    iconSize={20}
-                />
-            </div>
-
             {/* ================= DROPDOWN ================= */}
             <AnimatePresence>
                 {menuState === "open" && (
