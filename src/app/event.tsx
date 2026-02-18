@@ -100,7 +100,7 @@ export default function Events() {
       {/* --- EVENTS GRID --- */}
       <div className="w-full px-4 flex flex-col gap-12">
         {Object.entries(groupedEvents).map(([category, events]) => (
-          <div key={category} className={`w-full${category === 'Tech Events' ? ' flex flex-col items-center' : ''}`}> 
+          <div key={category} className={`w-full${category == 'Tech Events' ? ' flex flex-col items-center' : '' }`}> 
             
             {/* Category Heading */}
             <h2 className={`text-xl md:text-2xl font-bold text-yellow-500 uppercase font-['Press_Start_2P',sans-serif] mb-6 tracking-widest drop-shadow-[3px_3px_0_#1f2937]${category === 'Tech Events' ? ' text-center relative inline-block pb-0 after:hidden' : ' relative inline-block pb-3 after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[4px] after:bg-yellow-500 after:shadow-[2px_2px_0_#1f2937]'}`}> 
