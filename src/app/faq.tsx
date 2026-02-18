@@ -44,132 +44,80 @@ export default function FAQSection() {
   };
 
   return (
-    <>
-      <section
-        className="w-full flex flex-col items-center py-24 px-4"
-        id="faq"
-      >
-        <div className="max-w-5xl w-full flex flex-col items-center">
+    <section
+      className="w-full flex flex-col items-center py-24 px-4"
+      id="faq"
+    >
+      <div className="max-w-5xl w-full flex flex-col items-center">
 
-          {/* HEADING */}
-          <h1 className="faq-heading mb-14 text-center">
-            FAQs
-          </h1>
+        {/* HEADING – original font preserved */}
+        <h1
+          className="
+            mb-14 text-center
+            font-press-start
+            text-xl md:text-6xl
+            text-emerald-400
+            drop-shadow-[4px_4px_0px_#14532d]
+            tracking-wider
+          "
+        >
+          FAQs
+        </h1>
 
-          {/* FAQ LIST */}
-          <div className="faq-container">
-            {faqs.map((faq, index) => (
+        {/* FAQ LIST */}
+        <div className="w-full flex flex-col gap-6">
+          {faqs.map((faq, index) => {
+            const isActive = activeIndex === index;
+
+            return (
               <div
                 key={index}
-                className="faq-item"
                 onClick={() => toggleFAQ(index)}
+                className="
+                  cursor-pointer
+                  bg-emerald-900/90
+                  border-4 border-emerald-400
+                  shadow-[6px_6px_0px_#14532d]
+                  hover:shadow-[9px_9px_0px_#14532d]
+                  hover:-translate-x-[3px] hover:-translate-y-[3px]
+                  transition-all duration-200
+                  rounded-xl
+                  p-6
+                "
               >
-                <div className="faq-question">
+                {/* QUESTION */}
+                <div className="flex justify-between items-center text-sm md:text-base font-bold text-emerald-200 tracking-wide">
 
-                  {/* LEFT SIDE (ICON + QUESTION) */}
-                  <div className="question-left">
+                  <div className="flex items-center gap-3">
                     <Image
                       src="/pball.png"
                       alt="pokeball bullet"
                       width={22}
                       height={22}
-                      className={`faq-icon ${
-                        activeIndex === index ? "rotate" : ""
+                      className={`transition-transform duration-300 ${
+                        isActive ? "rotate-180" : ""
                       }`}
                     />
                     <span>{faq.question}</span>
                   </div>
 
-                  {/* TOGGLE SYMBOL */}
-                  <span className="toggle-symbol">
-                    {activeIndex === index ? "−" : "+"}
+                  <span className="text-xl text-emerald-400 drop-shadow-[2px_2px_0px_#14532d]">
+                    {isActive ? "−" : "+"}
                   </span>
-
                 </div>
 
-                {activeIndex === index && (
-                  <div className="faq-answer">
+                {/* ANSWER */}
+                {isActive && (
+                  <div className="mt-4 pt-4 border-t-2 border-emerald-700 text-emerald-100 text-sm md:text-base leading-relaxed">
                     {faq.answer}
                   </div>
                 )}
               </div>
-            ))}
-          </div>
-
+            );
+          })}
         </div>
-      </section>
 
-      <style jsx>{`
-
-        .faq-heading {
-          font-family: var(--font-press-start);
-          font-size: 18px;
-          color: #ef4444;
-          text-shadow: 4px 4px 0px rgba(239, 68, 68, 0.5);
-        }
-
-        @media (min-width: 768px) {
-          .faq-heading {
-            font-size: 58px;
-          }
-        }
-
-        .faq-container {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-
-        .faq-item {
-          background: rgba(17, 24, 39, 0.95);
-          border: 3px solid #ef4444;
-          box-shadow: 6px 6px 0px #ef4444;
-          border-radius: 12px;
-          padding: 18px;
-          cursor: pointer;
-          transition: 0.3s ease;
-        }
-
-        .faq-item:hover {
-          transform: translate(-2px, -2px);
-          box-shadow: 8px 8px 0px #ef4444;
-        }
-
-        .faq-question {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-weight: bold;
-          font-size: 14px;
-        }
-
-        .question-left {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .faq-icon {
-          transition: transform 0.4s ease;
-        }
-
-        .rotate {
-          transform: rotate(180deg);
-        }
-
-        .toggle-symbol {
-          font-size: 20px;
-        }
-
-        .faq-answer {
-          margin-top: 12px;
-          font-size: 14px;
-          opacity: 0.8;
-          line-height: 1.6;
-        }
-
-      `}</style>
-    </>
+      </div>
+    </section>
   );
 }

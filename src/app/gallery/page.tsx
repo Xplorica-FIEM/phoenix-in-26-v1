@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function GalleryPage() {
   return (
-    <div className="relative bg-[#0a0a0f] text-white overflow-hidden">
+    <div className="relative text-white overflow-hidden">
 
       {/* CRT Scanlines */}
       <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(to_bottom,rgba(255,255,255,0.03)_0px,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_3px)] z-10" />
