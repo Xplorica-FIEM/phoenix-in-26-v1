@@ -46,7 +46,7 @@ export default function ContactUs() {
 
   return (
     <section
-      className="min-h-screen w-full flex flex-col items-center p-4 pt-[140px] md:pt-[150px]"
+      className="min-h-screen w-full flex flex-col items-center p-4 pt-[140px] md:pt-[150px] pb-24"
       id="contact"
     >
       <main className="flex flex-col items-center max-w-7xl w-full">
@@ -72,7 +72,7 @@ export default function ContactUs() {
               <form
                 onSubmit={handleSubmit}
                 className="
-                  h-full w-full p-6 rounded-xl
+                  w-full p-6 rounded-xl
                   bg-black/70
                   border-[3px] border-emerald-500
                   shadow-[6px_6px_0px_#10b981]
@@ -132,7 +132,7 @@ export default function ContactUs() {
               </form>
             ) : (
               <div className="
-                h-full w-full p-8 rounded-xl
+                w-full p-8 rounded-xl
                 bg-black/70
                 border-[3px] border-emerald-400
                 shadow-[6px_6px_0px_#34d399]
@@ -144,6 +144,19 @@ export default function ContactUs() {
                 </p>
               </div>
             )}
+
+            {/* MAP SECTION - Below Form */}
+            <div className="w-full mt-8 h-[300px] rounded-xl overflow-hidden border-[3px] border-emerald-400 shadow-[6px_6px_0px_#34d399]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3687.6193195499513!2d88.4128535750737!3d22.443349679584006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0272166e4cb263%3A0x27f12170efd9ddee!2sFuture%20Institute%20of%20Engineering%20and%20Management!5e0!3m2!1sen!2sin!4v1771358198444!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen
+                title="Event Location"
+              ></iframe>
+            </div>
           </div>
 
           {/* RIGHT — INFO */}
@@ -152,7 +165,7 @@ export default function ContactUs() {
               bg-gradient-to-bl from-emerald-500/20 to-emerald-800/10 blur-lg" />
 
             <div className="
-              h-full w-full p-6 rounded-xl
+              w-full p-6 rounded-xl
               bg-black/70
               border-[3px] border-emerald-400
               shadow-[6px_6px_0px_#34d399]
@@ -194,19 +207,6 @@ export default function ContactUs() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* MAP SECTION */}
-        <div className="w-full mt-16 h-[300px] rounded-xl overflow-hidden border-[3px] border-emerald-400 shadow-[6px_6px_0px_#34d399]">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3687.6193195499513!2d88.4128535750737!3d22.443349679584006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0272166e4cb263%3A0x27f12170efd9ddee!2sFuture%20Institute%20of%20Engineering%20and%20Management!5e0!3m2!1sen!2sin!4v1771358198444!5m2!1sen!2sin"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            loading="lazy"
-            allowFullScreen
-            title="Event Location"
-          ></iframe>
         </div>
 
       </main>
