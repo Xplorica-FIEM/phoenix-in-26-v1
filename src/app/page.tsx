@@ -12,7 +12,6 @@ export default function Home() {
         <main className="relative text-white">
             <AboutPhoenix />
             <Events />
-            <Trainers />
             <Sponsors />
             <ContactUs />
             <FAQs />

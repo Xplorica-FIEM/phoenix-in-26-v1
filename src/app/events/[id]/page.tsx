@@ -55,7 +55,7 @@ export default function EventPage() {
         {/* HEADER */}
         <div className="mb-10">
           <button
-            onClick={() => router.push('/events')}
+            onClick={() => router.push('/#events')}
             className="mb-6 inline-flex items-center gap-2 text-sm font-bold border-2 border-black px-4 py-2 rounded-lg bg-white shadow-[2px_2px_0_rgba(0,0,0,1)] hover:-translate-y-0.5 transition"
           >
             ← Back to Events
