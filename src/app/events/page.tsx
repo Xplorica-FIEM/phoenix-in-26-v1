@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { RollerCoaster } from 'lucide-react';
 
 /* ---------------- ICON ---------------- */
 
@@ -30,6 +31,7 @@ const EVENTS = [
     id: 1,
     title: 'Hackathon X',
     subtitle: 'Full Stack Battle',
+    type: ['Grass', 'Steel'], // 👈 ADD THIS
     description: 'The ultimate 48-hour coding marathon.',
     participants: '2–4 per team',
     rules: [
@@ -40,11 +42,9 @@ const EVENTS = [
     date: '17 Feb 2026',
     eventFee: '₹200 / team',
     category: 'Tech Events',
-    type: 'electric',
-    status: 'live',
     contacts: [
-      { name: 'Aritra', phone: '9876543210' },
-      { name: 'Sneha', phone: '9123456780' },
+      { name: 'Aritra', phone: '9876543210', role: 'Mentor' },
+      { name: 'Sneha', phone: '9123456780', role: 'CC' },
     ],
   },
 ];
