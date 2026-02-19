@@ -271,7 +271,7 @@ function NonTechEventsSection({ onImageClick }: { onImageClick: (src: string) =>
   const leftX = useTransform(scrollYProgress, [0, 0.3], [-150, 0]);
   const rightX = useTransform(scrollYProgress, [0.2, 0.5], [150, 0]);
 
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   return (
     <section ref={ref} className="flex flex-col gap-16">
@@ -313,37 +313,28 @@ Non-Tech Events celebrated creativity and fun! Highlights included Penchanted, Q
         </motion.div>
       </div>
 
-      {/* Play/Pause Buttons */}
+      {/* Pause/Resume Button */}
       <div className="flex justify-center gap-4 pt-8">
-        {!isPlaying ? (
-          <button
-            onClick={() => setIsPlaying(true)}
-            className="border-4 border-cyan-400 px-5 py-2 bg-[#111117] shadow-[4px_4px_0px_0px_#22d3ee,0_0_12px_#22d3ee] hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_#22d3ee,0_0_15px_#22d3ee] transition-all duration-150 active:translate-x-1 active:translate-y-1"
-          >
-            <span className="flex items-center gap-2 text-cyan-300 font-bold">
-              <span className="text-lg">▶</span>
-              <span style={{ fontFamily: "'Press Start 2P', cursive", fontSize: "10px" }}>PLAY NOW</span>
+        <button
+          onClick={() => setIsPlaying((prev) => !prev)}
+          className={`border-4 px-5 py-2 bg-[#111117] shadow-[4px_4px_0px_0px_#e879f9,0_0_12px_#e879f9] hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_#e879f9,0_0_15px_#e879f9] transition-all duration-150 active:translate-x-1 active:translate-y-1 ${
+            isPlaying ? "border-fuchsia-400" : "border-cyan-400"
+          }`}
+        >
+          <span className={`flex items-center gap-2 font-bold ${isPlaying ? "text-fuchsia-300" : "text-cyan-300"}`}>
+            <span className="text-lg">{isPlaying ? "⏸" : "▶"}</span>
+            <span style={{ fontFamily: "'Press Start 2P', cursive", fontSize: "10px" }}>
+              {isPlaying ? "PAUSE" : "RESUME"}
             </span>
-          </button>
-        ) : (
-          <button
-            onClick={() => setIsPlaying(false)}
-            className="border-4 border-fuchsia-400 px-5 py-2 bg-[#111117] shadow-[4px_4px_0px_0px_#e879f9,0_0_12px_#e879f9] hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_#e879f9,0_0_15px_#e879f9] transition-all duration-150 active:translate-x-1 active:translate-y-1"
-          >
-            <span className="flex items-center gap-2 text-fuchsia-300 font-bold">
-              <span className="text-lg">⏸</span>
-              <span style={{ fontFamily: "'Press Start 2P', cursive", fontSize: "10px" }}>PAUSE</span>
-            </span>
-          </button>
-        )}
+          </span>
+        </button>
       </div>
 
       {/* Marquee */}
       <div className="overflow-hidden border-4 border-cyan-400 shadow-[4px_4px_0px_0px_#22d3ee,0_0_10px_#22d3ee] p-6 bg-[#111117] pt-10">
-        <motion.div
-          animate={isPlaying ? { x: ["0%", "-50%"] } : {}}
-          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-          className="flex gap-8 w-max"
+        <div
+          className="flex gap-8 w-max marquee-track"
+          style={{ animationPlayState: isPlaying ? "running" : "paused" }}
         >
           {[...Array(2)].map((_, idx) => (
             [1,2,3,4,5,6].map((i) => (
@@ -356,8 +347,24 @@ Non-Tech Events celebrated creativity and fun! Highlights included Penchanted, Q
               </div>
             ))
           ))}
-        </motion.div>
+        </div>
       </div>
+
+      <style jsx>{`
+        @keyframes marquee-scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .marquee-track {
+          animation: marquee-scroll 20s linear infinite;
+          will-change: transform;
+        }
+      `}</style>
 
     </section>
   );
