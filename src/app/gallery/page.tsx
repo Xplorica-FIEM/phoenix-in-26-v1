@@ -5,6 +5,8 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function GalleryPage() {
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
+
   return (
     <div className="relative text-white overflow-hidden">
 
@@ -34,22 +36,27 @@ export default function GalleryPage() {
 
       {/* Hacktonix */}
       <div className="relative z-20 px-6 pb-12 max-w-7xl mx-auto">
-        <HacktonixSection />
+        <HacktonixSection onImageClick={setExpandedImage} />
       </div>
 
       <Divider color="#fbbf24" shadow="#fbbf24" />
 
       {/* Tech Events */}
       <div className="relative z-20 px-6 pt-24 pb-12 max-w-7xl mx-auto">
-        <TechEventsSection />
+        <TechEventsSection onImageClick={setExpandedImage} />
       </div>
 
       <Divider color="#34d399" shadow="#34d399" />
 
       {/* Non Tech Events */}
       <div className="relative z-20 px-6 pt-24 pb-32 max-w-7xl mx-auto">
-        <NonTechEventsSection />
+        <NonTechEventsSection onImageClick={setExpandedImage} />
       </div>
+
+      {/* Expanded Image Modal */}
+      {expandedImage && (
+        <ImageModal src={expandedImage} onClose={() => setExpandedImage(null)} />
+      )}
 
     </div>
   );
@@ -68,7 +75,7 @@ function Divider({ color, shadow }: { color: string; shadow: string }) {
 
 /* ---------------- Hacktonix ---------------- */
 
-function HacktonixSection() {
+function HacktonixSection({ onImageClick }: { onImageClick: (src: string) => void }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.9", "center 0.6"] });
 
@@ -78,14 +85,18 @@ function HacktonixSection() {
   return (
     <section ref={ref} className="flex flex-col lg:flex-row gap-12 items-stretch">
       <motion.div style={{ x: imageX }} className="lg:w-1/2">
-        <div className="relative overflow-hidden border-4 border-lime-400 shadow-[6px_6px_0px_0px_#a3e635,0_0_25px_#a3e635]">
-          <Image src="/gallery/hacktonix/main.jpg" alt="" width={1000} height={1200} className="w-full h-full object-cover" />
+        <div 
+          className="relative overflow-hidden border-4 border-lime-400 shadow-[6px_6px_0px_0px_#a3e635,0_0_25px_#a3e635] cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={() => onImageClick("/pho.jpg")}
+        >
+          <Image src="/pho.jpg" alt="" width={1000} height={1200} className="w-full h-full object-cover" />
         </div>
       </motion.div>
 
       <motion.div style={{ x: contentX }} className="lg:w-1/2 flex flex-col gap-8">
         <div className="border-4 border-sky-400 p-6 bg-[#111117] shadow-[4px_4px_0px_0px_#38bdf8,0_0_20px_#38bdf8]">
-          <h2 className="text-xl md:text-2xl text-sky-300" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+          <h2 className="text-xl md:text-2xl text-sky-300 flex items-center gap-2" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+            <Image src="/pball.png" alt="" width={30} height={30} />
             HACKTONIX 2025
           </h2>
         </div>
@@ -97,8 +108,8 @@ function HacktonixSection() {
         </div>
 
         <div className="grid grid-cols-2 gap-6">
-          <SmallCard src="/gallery/hacktonix/extra1.jpg" border="lime-400" shadow="#a3e635" />
-          <SmallCard src="/gallery/hacktonix/extra2.jpg" border="sky-400" shadow="#38bdf8" />
+          <SmallCard src="/pho.jpg" border="lime-400" shadow="#a3e635" onImageClick={onImageClick} />
+          <SmallCard src="/pho.jpg" border="sky-400" shadow="#38bdf8" onImageClick={onImageClick} />
         </div>
       </motion.div>
     </section>
@@ -107,7 +118,7 @@ function HacktonixSection() {
 
 /* ---------------- Tech Events ---------------- */
 
-function TechEventsSection() {
+function TechEventsSection({ onImageClick }: { onImageClick: (src: string) => void }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.2"] });
 
@@ -126,9 +137,10 @@ function TechEventsSection() {
       <motion.div style={{ x: leftX1 }} className="flex flex-col gap-8">
         <div className="border-4 border-emerald-400 px-6 py-5 bg-[#111117] shadow-[4px_4px_0px_0px_#34d399,0_0_12px_#34d399]">
           <h2
-            className="text-xl md:text-2xl text-emerald-300"
+            className="text-xl md:text-2xl text-emerald-300 flex items-center gap-2"
             style={{ fontFamily: "'Press Start 2P', cursive" }}
           >
+            <Image src="/pball.png" alt="" width={30} height={30} />
             TECH EVENTS
           </h2>
         </div>
@@ -149,9 +161,12 @@ function TechEventsSection() {
         </div>
 
         <div className="grid grid-cols-2 gap-6">
-          <div className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399]">
+          <div 
+            className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399] cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => onImageClick("/pho.jpg")}
+          >
             <Image
-              src="/gallery/tech/event1a.jpg"
+              src="/pho.jpg"
               alt="Event 1 pic"
               width={500}
               height={500}
@@ -159,9 +174,12 @@ function TechEventsSection() {
             />
           </div>
 
-          <div className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399]">
+          <div 
+            className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399] cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => onImageClick("/pho.jpg")}
+          >
             <Image
-              src="/gallery/tech/event1b.jpg"
+              src="/pho.jpg"
               alt="Event 1 pic"
               width={500}
               height={500}
@@ -178,9 +196,12 @@ function TechEventsSection() {
         </div>
 
         <div className="grid grid-cols-2 gap-6">
-          <div className="border-4 border-amber-400 overflow-hidden shadow-[4px_4px_0px_0px_#fbbf24,0_0_10px_#fbbf24]">
+          <div 
+            className="border-4 border-amber-400 overflow-hidden shadow-[4px_4px_0px_0px_#fbbf24,0_0_10px_#fbbf24] cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => onImageClick("/pho.jpg")}
+          >
             <Image
-              src="/gallery/tech/event3a.jpg"
+              src="/pho.jpg"
               alt="Event 3 pic"
               width={500}
               height={500}
@@ -188,9 +209,12 @@ function TechEventsSection() {
             />
           </div>
 
-          <div className="border-4 border-amber-400 overflow-hidden shadow-[4px_4px_0px_0px_#fbbf24,0_0_10px_#fbbf24]">
+          <div 
+            className="border-4 border-amber-400 overflow-hidden shadow-[4px_4px_0px_0px_#fbbf24,0_0_10px_#fbbf24] cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => onImageClick("/pho.jpg")}
+          >
             <Image
-              src="/gallery/tech/event3b.jpg"
+              src="/pho.jpg"
               alt="Event 3 pic"
               width={500}
               height={500}
@@ -207,9 +231,12 @@ function TechEventsSection() {
         </div>
 
         <div className="grid grid-cols-2 gap-6">
-          <div className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399]">
+          <div 
+            className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399] cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => onImageClick("/pho.jpg")}
+          >
             <Image
-              src="/gallery/tech/event2a.jpg"
+              src="/pho.jpg"
               alt="Event 2 pic"
               width={500}
               height={500}
@@ -217,9 +244,12 @@ function TechEventsSection() {
             />
           </div>
 
-          <div className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399]">
+          <div 
+            className="border-4 border-emerald-400 overflow-hidden shadow-[4px_4px_0px_0px_#34d399,0_0_10px_#34d399] cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => onImageClick("/pho.jpg")}
+          >
             <Image
-              src="/gallery/tech/event2b.jpg"
+              src="/pho.jpg"
               alt="Event 2 pic"
               width={500}
               height={500}
@@ -234,7 +264,7 @@ function TechEventsSection() {
 
 /* ---------------- Non Tech Events ---------------- */
 
-function NonTechEventsSection() {
+function NonTechEventsSection({ onImageClick }: { onImageClick: (src: string) => void }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.2"] });
 
@@ -250,7 +280,8 @@ function NonTechEventsSection() {
       <div className="grid lg:grid-cols-2 gap-16">
         <motion.div style={{ x: leftX }}>
           <div className="border-4 border-fuchsia-400 px-6 py-5 bg-[#111117] shadow-[4px_4px_0px_0px_#e879f9,0_0_10px_#e879f9]">
-            <h2 className="text-xl text-fuchsia-300" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+            <h2 className="text-xl text-fuchsia-300 flex items-center gap-2" style={{ fontFamily: "'Press Start 2P', cursive" }}>
+              <Image src="/pball.png" alt="" width={30} height={30} />
               NON TECH EVENTS
             </h2>
           </div>
@@ -275,10 +306,10 @@ Non-Tech Events celebrated creativity and fun! Highlights included Penchanted, Q
         </motion.div>
 
         <motion.div style={{ x: rightX }} className="grid grid-cols-2 gap-8">
-          <SmallCard src="/gallery/nontech/1.jpg" border="cyan-400" shadow="#22d3ee" />
-          <SmallCard src="/gallery/nontech/2.jpg" border="fuchsia-400" shadow="#e879f9" />
-          <SmallCard src="/gallery/nontech/3.jpg" border="fuchsia-400" shadow="#e879f9" />
-          <SmallCard src="/gallery/nontech/4.jpg" border="cyan-400" shadow="#22d3ee" />
+          <SmallCard src="/pho.jpg" border="cyan-400" shadow="#22d3ee" onImageClick={onImageClick} />
+          <SmallCard src="/pho.jpg" border="fuchsia-400" shadow="#e879f9" onImageClick={onImageClick} />
+          <SmallCard src="/pho.jpg" border="fuchsia-400" shadow="#e879f9" onImageClick={onImageClick} />
+          <SmallCard src="/pho.jpg" border="cyan-400" shadow="#22d3ee" onImageClick={onImageClick} />
         </motion.div>
       </div>
 
@@ -316,8 +347,12 @@ Non-Tech Events celebrated creativity and fun! Highlights included Penchanted, Q
         >
           {[...Array(2)].map((_, idx) => (
             [1,2,3,4,5,6].map((i) => (
-              <div key={`${idx}-${i}`} className="w-40 h-40 border-4 border-fuchsia-400 shadow-[4px_4px_0px_0px_#e879f9,0_0_10px_#e879f9] overflow-hidden">
-                <Image src={`/gallery/nontech/${i}.jpg`} alt="" width={300} height={300} className="w-full h-full object-cover" />
+              <div 
+                key={`${idx}-${i}`} 
+                className="w-40 h-40 border-4 border-fuchsia-400 shadow-[4px_4px_0px_0px_#e879f9,0_0_10px_#e879f9] overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => onImageClick("/pho.jpg")}
+              >
+                <Image src="/pho.jpg" alt="" width={300} height={300} className="w-full h-full object-cover" />
               </div>
             ))
           ))}
@@ -330,13 +365,54 @@ Non-Tech Events celebrated creativity and fun! Highlights included Penchanted, Q
 
 /* ---------------- Reusable Small Card ---------------- */
 
-function SmallCard({ src, border, shadow }: { src: string; border: string; shadow: string }) {
+function SmallCard({ src, border, shadow, onImageClick }: { src: string; border: string; shadow: string; onImageClick: (src: string) => void }) {
   return (
     <div
-      className={`border-4 border-${border} overflow-hidden`}
+      className={`border-4 border-${border} overflow-hidden cursor-pointer hover:opacity-80 transition-opacity`}
       style={{ boxShadow: `4px 4px 0 0 ${shadow}, 0 0 8px ${shadow}` }}
+      onClick={() => onImageClick(src)}
     >
       <Image src={src} alt="" width={500} height={500} className="w-full h-full object-cover" />
     </div>
+  );
+}
+
+/* ---------------- Image Modal Component ---------------- */
+
+function ImageModal({ src, onClose }: { src: string; onClose: () => void }) {
+  return (
+    <motion.div
+      className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center cursor-pointer"
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      <motion.div
+        className="relative w-[80vw] h-[80vh] border-4 border-amber-400 shadow-[0_0_40px_#fbbf24]"
+        onClick={(e) => e.stopPropagation()}
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0.8 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Image
+          src={src}
+          alt="Expanded view"
+          width={1200}
+          height={800}
+          className="w-full h-full object-cover"
+        />
+        
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 bg-amber-400 text-black font-bold px-4 py-2 border-2 cursor-pointer hover:scale-110 transition-transform"
+          style={{ fontFamily: "'Press Start 2P', cursive" }}
+        >
+          X
+        </button>
+      </motion.div>
+    </motion.div>
   );
 }

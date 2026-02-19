@@ -23,7 +23,7 @@ export default function TrainerComparison() {
     signatureMoveDescription: 'Identifies and fixes critical bugs with precision.',
     hiddenAbility: 'Code Optimization',
     hiddenAbilityDescription: 'Turns messy code into elegant solutions instantly.',
-    socialHandles: ['GitHub', 'LinkedIn', 'Twitter'],
+    socialHandles: ['GitHub'],
   };
 
   const miniTrainers = [
@@ -46,7 +46,7 @@ export default function TrainerComparison() {
       signatureMoveDescription: 'Builds robust APIs that never go down.',
       hiddenAbility: 'Database Mastery',
       hiddenAbilityDescription: 'Optimizes queries to lightning speed.',
-      socialHandles: ['GitHub', 'Stack Overflow'],
+      socialHandles: ['GitHub'],
     },
     {
       name: 'RANIT SEN',
@@ -67,7 +67,7 @@ export default function TrainerComparison() {
       signatureMoveDescription: 'Creates designs that convert users.',
       hiddenAbility: 'User Empathy',
       hiddenAbilityDescription: 'Understands user needs intuitively.',
-      socialHandles: ['Dribbble', 'Behance'],
+      socialHandles: ['GitHub'],
     },
     {
       name: 'Rima Roy',
@@ -88,7 +88,7 @@ export default function TrainerComparison() {
       signatureMoveDescription: 'Seamlessly connects frontend and backend.',
       hiddenAbility: 'Problem Solving',
       hiddenAbilityDescription: 'Finds the optimal solution every time.',
-      socialHandles: ['GitHub', 'Dev.to'],
+      socialHandles: ['GitHub'],
     },
     {
       name: 'priya das',
@@ -109,7 +109,7 @@ export default function TrainerComparison() {
       signatureMoveDescription: 'Transforms ideas into stunning reality.',
       hiddenAbility: 'Design Intuition',
       hiddenAbilityDescription: 'Sets trends that others follow.',
-      socialHandles: ['Portfolio', 'Instagram'],
+      socialHandles: ['GitHub'],
     },
   ];
 
@@ -145,9 +145,9 @@ export default function TrainerComparison() {
 
         {/* Mini Cards Grid */}
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full auto-rows-fr">
             {miniTrainers.map((trainer, index) => (
-              <div key={index} className="flex justify-center">
+              <div key={index} className="flex justify-center h-full">
                 <TrainerCard
                   name={trainer.name}
                   role={trainer.role}

@@ -6,7 +6,7 @@ import {
   orbitron,
   pressStart2P,
 } from "@/components/fonts"
-import AppShell from "@/components/Loader"
+import AppShell from "@/components/AppShell"
 
 export const metadata: Metadata = {
   title: "Agun Pakhi",

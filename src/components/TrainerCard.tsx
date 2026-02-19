@@ -216,7 +216,7 @@ export const TrainerCard: React.FC<TrainerCardProps> = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-sm mx-auto group"
+      className="relative w-full max-w-sm mx-auto group h-full"
     >
       {/* Outer glow effect based on rarity */}
       <div
@@ -230,7 +230,7 @@ export const TrainerCard: React.FC<TrainerCardProps> = ({
       {/* Main card container */}
       <div
         ref={innerCardRef}
-        className="relative w-full overflow-hidden rounded-xl"
+        className="relative w-full h-full overflow-hidden rounded-xl"
       >
         <div
           className={`bg-gradient-to-br ${config.bg} backdrop-blur-xl border ${config.border} shadow-2xl transition-all duration-300`}
@@ -265,7 +265,7 @@ export const TrainerCard: React.FC<TrainerCardProps> = ({
           </div>
 
           {/* CONTENT */}
-          <div className="relative z-10 p-5">
+          <div className="relative z-10 p-5 text-left">
             
             {/* Top Section */}
             <div className="flex items-center justify-between mb-3">
@@ -332,23 +332,35 @@ export const TrainerCard: React.FC<TrainerCardProps> = ({
                 </div>
               </div>
               
-              {email && (
-                <div className="mt-2 ml-2">
-                  <label className="text-xs font-mono uppercase tracking-wider text-pink-400 font-bold">[ Email ]</label>
-                  <p className="text-xs font-semibold text-blue-100 mt-1">{email}</p>
+              {email ? (
+                <div className="mt-2 grid grid-cols-2 gap-2 items-start">
+                  <div>
+                    <label className="text-xs font-mono uppercase tracking-wider text-pink-400 font-bold block">[ Email ]</label>
+                    <p className="text-xs font-semibold text-blue-100 mt-1">{email}</p>
+                  </div>
+                  <div className="text-right">
+                    <label className="text-xs font-mono uppercase tracking-wider text-pink-400 font-bold block mb-1">[ Socials ]</label>
+                    <div className="flex flex-wrap gap-1 items-start justify-end">
+                      {socialHandles.map((handle, index) => (
+                        <span key={index} className="px-2 py-0.5 rounded-full bg-cyan-900/30 border border-cyan-400/30 text-[10px] text-cyan-300">
+                          {handle}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="mt-1 w-full text-right">
+                  <label className="text-xs font-mono uppercase tracking-wider text-pink-400 font-bold block mb-1">[ Socials ]</label>
+                  <div className="flex flex-wrap gap-1 items-start justify-end">
+                    {socialHandles.map((handle, index) => (
+                      <span key={index} className="px-2 py-0.5 rounded-full bg-cyan-900/30 border border-cyan-400/30 text-[10px] text-cyan-300">
+                        {handle}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
-              
-              <div className="mt-2 ml-2">
-                <label className="text-xs font-mono uppercase tracking-wider text-pink-400 font-bold block mb-1">[ Socials ]</label>
-                <div className="flex flex-wrap gap-1">
-                  {socialHandles.map((handle, index) => (
-                    <span key={index} className="px-2 py-0.5 rounded-full bg-cyan-900/30 border border-cyan-400/30 text-[10px] text-cyan-300">
-                      {handle}
-                    </span>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </div>
