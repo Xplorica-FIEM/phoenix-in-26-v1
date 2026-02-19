@@ -2,7 +2,7 @@ import ContactUs from "./contact";
 import Events from "./event";
 import Sponsors from "./sponsors";
 import FAQs from "./faq";
-import Trainers from "./trainers";
+import Trainers from "./trainers/page";
 import AboutPhoenix from "./about";
 
 
