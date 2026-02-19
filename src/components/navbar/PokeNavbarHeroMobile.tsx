@@ -184,25 +184,25 @@ export default function PokeNavbarHeroMobile() {
             <div className="h-24 w-full" />
 
             {/* ================= HERO ================= */}
-            <div className="sticky top-20 h-screen w-full flex flex-col items-center justify-center">
+            <div className="sticky top-20 h-screen w-full flex flex-col items-center justify-center px-4">
 
                 <motion.div
                     style={{ y: logoY, scale: logoScale }}
-                    className="origin-top mb-6"
+                    className="origin-top mb-20 w-full max-w-[280px]"
                 >
                     <Image
                         src="/logo-text.png"
                         alt="Phoenix 2026"
                         width={260}
                         height={120}
-                        className="object-contain drop-shadow-xl"
+                        className="object-contain drop-shadow-xl w-full h-auto"
                         priority
                     />
                 </motion.div>
 
                 <motion.div
                     style={{ opacity: timerOpacity, y: timerY }}
-                    className="w-[90%] max-w-sm"
+                    className="w-full max-w-sm mt-8 px-4"
                 >
                     <div className="bg-blue-600 border-2 border-white rounded-lg p-1 shadow-[4px_4px_0px_rgba(0,0,0,0.5)]">
                         <div className="bg-blue-500 border-2 border-blue-800 rounded p-4 flex flex-col items-center">

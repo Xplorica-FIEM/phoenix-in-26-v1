@@ -164,16 +164,16 @@ export default function PokeNavbarHero() {
                 {/* 🔥 LOGO (ALWAYS FIXED, NEVER SWITCHES) */}
                 <motion.div
                     style={{ y: logoY, scale: logoScale }}
-                    className="fixed top-48 left-1/2 -translate-x-1/2 origin-top z-[60] pointer-events-auto"
+                    className="fixed top-48 left-1/2 -translate-x-1/2 origin-top z-[60] pointer-events-auto w-full max-w-[450px] px-4"
                 >
-                    <Link href="/">
+                    <Link href="/" className="block">
                         <Image
                             src="/logo-text.png"
                             alt="Phoenix 2026"
                             width={450}
                             height={215}
                             priority
-                            className="object-contain"
+                            className="object-contain w-full h-auto"
                         />
                     </Link>
                 </motion.div>
@@ -182,7 +182,7 @@ export default function PokeNavbarHero() {
                 <Container className="flex flex-col items-center justify-center h-full">
                     <motion.div
                         style={{ y: countdownY, opacity: countdownOpacity }}
-                        className="mt-40"
+                        className="mt-80"
                     >
                         {!hasStarted && (
                             <div className="flex flex-wrap justify-center items-center gap-4">
