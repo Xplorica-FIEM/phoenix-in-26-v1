@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Phoenix '26 - XplOriCa 
+
+Phoenix '26 is the annual tech festival of XplOriCa, the official tech club of FIEM. This website showcases the various events, trainers, and competitions happening during the fest.
 
 ## Getting Started
 
@@ -15,6 +17,8 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+<!-- build trigger: static export update -->
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
