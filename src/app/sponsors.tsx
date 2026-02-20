@@ -13,12 +13,16 @@ const currentSponsors = [
 ];
 
 const pastSponsors = [
-    { name: "Sponsor 1" },
-    { name: "Sponsor 2" },
-    { name: "Sponsor 3" },
-    { name: "Sponsor 4" },
-    { name: "Sponsor 5" },
-    { name: "Sponsor 6" },
+    { name: "Tea", logo: "/pev-sponsors/Tea.jpeg" },
+    { name: "Time", logo: "/pev-sponsors/Time.jpeg" },
+    { name: "Apptech", logo: "/pev-sponsors/apptech.png" },
+    { name: "Edugraph", logo: "/pev-sponsors/edugraph.jpg" },
+    { name: "Finlatics", logo: "/pev-sponsors/finlatics.png" },
+    { name: "Globsyn", logo: "/pev-sponsors/globsyn.jpeg" },
+    { name: "Kebab Stop", logo: "/pev-sponsors/kebab_stop.jpeg" },
+    { name: "Pizza Hut", logo: "/pev-sponsors/pizzahut.jpeg" },
+    { name: "Reel2Real", logo: "/pev-sponsors/reel2real.png" },
+    { name: "Unstop", logo: "/pev-sponsors/unstop.jpg" },
 ];
 
 export default function Sponsors() {
@@ -89,11 +93,9 @@ export default function Sponsors() {
                                 <span className="text-white/30">#</span> Past Year Partners
                             </h2>
                             <div className="w-full overflow-hidden py-4">
-                                <div className="marquee-reverse flex gap-8 md:gap-12 w-max items-center">
+                                <div className="marquee-reverse flex gap-8 md:gap-12 w-max items-center animate-scroll-reverse">
                                     {duplicatedPast.map((sponsor, i) => (
-                                        <div key={`past-${i}`} className="shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center p-4">
-                                            <span className="text-[10px] font-bold text-white/30 uppercase text-center">{sponsor.name}</span>
-                                        </div>
+                                        <SponsorBubble key={`past-${i}`} logo={sponsor.logo} name={sponsor.name} />
                                     ))}
                                 </div>
                             </div>
