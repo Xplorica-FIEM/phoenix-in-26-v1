@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useMemo, useState, useEffect, useRef, Suspense } from 'react';
+import React, { useMemo, useState, useEffect, useRef, useDeferredValue } from 'react';
 import { TrainerCard, RarityLevel } from '@/components/TrainerCard';
 import TEAM_MEMBERS from '@/data/TEAM_MEMBERS';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const CATEGORY_MAPPING: Record<string, string> = {
   'Facilitator': 'Facilitators',
@@ -20,8 +21,34 @@ const RARITY_MAPPING: Record<string, RarityLevel> = {
   'Working Committee': 'Common'
 };
 
-const INITIAL_BATCH = 8;
+const INITIAL_BATCH = 4; // Smaller initial batch for mobile responsiveness
 const SCROLL_BATCH = 4;
+
+// --- Card Wrapper for Individual Mounting ---
+const CardLoadWrapper = ({ children, index, isFiltered }: { children: React.ReactNode, index: number, isFiltered: boolean }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // Card-wise progressive display to "compile in background"
+    // Use a staggered timeout for initial load or filter changes
+    const delay = isFiltered ? (index % SCROLL_BATCH) * 100 : Math.min(index * 150, 2000);
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [index, isFiltered]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+      animate={mounted ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.9, y: 20 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="w-full flex justify-center"
+    >
+      {mounted ? children : <CardSkeleton />}
+    </motion.div>
+  );
+};
 
 // --- Skeleton Card for smooth loading ---
 const CardSkeleton = () => (
@@ -47,6 +74,7 @@ const CardSkeleton = () => (
 
 export default function TrainerComparison() {
   const [search, setSearch] = useState('');
+  const deferredSearch = useDeferredValue(search);
   const [activeCategory, setActiveCategory] = useState('All');
   const [visibleCount, setVisibleCount] = useState(INITIAL_BATCH);
   const [isPageMounted, setIsPageMounted] = useState(false);
@@ -60,16 +88,16 @@ export default function TrainerComparison() {
 
   const filteredMembers = useMemo(() => {
     return TEAM_MEMBERS.filter((m: any) => {
-      const matchesSearch = m.name.toLowerCase().includes(search.toLowerCase()) ||
-        (m.position && m.position.toLowerCase().includes(search.toLowerCase())) ||
-        (m.depertment && m.depertment.toLowerCase().includes(search.toLowerCase()));
+      const matchesSearch = m.name.toLowerCase().includes(deferredSearch.toLowerCase()) ||
+        (m.position && m.position.toLowerCase().includes(deferredSearch.toLowerCase())) ||
+        (m.depertment && m.depertment.toLowerCase().includes(deferredSearch.toLowerCase()));
 
       const categoryLabel = CATEGORY_MAPPING[m.position] || 'Others';
       const matchesCat = activeCategory === 'All' || categoryLabel === activeCategory;
 
       return matchesSearch && matchesCat;
     });
-  }, [search, activeCategory]);
+  }, [deferredSearch, activeCategory]);
 
   const visibleMembers = useMemo(() => {
     return filteredMembers.slice(0, visibleCount);
@@ -166,14 +194,18 @@ export default function TrainerComparison() {
         </div>
 
         {/* Member Grid - Auto-optimized loading */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full px-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full px-2">
           {!isPageMounted ? (
             // Static skeletal state before hydration
-            Array.from({ length: INITIAL_BATCH }).map((_, i) => <CardSkeleton key={i} />)
+            Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />)
           ) : (
             <>
               {visibleMembers.map((member: any, index: number) => (
-                <div key={`${member.name}-${index}`} className="flex justify-center transition-all">
+                <CardLoadWrapper
+                  key={`${member.name}-${deferredSearch}-${activeCategory}`}
+                  index={index}
+                  isFiltered={search !== '' || activeCategory !== 'All'}
+                >
                   <TrainerCard
                     name={member.name}
                     role={member.position}
@@ -186,13 +218,17 @@ export default function TrainerComparison() {
                     photoUrl={member.image}
                     rarity={RARITY_MAPPING[member.position] || 'Common'}
                   />
-                </div>
+                </CardLoadWrapper>
               ))}
 
-              {/* Show skeletons while loading next batch */}
-              {visibleCount < filteredMembers.length &&
-                Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={`skeleton-${i}`} />)
-              }
+              {/* Load More Sentinel or final skeletons */}
+              {visibleCount < filteredMembers.length && (
+                <div ref={loadMoreRef} className="col-span-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <CardSkeleton key={`skeleton-append-${i}`} />
+                  ))}
+                </div>
+              )}
             </>
           )}
         </div>

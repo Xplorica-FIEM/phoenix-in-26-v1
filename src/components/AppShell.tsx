@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import PreloaderOverlay from '@/components/PreloaderOverlay'
 import PokeNavbarHeroResponsive from '@/components/navbar/PokeNavbarHeroResponsive'
-import Navbar from '@/components/Navbar'
+import UnifiedNavbar from '@/components/navbar/UnifiedNavbar'
 
 export default function AppShell({
   children,
@@ -35,6 +35,19 @@ export default function AppShell({
   // Determine if we should show the preloader
   const showPreloader = isHomePage && !ready
 
+  // Track scroll state for sub-pages
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    if (isHomePage) return // Local component handles its own scroll logic if needed
+
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isHomePage])
+
   return (
     <>
       {showPreloader && (
@@ -46,7 +59,7 @@ export default function AppShell({
         className={`${isHomePage ? 'relative' : 'fixed top-0 left-0 w-full'} z-50 transition-opacity duration-500 ${ready ? 'opacity-100' : 'opacity-0'
           }`}
       >
-        {isHomePage ? <PokeNavbarHeroResponsive /> : <Navbar />}
+        {isHomePage ? <PokeNavbarHeroResponsive /> : <UnifiedNavbar isScrolled={isScrolled} />}
       </nav>
 
       {/* Page content */}

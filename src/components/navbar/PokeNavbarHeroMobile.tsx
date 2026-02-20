@@ -118,9 +118,26 @@ export default function PokeNavbarHeroMobile() {
         <div className="relative h-screen flex flex-col items-center text-white overflow-hidden font-press-start">
 
             {/* ================= NAVBAR ================= */}
-            <div className="fixed top-0 left-0 right-0 h-20 bg-red-600 border-b-4 border-red-800 z-50 shadow-md flex items-center px-4">
+            <div className={`fixed top-0 left-0 right-0 h-20 z-50 transition-colors duration-300 flex items-center px-4 ${isDocked ? "bg-red-600 border-b-4 border-red-800 shadow-lg" : "bg-transparent"
+                }`}>
 
-                {/* LEFT: Docked Logo Appears */}
+                {/* LEFT: Pokeball Button */}
+                <button
+                    onClick={toggleMenu}
+                    className={`relative z-50 w-12 h-12 flex items-center justify-center bg-white rounded-full border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,0.5)] active:translate-y-1 transition-all ${isDocked ? "opacity-100" : "opacity-0 pointer-events-none"
+                        }`}
+                >
+                    <Image
+                        src={getBallImage()}
+                        alt="Menu"
+                        width={28}
+                        height={28}
+                        unoptimized
+                        className="object-contain"
+                    />
+                </button>
+
+                {/* CENTER: Logo */}
                 <motion.div
                     initial={false}
                     animate={{
@@ -128,7 +145,7 @@ export default function PokeNavbarHeroMobile() {
                         y: isDocked ? 0 : -10,
                     }}
                     transition={{ duration: 0.3 }}
-                    className="z-50"
+                    className="absolute left-1/2 -translate-x-1/2 z-50"
                 >
                     <Link
                         href="/"
@@ -149,36 +166,13 @@ export default function PokeNavbarHeroMobile() {
                     </Link>
                 </motion.div>
 
-                {/* CENTER: Pokeball */}
-                <div className="absolute left-1/2 -translate-x-1/2">
-                    <button
-                        onClick={toggleMenu}
-                        className="relative z-50 active:translate-y-1 transition-transform"
-                    >
-                        <div
-                            className={`w-12 h-12 rounded-full border-2 border-black flex items-center justify-center transition-colors duration-200 ${menuState === "open"
-                                ? "bg-gray-800"
-                                : "bg-white"
-                                } shadow-[2px_2px_0px_rgba(0,0,0,0.5)]`}
-                        >
-                            <Image
-                                src={getBallImage()}
-                                alt="Menu"
-                                width={36}
-                                height={36}
-                                unoptimized
-                            />
-                        </div>
-                    </button>
-                </div>
-
-                {/* RIGHT: Bigger Mini Timer */}
+                {/* RIGHT: Mini Timer */}
                 <motion.div
                     style={{ opacity: miniTimerOpacity }}
                     className="ml-auto"
                 >
-                    <div className="bg-blue-600 border-2 border-white rounded px-3 py-2 shadow-[3px_3px_0px_rgba(0,0,0,0.6)]">
-                        <span className="font-mono font-bold text-sm tracking-wider">
+                    <div className="bg-blue-600 border-2 border-white rounded px-2 py-1 shadow-[2px_2px_0px_rgba(0,0,0,0.6)]">
+                        <span className="font-mono font-bold text-[10px] tracking-tighter">
                             {miniTimerString}
                         </span>
                     </div>
