@@ -7,87 +7,124 @@ interface TrainerCardProps {
   onOpenModal: (trainer: Trainer) => void;
 }
 
-const rarityColors: Record<string, string> = {
-  Common: 'from-gray-500 to-gray-600',
-  Rare: 'from-blue-500 to-blue-600',
-  Epic: 'from-purple-500 to-purple-600',
-  Legendary: 'from-yellow-400 to-orange-500',
-  Mythic: 'from-cyan-400 to-teal-500'
+/* =========================
+   Retro Pokémon Type Colors
+========================= */
+const TYPE_COLORS: Record<string, string> = {
+  Common: 'border-gray-500',
+  Rare: 'border-blue-500',
+  Epic: 'border-purple-600',
+  Legendary: 'border-yellow-500',
+  Mythic: 'border-red-600',
 };
 
-export default function TrainerCard({ trainer, onOpenModal }: TrainerCardProps) {
-  // Determine rarity border color
-  const rarityGradient = rarityColors[trainer.rarity];
+/* =========================
+   Component
+========================= */
+export default function TrainerCard({
+  trainer,
+  onOpenModal,
+}: TrainerCardProps) {
+  /* =========================
+     Safe Destructuring
+  ========================= */
+  const {
+    id = 0,
+    name = 'UNKNOWN',
+    role = 'TRAINER',
+    department,
+    rarity = 'Common',
+    category = 'GENERAL',
+  } = trainer ?? {};
 
+  const colorClass = TYPE_COLORS[rarity] ?? TYPE_COLORS.Common;
+
+  /* =========================
+     SAFE Department Handling
+  ========================= */
+  const safeDepartment = department ?? 'UNKNOWN_DEPT';
+
+  const [deptName, phaseName] = safeDepartment.includes(',')
+    ? safeDepartment.split(',').map((s) => s.trim())
+    : [safeDepartment, 'PHASE_2'];
+
+  /* =========================
+     Render
+  ========================= */
   return (
     <div
-      className="relative h-[480px]"
       onClick={() => onOpenModal(trainer)}
+      className="relative w-full h-[500px] cursor-pointer group"
     >
-      {/* Card container - static, no flip animation */}
-      <div className="relative w-full h-full cursor-pointer">
-        <div className={`
-          relative h-full rounded-xl overflow-hidden
-          bg-gradient-to-br from-slate-900/90 to-slate-800/90
-          backdrop-blur-sm border-2 border-transparent
-          bg-clip-padding
-          hover:shadow-[0_0_30px_rgba(34,211,238,0.3)]
-          transition-shadow duration-300
-          before:absolute before:inset-0 before:rounded-xl
-          before:p-[2px] before:bg-gradient-to-br before:${rarityGradient}
-          before:-z-10 before:blur-sm before:opacity-75
-        `}>
-          {/* Rarity Badge */}
-          <div className="absolute top-4 right-4 z-10">
-            <span className={`
-              px-3 py-1 rounded-full text-xs font-['Orbitron'] font-bold
-              bg-gradient-to-r ${rarityGradient}
-              shadow-lg
-            `}>
-              {trainer.rarity.toUpperCase()}
-            </span>
+      <div
+        className={`
+          h-full w-full
+          bg-[#d8e6c9]
+          border-4 ${colorClass}
+          shadow-[8px_8px_0px_#000]
+          font-mono
+          flex flex-col
+          transition-all duration-200
+          group-hover:translate-x-1
+          group-hover:translate-y-1
+          group-hover:shadow-[4px_4px_0px_#000]
+        `}
+      >
+        {/* ================= HEADER ================= */}
+        <div className="bg-[#2f4f2f] text-[#d8e6c9] px-4 py-2 flex justify-between items-center border-b-4 border-black">
+          <span className="text-sm tracking-widest">
+            No.{id.toString().padStart(3, '0')}
+          </span>
+
+          <span className="text-xs uppercase">
+            {rarity}
+          </span>
+        </div>
+
+        {/* ================= IMAGE AREA ================= */}
+        <div className="flex items-center justify-center bg-[#b7c9a8] h-52 border-b-4 border-black relative">
+          <div className="w-32 h-32 border-4 border-black bg-[#d8e6c9] flex items-center justify-center text-5xl">
+            👤
           </div>
 
-          {/* Trainer Image */}
-          <div className="relative h-64 overflow-hidden bg-gradient-to-b from-slate-800 to-slate-900">
-            <div className="absolute inset-0 flex items-center justify-center">
-              {/* Placeholder for trainer image */}
-              <div className="w-48 h-48 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
-                <span className="text-6xl">👤</span>
-              </div>
-            </div>
-            {/* Pokédex ID */}
-            <div className="absolute top-4 left-4">
-              <span className="text-cyan-400 font-['Orbitron'] text-sm">
-                #{trainer.id.toString().padStart(3, '0')}
-              </span>
-            </div>
+          <div className="absolute bottom-2 right-3 text-[10px] text-black">
+            HT: 5'10" WT: 160lb
           </div>
+        </div>
 
-          {/* Trainer Info */}
-          <div className="p-6 space-y-3">
-            <h3 className="text-2xl font-['Orbitron'] font-bold text-cyan-300">
-              {trainer.name}
+        {/* ================= INFO AREA ================= */}
+        <div className="flex-1 p-4 flex flex-col gap-3 text-black text-sm">
+          <div>
+            <h3 className="text-lg tracking-wide font-bold uppercase">
+              {name}
             </h3>
-            <p className="text-sm text-purple-300 font-semibold">
-              {trainer.role}
-            </p>
-            <p className="text-xs text-slate-400">
-              {trainer.department}
-            </p>
+            <p className="text-xs uppercase">{role}</p>
+          </div>
 
-            {/* Category Badge */}
-            <div className="pt-2">
-              <span className="inline-block px-3 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-['Orbitron']">
-                {trainer.category}
-              </span>
-            </div>
-
-            {/* Click hint */}
-            <p className="text-xs text-slate-500 italic pt-2">
-              Click for full details →
+          <div className="text-xs space-y-1">
+            <p>
+              TYPE: <span className="uppercase">{deptName}</span>
+            </p>
+            <p>
+              PHASE: <span className="uppercase">{phaseName}</span>
+            </p>
+            <p>
+              CLASS: <span className="uppercase">{category}</span>
             </p>
           </div>
+
+          <div className="mt-auto border-t-2 border-black pt-2 text-[11px] leading-relaxed">
+            A skilled trainer specializing in {deptName}.
+            <br />
+            Click to open full Pokédex entry.
+          </div>
+        </div>
+
+        {/* ================= FOOTER ================= */}
+        <div className="bg-[#2f4f2f] h-6 border-t-4 border-black flex items-center px-3">
+          <div className="w-3 h-3 bg-red-600 border-2 border-black mr-2"></div>
+          <div className="w-3 h-3 bg-yellow-400 border-2 border-black mr-2"></div>
+          <div className="w-3 h-3 bg-green-500 border-2 border-black"></div>
         </div>
       </div>
     </div>
