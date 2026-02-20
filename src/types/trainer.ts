@@ -1,15 +1,15 @@
 // Type definitions for trainer data
 
-export type TrainerCategory = 
-  | 'LEAD TRAINER' 
-  | 'ELITE FOUR' 
-  | 'GYM TRAINERS' 
-  | 'SUPPORT TEAM' 
+export type TrainerCategory =
+  | 'LEAD TRAINER'
+  | 'ELITE FOUR'
+  | 'GYM TRAINERS'
+  | 'SUPPORT TEAM'
   | 'COORDINATOR';
 
-export type Rarity = 'Common' | 'Rare' | 'Epic' | 'Legendary';
+export type Rarity = 'Common' | 'Rare' | 'Epic' | 'Legendary' | 'Mythic';
 
-export type PokemonType = 
+export type PokemonType =
   | 'Electric'  // Frontend
   | 'Fire'      // Backend
   | 'Water'     // DevOps

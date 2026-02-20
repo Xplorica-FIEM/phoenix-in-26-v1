@@ -7,19 +7,18 @@ import Image from "next/image";
 type MenuState = "closed" | "opening" | "open" | "closing";
 
 const links = [
-    { href: "/trainers", label: "Trainers", color: "cyan" },
-    { href: "/gallery", label: "Gallery", color: "yellow" },
-    { href: "/events", label: "Events", color: "yellow" },
-    { divider: true },
-    { href: "/sponsors", label: "Sponsors", color: "red" },
-    { href: "/contactus", label: "Contact Us", color: "red" },
-    { href: "/games", label: "Games", color: "red" },
+    { href: "/trainers", label: "TRAINERS", color: "cyan" },
+    { href: "/gallery", label: "GALLERY", color: "yellow" },
+    { href: "/#events", label: "EVENTS", color: "red" },
+    { href: "/#sponsors", label: "SPONSORS", color: "cyan" },
+    { href: "/#contact", label: "CONTACT", color: "yellow" },
+    { href: "/games", label: "GAMES", color: "red" },
 ];
 
 const colorClasses: Record<string, string> = {
     cyan: "group-hover:text-cyan-300",
     yellow: "group-hover:text-yellow-300",
-    red: "group-hover:text-red-300",
+    red: "group-hover:text-red-400",
 };
 
 export default function Navbar() {
@@ -65,8 +64,8 @@ export default function Navbar() {
         menuState === "open"
             ? "/pball-open-full.png"
             : menuState === "opening"
-              ? "/pball-open.png"
-              : "/pball.png";
+                ? "/pball-open.png"
+                : "/pball.png";
 
     const flashWhite = menuState === "opening";
     const flashRed = menuState === "closing";
@@ -80,9 +79,8 @@ export default function Navbar() {
                     <button
                         onClick={toggleMenu}
                         aria-label="Toggle menu"
-                        className={`relative w-14 h-24 transition-transform duration-300 hover:scale-110 ${
-                            !isOpen ? "animate-wiggle" : ""
-                        }`}
+                        className={`relative w-14 h-24 transition-transform duration-300 hover:scale-110 ${!isOpen ? "animate-wiggle" : ""
+                            }`}
                     >
                         <Image
                             src={pokeballSrc}
@@ -109,9 +107,8 @@ export default function Navbar() {
                 {/* DROPDOWN OVERLAY */}
                 <div
                     onClick={closeMenu}
-                    className={`fixed inset-0 z-40 transition-opacity duration-200 ${
-                        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-                    }`}
+                    className={`fixed inset-0 z-40 transition-opacity duration-200 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                        }`}
                 />
 
                 <div
@@ -120,31 +117,23 @@ export default function Navbar() {
                 >
                     <div
                         className={`h-full rounded-lg border border-white/10 backdrop-blur-md overflow-hidden transition-colors duration-200
-            ${
-                flashRed
-                    ? "bg-red-500/80"
-                    : flashWhite
-                      ? "bg-gradient-to-b from-cyan-100/90 via-blue-200/80 to-cyan-200/90"
-                      : "bg-gradient-to-b from-slate-900/95 via-black/95 to-black"
-            }`}
+            ${flashRed
+                                ? "bg-red-500/80"
+                                : flashWhite
+                                    ? "bg-gradient-to-b from-cyan-100/90 via-blue-200/80 to-cyan-200/90"
+                                    : "bg-gradient-to-b from-slate-900/95 via-black/95 to-black"
+                            }`}
                     >
                         <div className="h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400" />
 
                         <div className="flex flex-col items-center justify-center h-full space-y-6">
-                            {links.map((link, i) =>
-                                link.divider ? (
-                                    <div
-                                        key={i}
-                                        className="w-48 h-px bg-white/30"
-                                    />
-                                ) : (
-                                    <NavItem
-                                        key={link.href}
-                                        {...link}
-                                        onClick={closeMenu}
-                                    />
-                                ),
-                            )}
+                            {links.map((link) => (
+                                <NavItem
+                                    key={link.href}
+                                    {...link}
+                                    onClick={closeMenu}
+                                />
+                            ))}
                         </div>
 
                         <div className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-red-400 via-orange-500 to-red-400" />
@@ -159,7 +148,7 @@ export default function Navbar() {
 
                     <Link
                         href="/"
-                        className="relative w-64 h-32 mx-4 drop-shadow-2xl"
+                        className="relative w-48 h-20 mx-4 drop-shadow-2xl"
                     >
                         <Image
                             src="/logo-text.png"
@@ -169,7 +158,7 @@ export default function Navbar() {
                         />
                     </Link>
 
-                    {links.slice(4).map((link) => (
+                    {links.slice(3).map((link) => (
                         <DesktopItem key={link.href} {...link} />
                     ))}
                 </div>
@@ -185,7 +174,7 @@ function NavItem({ href, label, color, onClick }: any) {
     return (
         <Link
             href={href}
-            onClick={onClick}   
+            onClick={onClick}
             className="group flex items-center justify-center px-6 py-4 text-white font-bold tracking-widest uppercase text-xl transition hover:scale-110 font-orbitron"
         >
             <span className="opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 mr-3">

@@ -8,7 +8,7 @@ export default function PokeNavbarHeroResponsive() {
     const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
     useEffect(() => {
-        const check = () => setIsMobile(window.innerWidth < 640);
+        const check = () => setIsMobile(window.innerWidth < 1024);
         check();
         window.addEventListener("resize", check);
         return () => window.removeEventListener("resize", check);

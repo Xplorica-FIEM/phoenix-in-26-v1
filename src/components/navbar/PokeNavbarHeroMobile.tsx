@@ -9,8 +9,6 @@ import {
     useTransform,
 } from "framer-motion";
 import Link from "next/link";
-import AboutPhoenix from "@/app/about";
-
 /* ================= MENU CONFIG ================= */
 
 type MenuItem = {
@@ -111,8 +109,8 @@ export default function PokeNavbarHeroMobile() {
     const miniTimerString = eventStarted
         ? "LIVE"
         : `${String(timeLeft.d).padStart(2, "0")}D ${String(
-              timeLeft.h
-          ).padStart(2, "0")}H`;
+            timeLeft.h
+        ).padStart(2, "0")}H`;
 
     /* ================= RENDER ================= */
 
@@ -150,11 +148,10 @@ export default function PokeNavbarHeroMobile() {
                         className="relative z-50 active:translate-y-1 transition-transform"
                     >
                         <div
-                            className={`w-12 h-12 rounded-full border-2 border-black flex items-center justify-center transition-colors duration-200 ${
-                                menuState === "open"
+                            className={`w-12 h-12 rounded-full border-2 border-black flex items-center justify-center transition-colors duration-200 ${menuState === "open"
                                     ? "bg-gray-800"
                                     : "bg-white"
-                            } shadow-[2px_2px_0px_rgba(0,0,0,0.5)]`}
+                                } shadow-[2px_2px_0px_rgba(0,0,0,0.5)]`}
                         >
                             <Image
                                 src={getBallImage()}

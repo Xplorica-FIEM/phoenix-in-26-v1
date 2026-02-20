@@ -2,21 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 
-/* ---------------- DATA ---------------- */
-
-export const EVENTS = [
-  { id: 1, title: 'Hacktonix', subtitle: 'Full Stack Battle', themeId: 'sinnoh', category: 'Tech Events', type: 'electric', status: 'live', endsIn: '2h 30m', progress: 90, endDate: 'Feb 17, 2026', participants: '2–4 per team', eventFee: '₹200 / team', description: 'The ultimate 48-hour coding marathon. Teams will compete to build the most innovative full-stack application using modern frameworks.', rules: ['Max team size: 4 members', 'No pre-written code allowed', 'Must deploy to Vercel/Netlify', 'API integration required'], prizes: ['₹50,000 Cash Prize', 'Internship Opportunities', 'Exclusive Tech Swag'], contacts: [{ name: 'Aritra', phone: '9876543210', role: 'Mentor' }, { name: 'Sneha', phone: '9123456780', role: 'CC' }] },
-  { id: 2, title: 'AI Summit', subtitle: 'Neural Networks', themeId: 'unova', category: 'Tech Events', type: 'psychic', status: 'upcoming', endsIn: '5 days', progress: 10, endDate: 'Feb 22, 2026', participants: 'Individual', eventFee: '₹150', description: 'A deep dive into Generative AI and LLMs with expert-led talks and hands-on workshops.', rules: ['Laptop required for workshops', 'Basic Python knowledge assumed', 'Networking session mandatory'], prizes: ['NVIDIA Credits', 'AI Course Certification', 'Networking Dinner Pass'], contacts: [{ name: 'Rohit', phone: '9988776655', role: 'Mentor' }, { name: 'Kavya', phone: '9800112233', role: 'CC' }] },
-  { id: 3, title: 'Speed Code', subtitle: 'Algorithm Race', themeId: 'kanto', category: 'Competitions', type: 'fire', status: 'live', endsIn: '45 mins', progress: 95, endDate: 'Feb 17, 2026', participants: 'Solo', eventFee: '₹100', description: 'Fast-paced algorithmic problem solving. Solve 5 hard problems in under 60 minutes.', rules: ['Individual participation only', 'C++, Java, Python supported', 'No internet help allowed'], prizes: ['Gaming Mouse', 'Premium coding subscriptions', 'Champion Trophy'], contacts: [{ name: 'Neel', phone: '9012345678', role: 'Mentor' }, { name: 'Karan', phone: '9012003004', role: 'CC' }] },
-  { id: 4, title: 'UX Sprint', subtitle: 'Design System', themeId: 'kalos', category: 'Workshops', type: 'grass', status: 'upcoming', endsIn: '3 days', progress: 30, endDate: 'Feb 20, 2026', participants: 'Solo / Duo', eventFee: '₹120', description: 'Learn to build scalable design systems in Figma with accessibility and tokens.', rules: ['Figma account required', 'Prototype submission required', 'Accessibility focus mandatory'], prizes: ['Figma Pro License', 'Design Toolkit', 'Wacom Tablet'], contacts: [{ name: 'Ishita', phone: '9345678123', role: 'Mentor' }, { name: 'Meera', phone: '9123400000', role: 'CC' }] },
-  { id: 5, title: 'Free Fire Max Esports', subtitle: 'Battle Royale Clash', themeId: 'galar', category: 'Gaming Events', type: 'fire', status: 'upcoming', endsIn: '7 days', progress: 0, endDate: 'Feb 24, 2026', participants: 'Squads of 4', eventFee: '₹300 / squad', description: 'Squad-based battle royale tournament with heats and a grand final.', rules: ['Squads of 4', 'Bring your own device', 'Standard competitive settings', 'Fair play enforced'], prizes: ['Esports Gear Pack', 'Champion Trophy', 'Cash Prize Pool'], contacts: [{ name: 'Ravi', phone: '8888888888', role: 'Mentor' }, { name: 'Priya', phone: '7777777777', role: 'CC' }] },
-  { id: 6, title: 'F-Society', subtitle: 'Cyber Ops', themeId: 'unova', category: 'Tech Events', type: 'psychic', status: 'upcoming', endsIn: '6 days', progress: 15, endDate: 'Feb 23, 2026', participants: 'Teams of 3', eventFee: '₹200 / team', description: 'A high-stakes cybersecurity showdown with staged intrusions and forensics.', rules: ['Max team size: 3 members', 'No external tools beyond allowed list', 'Write-up submission required', 'Blue/red team rounds'], prizes: ['Pro CTF Gear Pack', 'Security Training Vouchers', 'Shield Trophy'], contacts: [{ name: 'Ankit', phone: '6666666666', role: 'Mentor' }, { name: 'Simran', phone: '5555555555', role: 'CC' }] },
-  { id: 7, title: 'Webscapes', subtitle: 'UI Terrain', themeId: 'paldea', category: 'Tech Events', type: 'grass', status: 'upcoming', endsIn: '8 days', progress: 5, endDate: 'Feb 25, 2026', participants: 'Solo / Duo', eventFee: '₹150', description: 'Build a futuristic, high-performance web experience in 6 hours.', rules: ['Solo or duo', 'Must ship a live URL', 'Accessibility score >= 90', 'No heavy template use'], prizes: ['Design Toolkit Bundle', 'Premium UI Licenses', 'Feature in Showcase'], contacts: [{ name: 'Mehul', phone: '9090909090', role: 'Mentor' }, { name: 'Ira', phone: '9090009090', role: 'CC' }] },
-  { id: 8, title: 'BGMI Tournament', subtitle: 'Squad Warfare', themeId: 'galar', category: 'Gaming Events', type: 'water', status: 'upcoming', endsIn: '9 days', progress: 0, endDate: 'Feb 26, 2026', participants: 'Squads of 4', eventFee: '₹300 / squad', description: 'Classic squad battles across Erangel and Miramar with point-based leaderboard.', rules: ['Squads of 4', 'Mobile only', 'No emulators', 'Point-based leaderboard'], prizes: ['Gaming Headsets', 'In-game UC Vouchers', 'Medals'], contacts: [{ name: 'Kunal', phone: '8899001122', role: 'Mentor' }, { name: 'Aman', phone: '8899112233', role: 'CC' }] },
-  { id: 9, title: 'Valorant', subtitle: 'Tactical Strike', themeId: 'kalos', category: 'Gaming Events', type: 'psychic', status: 'upcoming', endsIn: '10 days', progress: 0, endDate: 'Feb 27, 2026', participants: 'Teams of 5', eventFee: '₹400 / team', description: '5v5 tactical shooter bracket with qualifiers and finals.', rules: ['Teams of 5', 'PC only', 'Standard tournament rules', 'Coach allowed'], prizes: ['Mechanical Keyboards', 'Team Trophy', 'Cash Prizes'], contacts: [{ name: 'Dev', phone: '4444444444', role: 'Mentor' }, { name: 'Asha', phone: '3333333333', role: 'CC' }] },
-  { id: 10, title: 'FIFA', subtitle: 'Ultimate League', themeId: 'hoenn', category: 'Gaming Events', type: 'grass', status: 'upcoming', endsIn: '11 days', progress: 0, endDate: 'Feb 28, 2026', participants: '1v1', eventFee: '₹100', description: '1v1 knockout tournament with timed halves and fair-play settings.', rules: ['1v1 format', 'Standard match settings', 'No custom teams', 'Own controller preferred'], prizes: ['Gaming Controller', 'Champion Medal', 'Merch Pack'], contacts: [{ name: 'Rohit', phone: '2222222222', role: 'Mentor' }, { name: 'Neha', phone: '1111111111', role: 'CC' }] },
-  { id: 11, title: 'eFootball', subtitle: 'Pro Club Showdown', themeId: 'alola', category: 'Gaming Events', type: 'electric', status: 'upcoming', endsIn: '12 days', progress: 0, endDate: 'Mar 01, 2026', participants: '1v1', eventFee: '₹120', description: 'Competitive eFootball matches with a focus on tactical play and double-elimination.', rules: ['1v1 format', 'Console stations provided', 'Standard squads only', 'Double-elimination bracket'], prizes: ['Esports Jersey', 'Runner-up Medals', 'Gift Vouchers'], contacts: [{ name: 'Sanjay', phone: '9999999999', role: 'Mentor' }, { name: 'Riya', phone: '0000000000', role: 'CC' }] },
-];
+import { EVENTS } from '@/data/events';
 
 
 export const THEMES = {
@@ -167,6 +153,25 @@ const Meta = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
+const PokeballIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 100 100" className={className} fill="currentColor">
+    <path d="M50 5A45 45 0 0 0 5 50a45 45 0 0 0 45 45 45 45 0 0 0 45-45A45 45 0 0 0 50 5zm0 82a37 37 0 0 1-37-37c0-18.1 13-33.2 30-36.4V46h14V13.6C87 16.8 100 31.9 100 50a37 37 0 0 1-37 37z" />
+    <circle cx="50" cy="50" r="12" />
+    <path d="M50 38a12 12 0 0 0-12 12h-9a21 21 0 1 1 42 0h-9a12 12 0 0 0-12-12z" />
+  </svg>
+);
+
+const StatItem = ({ label, value, theme }: { label: string; value: string; theme: any }) => (
+  <div className="flex flex-col gap-2">
+    <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest leading-none">
+      {label}
+    </span>
+    <span className={`text-lg md:text-xl font-black text-white leading-none tracking-tight`}>
+      {value}
+    </span>
+  </div>
+);
+
 /* ---------------- PAGE ---------------- */
 
 export default function EventPage() {
@@ -174,104 +179,133 @@ export default function EventPage() {
   const router = useRouter();
 
   const event = EVENTS.find((e) => e.id === Number(id));
-  if (!event) return null;
+  if (!event) return null; // Added null check for event
 
-  const theme =
-    THEMES[event.themeId as keyof typeof THEMES] ?? THEMES.kanto;
+  /* ---------------- RENDERING ---------------- */
+  const theme = THEMES[event.themeId as keyof typeof THEMES] || THEMES.kanto;
 
   return (
-    <main className="min-h-screen pt-32 pb-28 px-4 ring-1 ring-black/5">
-      <div className="max-w-5xl mx-auto">
-        <div
-          className={`relative ${theme.panel} border-[4px] border-black rounded-3xl p-6 sm:p-10 shadow-[6px_6px_0_rgba(0,0,0,0.9)]`}
-        >
-          {/* BACK */}
+    <div className={`min-h-screen ${theme.panel} selection:bg-${theme.accent} selection:text-white font-sans overflow-x-hidden`}>
+      {/* HEADER SECTION */}
+      <div className="w-full bg-slate-900 border-b-8 border-black pt-20 pb-12 relative overflow-hidden group">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <button
             onClick={() => router.push('/#events')}
-            className={`
-              mb-8 inline-flex items-center gap-2
-              text-xs font-bold uppercase tracking-widest
-              border-2 border-black px-4 py-2 rounded-md
-              shadow-[2px_2px_0_rgba(0,0,0,1)]
-              transition hover:-translate-y-0.5
-              ${theme.backButton}
-              ${theme.backButtonHover}
-            `}
+            className={`flex items-center gap-2 ${theme.backButton} ${theme.backButtonHover} px-4 py-2 rounded-lg font-black text-xs uppercase tracking-tighter transition-all mb-8 shadow-[4px_4px_0_rgba(0,0,0,1)] active:shadow-none active:translate-y-1 active:translate-x-1`}
           >
-            ← Back to Events
+            ← Back to Pokédex
           </button>
 
-
-          {/* HEADER */}
-          <header className="mb-12">
-            <h1 className="font-['Press_Start_2P'] text-xl sm:text-2xl text-slate-900">
-              {event.title}
-            </h1>
-            <p className="uppercase text-slate-600 text-xs mt-3 tracking-[0.25em] font-bold">
-              {event.subtitle}
-            </p>
-          </header>
-
-          {/* META */}
-          <section className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
-            <Meta label="Participants" value={event.participants} />
-            <Meta label="Category" value={event.category} />
-            <Meta label="Date" value={event.date} />
-            <Meta label="Event Fee" value={event.eventFee} />
-          </section>
-
-          {/* DESCRIPTION */}
-          <section className="mb-12 max-w-3xl">
-            <h3 className="font-bold uppercase text-xs mb-3 tracking-widest text-slate-600">
-              Description
-            </h3>
-            <div
-              className={`${theme.description} border-2 border-black rounded-xl p-5 shadow-[3px_3px_0_rgba(0,0,0,0.4)]`}
-            >
-              <p className="text-sm text-slate-800">
-                {event.description}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div className="space-y-4 max-w-3xl">
+              <div className="flex items-center gap-3">
+                <span className={`px-3 py-1 bg-${theme.accent} text-white text-[10px] font-black uppercase tracking-widest rounded`}>
+                  #{event.id.toString().padStart(3, '0')}
+                </span>
+                <span className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">
+                  {event.category}
+                </span>
+              </div>
+              <h1 className="text-4xl md:text-7xl font-black text-white uppercase leading-tight font-['Press_Start_2P',sans-serif] drop-shadow-[0_4px_0_rgba(0,0,0,1)]">
+                {event.title}
+              </h1>
+              <p className={`text-xl md:text-2xl font-bold text-${theme.accent} uppercase tracking-wide`}>
+                {event.subtitle}
               </p>
             </div>
-          </section>
 
-          {/* RULES */}
-          <section className="mb-12 max-w-3xl">
-            <h3 className="font-bold uppercase text-xs mb-3 tracking-widest text-slate-600">
-              Rules
-            </h3>
-            <ul
-              className={`${theme.rules} border-2 border-black rounded-xl p-5 shadow-[3px_3px_0_rgba(0,0,0,0.4)] space-y-2 text-sm text-slate-800`}
-            >
-              {event.rules.map((r, i) => (
-                <li key={i} className="flex gap-2">
-                  <span className={`font-black ${theme.ruleArrow}`}>▶</span>
-                  <span>{r}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* CONTACTS */}
-          <section>
-            <h3 className="font-bold uppercase text-xs mb-4 tracking-widest text-slate-600">
-              Contacts
-            </h3>
-            <div className="grid sm:grid-cols-2 gap-4 max-w-xl">
-              {event.contacts.map((c, i) => (
-                <div
-                  key={i}
-                  className={`${theme.contact} border-2 border-black rounded-xl p-5 shadow-[3px_3px_0_rgba(0,0,0,0.6)]`}
-                >
-                  <p className="font-extrabold text-slate-900">{c.name}</p>
-                  <p className="text-sm font-mono text-slate-700">
-                    {c.phone}
-                  </p>
+            <div className="hidden lg:block">
+              <div className="w-48 h-48 bg-slate-800 border-4 border-black rounded-3xl relative overflow-hidden rotate-3 hover:rotate-0 transition-transform duration-500 shadow-[8px_8px_0_rgba(0,0,0,1)]">
+                <div className={`absolute inset-0 bg-${theme.accent} opacity-20`}></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <PokeballIcon className="w-24 h-24 text-white/20" />
                 </div>
-              ))}
+              </div>
             </div>
-          </section>
+          </div>
         </div>
       </div>
-    </main>
+
+      <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+          {/* LEFT: Info */}
+          <div className="lg:col-span-8 space-y-16">
+            <section className={`${theme.description} p-8 md:p-12 rounded-3xl shadow-[0_12px_0_0_rgba(0,0,0,0.05)]`}>
+              <h3 className="text-2xl font-black text-slate-900 uppercase mb-8 flex items-center gap-4">
+                <span className={`w-3 h-8 bg-${theme.accent}`}></span>
+                Mission Briefing
+              </h3>
+              <p className="text-slate-600 text-lg md:text-xl leading-relaxed font-medium">
+                {event.description}
+              </p>
+            </section>
+
+            <section className={`${theme.rules} p-8 md:p-12 rounded-3xl shadow-[0_12px_0_0_rgba(0,0,0,0.05)]`}>
+              <h3 className="text-2xl font-black text-slate-900 uppercase mb-8 flex items-center gap-4">
+                <span className={`w-3 h-8 bg-${theme.accent}`}></span>
+                Engagement Rules
+              </h3>
+              <ul className="space-y-6">
+                {event.rules.map((rule, idx) => (
+                  <li key={idx} className="flex gap-4 group">
+                    <span className={`${theme.ruleArrow} font-black text-xl group-hover:translate-x-1 transition-transform`}>▶</span>
+                    <span className="text-slate-700 text-base md:text-lg font-bold">{rule}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
+
+          {/* RIGHT: Stats */}
+          <div className="lg:col-span-4 space-y-8">
+            <div className="bg-slate-900 border-4 border-black rounded-3xl p-8 text-white shadow-[12px_12px_0_rgba(0,0,0,1)] relative overflow-hidden group">
+              <div className={`absolute top-0 right-0 w-32 h-32 bg-${theme.accent} opacity-10 rounded-full -translate-y-1/2 translate-x-1/2`}></div>
+
+              <h4 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-8 pb-4 border-b border-white/10">
+                Key Parameters
+              </h4>
+
+              <div className="space-y-8">
+                <StatItem label="Closing Date" value={event.endDate} theme={theme} />
+                <StatItem label="Participation" value={event.participants || 'N/A'} theme={theme} />
+                <StatItem label="Credit Cost" value={event.eventFee || 'Free'} theme={theme} />
+              </div>
+
+              <button className={`w-full mt-12 bg-${theme.accent} hover:bg-${theme.accentDark} text-white font-black py-5 rounded-2xl border-4 border-black shadow-[6px_6px_0_rgba(0,0,0,0.5)] active:shadow-none active:translate-y-1 active:translate-x-1 transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-3`}>
+                Join Connection ⚡
+              </button>
+            </div>
+
+            {/* CONTACTS */}
+            {event.contacts && event.contacts.length > 0 && (
+              <div className={`${theme.contact} p-8 rounded-3xl shadow-[0_8px_0_0_rgba(0,0,0,0.03)]`}>
+                <h4 className="text-xs font-black uppercase text-slate-400 mb-6">Line Commanders</h4>
+                <div className="space-y-6">
+                  {event.contacts.map((contact, idx) => (
+                    <div key={idx} className="flex flex-col group">
+                      <span className="text-slate-900 font-black text-sm uppercase tracking-tight group-hover:text-amber-600 transition-colors">
+                        {contact.name}
+                      </span>
+                      <div className="flex justify-between items-center mt-1">
+                        <span className="text-slate-400 font-bold text-[10px] uppercase">
+                          {contact.role}
+                        </span>
+                        <a href={`tel:${contact.phone}`} className="text-slate-900 font-mono text-xs font-black hover:underline underline-offset-4 decoration-2">
+                          {contact.phone}
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
-}
+};

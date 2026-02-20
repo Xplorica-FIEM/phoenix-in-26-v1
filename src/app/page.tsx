@@ -6,12 +6,12 @@ import AboutPhoenix from "./about";
 
 export default function Home() {
     return (
-        <main className="relative text-white">
+        <div className="relative text-white">
             <AboutPhoenix />
             <Events />
             <Sponsors />
             <ContactUs />
             <FAQs />
-        </main>
+        </div>
     );
 }

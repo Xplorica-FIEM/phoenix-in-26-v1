@@ -86,7 +86,7 @@ export default function FAQSection() {
                 "
               >
                 {/* QUESTION */}
-                <div className="flex justify-between items-center text-sm md:text-base font-bold text-emerald-200 tracking-wide">
+                <div className="flex justify-between items-center text-sm md:text-base font-bold text-emerald-100 tracking-wide">
 
                   <div className="flex items-center gap-3">
                     <Image
@@ -94,9 +94,8 @@ export default function FAQSection() {
                       alt="pokeball bullet"
                       width={22}
                       height={22}
-                      className={`transition-transform duration-300 ${
-                        isActive ? "rotate-180" : ""
-                      }`}
+                      className={`transition-transform duration-300 ${isActive ? "rotate-180" : ""
+                        }`}
                     />
                     <span>{faq.question}</span>
                   </div>
@@ -108,7 +107,7 @@ export default function FAQSection() {
 
                 {/* ANSWER */}
                 {isActive && (
-                  <div className="mt-4 pt-4 border-t-2 border-emerald-700 text-emerald-100 text-sm md:text-base leading-relaxed">
+                  <div className="mt-4 pt-4 border-t-2 border-emerald-700 text-emerald-50 text-sm md:text-base leading-relaxed">
                     {faq.answer}
                   </div>
                 )}
@@ -119,5 +118,6 @@ export default function FAQSection() {
 
       </div>
     </section>
+
   );
 }
