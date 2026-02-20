@@ -1,6 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaChevronDown, FaEnvelope, FaGlobe, FaMapMarkerAlt } from 'react-icons/fa';
+
+const SUBJECT_OPTIONS = [
+  { value: "general", label: "General Query" },
+  { value: "registration", label: "Registration Issue" },
+  { value: "technical", label: "Technical Support" },
+  { value: "feedback", label: "Feedback" },
+  { value: "sponsorship", label: "Sponsorship Inquiry" },
+];
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -12,6 +22,19 @@ export default function ContactUs() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,12 +53,16 @@ export default function ContactUs() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  /* Emerald input style */
+  const handleSubjectSelect = (value: string) => {
+    setFormData({ ...formData, subject: value });
+    setIsDropdownOpen(false);
+  };
+
   const inputClasses =
     "w-full p-3 rounded-lg bg-black/60 border-2 border-emerald-500 " +
     "text-white placeholder-emerald-300/60 text-sm " +
@@ -81,10 +108,10 @@ export default function ContactUs() {
                     flex flex-col gap-4
                   "
                 >
-                  <div className="text-lg font-bold text-white mb-2">
-                    Get in Touch<br />
-                    <span className="text-sm font-normal text-emerald-300/70">
-                      we&apos;re here to help
+                  <div className="text-lg font-bold text-white mb-2 uppercase tracking-tighter">
+                    Transmission Port<br />
+                    <span className="text-[10px] font-bold text-emerald-400/70 tracking-[0.2em]">
+                      UPLOADING_PROTOCOL_READY
                     </span>
                   </div>
 
@@ -100,15 +127,46 @@ export default function ContactUs() {
                     className={inputClasses} value={formData.phone}
                     onChange={handleChange} required />
 
-                  <select name="subject" className={inputClasses}
-                    value={formData.subject} onChange={handleChange} required>
-                    <option value="">Select Subject</option>
-                    <option value="general">General Query</option>
-                    <option value="registration">Registration Issue</option>
-                    <option value="technical">Technical Support</option>
-                    <option value="feedback">Feedback</option>
-                    <option value="sponsorship">Sponsorship Inquiry</option>
-                  </select>
+                  {/* CUSTOM RETRO DROPDOWN */}
+                  <div className="relative" ref={dropdownRef}>
+                    <div
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className={`${inputClasses} flex justify-between items-center cursor-pointer select-none`}
+                    >
+                      <span className={formData.subject ? "text-white" : "text-emerald-300/60"}>
+                        {formData.subject
+                          ? SUBJECT_OPTIONS.find(opt => opt.value === formData.subject)?.label
+                          : "Select Subject"}
+                      </span>
+                      <motion.div
+                        animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                        className="text-emerald-500"
+                      >
+                        <FaChevronDown />
+                      </motion.div>
+                    </div>
+
+                    <AnimatePresence>
+                      {isDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 5, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          className="absolute z-[100] top-full left-0 w-full mt-1 bg-black border-2 border-emerald-500 rounded-lg shadow-[8px_8px_0px_rgba(16,185,129,0.3)] overflow-hidden"
+                        >
+                          {SUBJECT_OPTIONS.map((option) => (
+                            <div
+                              key={option.value}
+                              onClick={() => handleSubjectSelect(option.value)}
+                              className="p-3 text-sm text-emerald-300 hover:bg-emerald-500 hover:text-black transition-colors cursor-pointer font-bold uppercase tracking-tight"
+                            >
+                              {option.label}
+                            </div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
 
                   <textarea
                     name="message"
@@ -122,14 +180,15 @@ export default function ContactUs() {
                   <button
                     type="submit"
                     className="
-                      mt-2 py-2.5 rounded-md font-bold
+                      mt-2 py-2.5 rounded-md font-black uppercase tracking-widest
                       bg-yellow-400 hover:bg-yellow-300
                       text-black
-                      shadow-[3px_3px_0px_#a16207]
+                      shadow-[4px_4px_0px_#a16207]
+                      active:shadow-none active:translate-y-1 active:translate-x-1
                       transition-all
                     "
                   >
-                    Submit →
+                    Send Signal →
                   </button>
                 </form>
               ) : (
@@ -140,9 +199,9 @@ export default function ContactUs() {
                   shadow-[6px_6px_0px_#34d399]
                   flex items-center justify-center
                 ">
-                  <p className="text-emerald-300 font-bold text-xl text-center">
-                    Your query has been recorded.<br />
-                    Our team will contact you shortly.
+                  <p className="text-emerald-300 font-bold text-xl text-center font-press-start text-[10px] leading-relaxed uppercase tracking-widest">
+                    Transmission Successful.<br />
+                    Encrypted signal received.
                   </p>
                 </div>
               )}
@@ -158,47 +217,60 @@ export default function ContactUs() {
                 bg-black/70
                 border-[3px] border-emerald-400
                 shadow-[6px_6px_0px_#34d399]
-                flex flex-col gap-4
+                flex flex-col gap-6
               ">
-                <div className="text-lg font-bold text-white mb-2">
-                  Contact Details<br />
-                  <span className="text-sm font-normal text-emerald-300/70">
-                    reach out directly
+                <div className="text-xl font-black text-white uppercase tracking-tighter">
+                  Contact Center<br />
+                  <span className="text-[10px] font-bold text-emerald-400/70 tracking-[0.3em]">
+                    SECURE_COMM_CHANNEL_ACTIVE
                   </span>
                 </div>
 
-                <div className="flex flex-col gap-6 flex-grow justify-between">
-                  {[
-                    ["Event Coordinator", "Rohan Sharma", "+91 98765 43210", "coordinator@phoenix2026.com"],
-                    ["Technical Head", "Aisha Khan", "+91 91234 56789", "tech@phoenix2026.com"],
-                    ["Sponsorship Lead", "Arjun Mehta", "+91 99887 66554", "sponsor@phoenix2026.com"],
-                  ].map(([title, name, phone, email]) => (
-                    <div
-                      key={title}
-                      className="
-                        bg-gradient-to-br from-emerald-900/40 to-black
-                        border-2 border-emerald-400
-                        rounded-lg p-4
-                        shadow-[4px_4px_0px_#34d399]
-                        hover:-translate-y-0.5 hover:-translate-x-0.5
-                        transition-all
-                      "
-                    >
-                      <h3 className="text-emerald-300 font-bold text-lg mb-1">
-                        {title}
-                      </h3>
-                      <p className="text-gray-300 text-sm"><strong>Name:</strong> {name}</p>
-                      <p className="text-gray-300 text-sm"><strong>Phone:</strong> {phone}</p>
-                      <p className="text-gray-300 text-sm"><strong>Email:</strong> {email}</p>
+                <div className="flex flex-col gap-8 flex-grow">
+                  {/* Organization & Event Section */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-emerald-900/20 border-2 border-emerald-500/30 rounded-lg p-4 shadow-[4px_4px_0px_rgba(16,185,129,0.1)]">
+                      <h3 className="text-emerald-400 font-black text-[10px] uppercase tracking-widest mb-2 underline decoration-2 underline-offset-4">Organization</h3>
+                      <p className="text-white font-bold text-sm mb-1">XplOriCa</p>
+                      <p className="text-emerald-100/60 text-[9px] leading-relaxed mb-2 uppercase tracking-tight">Sonarpur Station Rd, Mission Pally, Narendrapur, West Bengal 700150</p>
+                      <div className="flex flex-col gap-1">
+                        <a href="mailto:xplorica@teamfuture.in" className="text-[10px] font-mono text-emerald-400 hover:text-white transition-colors">xplorica@teamfuture.in</a>
+                        <a href="https://xplorica.in" target="_blank" className="text-[10px] font-mono text-emerald-400 hover:text-white transition-colors">xplorica.in</a>
+                      </div>
                     </div>
-                  ))}
+
+                    <div className="bg-emerald-900/20 border-2 border-emerald-500/30 rounded-lg p-4 shadow-[4px_4px_0px_rgba(16,185,129,0.1)]">
+                      <h3 className="text-emerald-400 font-black text-[10px] uppercase tracking-widest mb-2 underline decoration-2 underline-offset-4">Tech Fest</h3>
+                      <p className="text-white font-bold text-sm mb-1">Phoenix &apos;26</p>
+                      <p className="text-emerald-100/60 text-[9px] leading-relaxed mb-4 uppercase tracking-tight">Authorized Festival Inquiry Channel</p>
+                      <a href="mailto:phoenix@teamfuture.in" className="text-[10px] font-mono text-emerald-400 hover:text-white transition-colors">phoenix@teamfuture.in</a>
+                    </div>
+                  </div>
+
+                  {/* Core Committee Section */}
+                  <div className="flex flex-col gap-3">
+                    <h3 className="text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em] mb-1">Core Committee Personnel</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {[
+                        { name: "Dipannita Sharma", email: "dipannita.sharma.fiem.cse23@teamfuture.in" },
+                        { name: "Rajjyashree Raychaudhuri", email: "rajjyashree.raychaudhuri.fiem.cse23@teamfuture.in" },
+                        { name: "Sayan Paul", email: "sayan.paul.fiem.it23@gmail.com" },
+                        { name: "Unit_NX (AI)", email: "signal_offline@phoenix.fiem", placeholder: true },
+                      ].map((cc) => (
+                        <div key={cc.name} className={`p-3 border-2 transition-all ${cc.placeholder ? 'border-dashed border-emerald-500/20 bg-black/40 opacity-50' : 'border-emerald-500/40 bg-emerald-900/10 hover:border-emerald-400 shadow-[2px_2px_0px_rgba(16,185,129,0.1)]'}`}>
+                          <p className="text-white text-[11px] font-black uppercase tracking-tight truncate">{cc.name}</p>
+                          <a href={cc.placeholder ? '#' : `mailto:${cc.email}`} className="text-[9px] font-mono text-emerald-400/80 hover:text-white truncate block mt-1">{cc.email}</a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Row 2: Full Width Map */}
-          <div className="w-full relative group">
+          <div className="w-full relative group mt-12">
             <div className="absolute inset-0 -z-10 rounded-3xl
                 bg-gradient-to-t from-emerald-500/10 to-transparent blur-xl" />
 
@@ -225,6 +297,5 @@ export default function ContactUs() {
 
       </main>
     </section>
-
   );
 }

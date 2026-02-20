@@ -143,7 +143,7 @@ export default function PokeNavbarHero() {
                         style={{ opacity: linkOpacity, x: leftSlide }}
                         className="flex-1 flex justify-end items-center gap-4 xl:gap-10"
                     >
-                        <NavButton href="/trainers" label="Trainers" hoverColor="group-hover:text-cyan-300" />
+                        <NavButton href="/trainers" label="Members" hoverColor="group-hover:text-cyan-300" />
                         <NavButton href="/gallery" label="Gallery" hoverColor="group-hover:text-yellow-300" />
                         <NavButton href="/#events" label="Events" hoverColor="group-hover:text-red-400" />
                     </motion.div>

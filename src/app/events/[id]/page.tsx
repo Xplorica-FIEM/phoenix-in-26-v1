@@ -185,124 +185,131 @@ export default function EventPage() {
   const theme = THEMES[event.themeId as keyof typeof THEMES] || THEMES.kanto;
 
   return (
-    <div className={`min-h-screen ${theme.panel} selection:bg-${theme.accent} selection:text-white font-sans overflow-x-hidden`}>
-      {/* HEADER SECTION */}
-      <div className="w-full bg-slate-900 border-b-8 border-black pt-20 pb-12 relative overflow-hidden group">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <button
-            onClick={() => router.push('/#events')}
-            className={`flex items-center gap-2 ${theme.backButton} ${theme.backButtonHover} px-4 py-2 rounded-lg font-black text-xs uppercase tracking-tighter transition-all mb-8 shadow-[4px_4px_0_rgba(0,0,0,1)] active:shadow-none active:translate-y-1 active:translate-x-1`}
-          >
-            ← Back to Pokédex
-          </button>
-
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <div className="space-y-4 max-w-3xl">
-              <div className="flex items-center gap-3">
-                <span className={`px-3 py-1 bg-${theme.accent} text-white text-[10px] font-black uppercase tracking-widest rounded`}>
-                  #{event.id.toString().padStart(3, '0')}
-                </span>
-                <span className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">
-                  {event.category}
-                </span>
-              </div>
-              <h1 className="text-4xl md:text-7xl font-black text-white uppercase leading-tight font-['Press_Start_2P',sans-serif] drop-shadow-[0_4px_0_rgba(0,0,0,1)]">
-                {event.title}
-              </h1>
-              <p className={`text-xl md:text-2xl font-bold text-${theme.accent} uppercase tracking-wide`}>
-                {event.subtitle}
-              </p>
+    <div className="min-h-screen w-full p-4 pt-24 md:p-8 md:pt-32 flex items-start justify-center overflow-y-auto scrollbar-hide">
+      <div
+        className={`relative border-[6px] border-black rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden w-full max-w-7xl 
+        shadow-[12px_12px_0_rgba(0,0,0,1)] ${theme.panel} animate-fadeInUp`}
+      >
+        <div className={`min-h-[80vh] ${theme.panel} selection:bg-${theme.accent} selection:text-white font-sans overflow-x-hidden`}>
+          {/* HEADER SECTION */}
+          <div className="w-full bg-slate-900 border-b-8 border-black pt-20 pb-12 relative overflow-hidden group">
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+              <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
             </div>
 
-            <div className="hidden lg:block">
-              <div className="w-48 h-48 bg-slate-800 border-4 border-black rounded-3xl relative overflow-hidden rotate-3 hover:rotate-0 transition-transform duration-500 shadow-[8px_8px_0_rgba(0,0,0,1)]">
-                <div className={`absolute inset-0 bg-${theme.accent} opacity-20`}></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <PokeballIcon className="w-24 h-24 text-white/20" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-          {/* LEFT: Info */}
-          <div className="lg:col-span-8 space-y-16">
-            <section className={`${theme.description} p-8 md:p-12 rounded-3xl shadow-[0_12px_0_0_rgba(0,0,0,0.05)]`}>
-              <h3 className="text-2xl font-black text-slate-900 uppercase mb-8 flex items-center gap-4">
-                <span className={`w-3 h-8 bg-${theme.accent}`}></span>
-                Mission Briefing
-              </h3>
-              <p className="text-slate-600 text-lg md:text-xl leading-relaxed font-medium">
-                {event.description}
-              </p>
-            </section>
-
-            <section className={`${theme.rules} p-8 md:p-12 rounded-3xl shadow-[0_12px_0_0_rgba(0,0,0,0.05)]`}>
-              <h3 className="text-2xl font-black text-slate-900 uppercase mb-8 flex items-center gap-4">
-                <span className={`w-3 h-8 bg-${theme.accent}`}></span>
-                Engagement Rules
-              </h3>
-              <ul className="space-y-6">
-                {event.rules.map((rule, idx) => (
-                  <li key={idx} className="flex gap-4 group">
-                    <span className={`${theme.ruleArrow} font-black text-xl group-hover:translate-x-1 transition-transform`}>▶</span>
-                    <span className="text-slate-700 text-base md:text-lg font-bold">{rule}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </div>
-
-          {/* RIGHT: Stats */}
-          <div className="lg:col-span-4 space-y-8">
-            <div className="bg-slate-900 border-4 border-black rounded-3xl p-8 text-white shadow-[12px_12px_0_rgba(0,0,0,1)] relative overflow-hidden group">
-              <div className={`absolute top-0 right-0 w-32 h-32 bg-${theme.accent} opacity-10 rounded-full -translate-y-1/2 translate-x-1/2`}></div>
-
-              <h4 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-8 pb-4 border-b border-white/10">
-                Key Parameters
-              </h4>
-
-              <div className="space-y-8">
-                <StatItem label="Closing Date" value={event.endDate} theme={theme} />
-                <StatItem label="Participation" value={event.participants || 'N/A'} theme={theme} />
-                <StatItem label="Credit Cost" value={event.eventFee || 'Free'} theme={theme} />
-              </div>
-
-              <button className={`w-full mt-12 bg-${theme.accent} hover:bg-${theme.accentDark} text-white font-black py-5 rounded-2xl border-4 border-black shadow-[6px_6px_0_rgba(0,0,0,0.5)] active:shadow-none active:translate-y-1 active:translate-x-1 transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-3`}>
-                Join Connection ⚡
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+              <button
+                onClick={() => router.push('/#events')}
+                className={`flex items-center gap-2 ${theme.backButton} ${theme.backButtonHover} px-4 py-2 rounded-lg font-black text-xs uppercase tracking-tighter transition-all mb-8 shadow-[4px_4px_0_rgba(0,0,0,1)] active:shadow-none active:translate-y-1 active:translate-x-1`}
+              >
+                ← Back to Pokédex
               </button>
-            </div>
 
-            {/* CONTACTS */}
-            {event.contacts && event.contacts.length > 0 && (
-              <div className={`${theme.contact} p-8 rounded-3xl shadow-[0_8px_0_0_rgba(0,0,0,0.03)]`}>
-                <h4 className="text-xs font-black uppercase text-slate-400 mb-6">Line Commanders</h4>
-                <div className="space-y-6">
-                  {event.contacts.map((contact, idx) => (
-                    <div key={idx} className="flex flex-col group">
-                      <span className="text-slate-900 font-black text-sm uppercase tracking-tight group-hover:text-amber-600 transition-colors">
-                        {contact.name}
-                      </span>
-                      <div className="flex justify-between items-center mt-1">
-                        <span className="text-slate-400 font-bold text-[10px] uppercase">
-                          {contact.role}
-                        </span>
-                        <a href={`tel:${contact.phone}`} className="text-slate-900 font-mono text-xs font-black hover:underline underline-offset-4 decoration-2">
-                          {contact.phone}
-                        </a>
-                      </div>
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+                <div className="space-y-4 max-w-3xl">
+                  <div className="flex items-center gap-3">
+                    <span className={`px-3 py-1 bg-${theme.accent} text-white text-[10px] font-black uppercase tracking-widest rounded`}>
+                      #{event.id.toString().padStart(3, '0')}
+                    </span>
+                    <span className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">
+                      {event.category}
+                    </span>
+                  </div>
+                  <h1 className="text-4xl md:text-7xl font-black text-white uppercase leading-tight font-press-start drop-shadow-[0_4px_0_rgba(0,0,0,1)]">
+                    {event.title}
+                  </h1>
+                  <p className={`text-xl md:text-2xl font-bold text-${theme.accent} uppercase tracking-wide`}>
+                    {event.subtitle}
+                  </p>
+                </div>
+
+                <div className="hidden lg:block">
+                  <div className="w-48 h-48 bg-slate-800 border-4 border-black rounded-3xl relative overflow-hidden rotate-3 hover:rotate-0 transition-transform duration-500 shadow-[8px_8px_0_rgba(0,0,0,1)]">
+                    <div className={`absolute inset-0 bg-${theme.accent} opacity-20`}></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <PokeballIcon className="w-24 h-24 text-white/20" />
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
-            )}
+            </div>
+          </div>
+
+          <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+              {/* LEFT: Info */}
+              <div className="lg:col-span-8 space-y-16">
+                <section className={`${theme.description} p-8 md:p-12 rounded-3xl shadow-[0_12px_0_0_rgba(0,0,0,0.05)]`}>
+                  <h3 className="text-2xl font-black text-slate-900 uppercase mb-8 flex items-center gap-4">
+                    <span className={`w-3 h-8 bg-${theme.accent}`}></span>
+                    Mission Briefing
+                  </h3>
+                  <p className="text-slate-600 text-lg md:text-xl leading-relaxed font-medium">
+                    {event.description}
+                  </p>
+                </section>
+
+                <section className={`${theme.rules} p-8 md:p-12 rounded-3xl shadow-[0_12px_0_0_rgba(0,0,0,0.05)]`}>
+                  <h3 className="text-2xl font-black text-slate-900 uppercase mb-8 flex items-center gap-4">
+                    <span className={`w-3 h-8 bg-${theme.accent}`}></span>
+                    Engagement Rules
+                  </h3>
+                  <ul className="space-y-6">
+                    {event.rules.map((rule, idx) => (
+                      <li key={idx} className="flex gap-4 group">
+                        <span className={`${theme.ruleArrow} font-black text-xl group-hover:translate-x-1 transition-transform`}>▶</span>
+                        <span className="text-slate-700 text-base md:text-lg font-bold">{rule}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              </div>
+
+              {/* RIGHT: Stats */}
+              <div className="lg:col-span-4 space-y-8">
+                <div className="bg-slate-900 border-4 border-black rounded-3xl p-8 text-white shadow-[12px_12px_0_rgba(0,0,0,1)] relative overflow-hidden group">
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-${theme.accent} opacity-10 rounded-full -translate-y-1/2 translate-x-1/2`}></div>
+
+                  <h4 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-8 pb-4 border-b border-white/10">
+                    Key Parameters
+                  </h4>
+
+                  <div className="space-y-8">
+                    <StatItem label="Closing Date" value={event.endDate} theme={theme} />
+                    <StatItem label="Participation" value={event.participants || 'N/A'} theme={theme} />
+                    <StatItem label="Credit Cost" value={event.eventFee || 'Free'} theme={theme} />
+                  </div>
+
+                  <button className={`w-full mt-12 bg-${theme.accent} hover:bg-${theme.accentDark} text-white font-black py-5 rounded-2xl border-4 border-black shadow-[6px_6px_0_rgba(0,0,0,0.5)] active:shadow-none active:translate-y-1 active:translate-x-1 transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-3`}>
+                    Join Connection ⚡
+                  </button>
+                </div>
+
+                {/* CONTACTS */}
+                {event.contacts && event.contacts.length > 0 && (
+                  <div className={`${theme.contact} p-8 rounded-3xl shadow-[0_8px_0_0_rgba(0,0,0,0.03)]`}>
+                    <h4 className="text-xs font-black uppercase text-slate-400 mb-6">Line Commanders</h4>
+                    <div className="space-y-6">
+                      {event.contacts.map((contact, idx) => (
+                        <div key={idx} className="flex flex-col group">
+                          <span className="text-slate-900 font-black text-sm uppercase tracking-tight group-hover:text-amber-600 transition-colors">
+                            {contact.name}
+                          </span>
+                          <div className="flex justify-between items-center mt-1">
+                            <span className="text-slate-400 font-bold text-[10px] uppercase">
+                              {contact.role}
+                            </span>
+                            <a href={`tel:${contact.phone}`} className="text-slate-900 font-mono text-xs font-black hover:underline underline-offset-4 decoration-2">
+                              {contact.phone}
+                            </a>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
