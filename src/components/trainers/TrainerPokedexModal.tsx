@@ -8,11 +8,12 @@ interface TrainerPokedexModalProps {
   onClose: () => void;
 }
 
-const rarityColors = {
+const rarityColors: Record<string, string> = {
   Common: 'from-gray-500 to-gray-600',
   Rare: 'from-blue-500 to-blue-600',
   Epic: 'from-purple-500 to-purple-600',
-  Legendary: 'from-yellow-400 to-orange-500'
+  Legendary: 'from-yellow-400 to-orange-500',
+  Mythic: 'from-cyan-400 to-teal-500'
 };
 
 const typeColors = {
@@ -51,11 +52,11 @@ export default function TrainerPokedexModal({ trainer, onClose }: TrainerPokedex
   const rarityGradient = rarityColors[trainer.rarity];
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn"
       onClick={onClose}
     >
-      <div 
+      <div
         className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl border-2 border-cyan-500/50 shadow-[0_0_50px_rgba(34,211,238,0.3)] animate-fadeInUp"
         onClick={(e) => e.stopPropagation()}
       >
@@ -149,9 +150,9 @@ export default function TrainerPokedexModal({ trainer, onClose }: TrainerPokedex
                     </span>
                   </div>
                   <div className="h-3 bg-slate-700/50 rounded-full overflow-hidden border border-slate-600">
-                    <div 
+                    <div
                       className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full transition-all duration-1000 ease-out"
-                      style={{ 
+                      style={{
                         width: `${value}%`,
                         boxShadow: '0 0 10px rgba(34, 211, 238, 0.5)'
                       }}
@@ -169,8 +170,8 @@ export default function TrainerPokedexModal({ trainer, onClose }: TrainerPokedex
             </h3>
             <div className="flex flex-wrap gap-3">
               {trainer.skills.map((skill, idx) => (
-                <span 
-                  key={idx} 
+                <span
+                  key={idx}
                   className="px-4 py-2 bg-slate-700/50 border border-cyan-500/30 rounded-lg text-sm text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all duration-300"
                 >
                   {skill}

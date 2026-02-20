@@ -7,11 +7,12 @@ interface TrainerCardProps {
   onOpenModal: (trainer: Trainer) => void;
 }
 
-const rarityColors = {
+const rarityColors: Record<string, string> = {
   Common: 'from-gray-500 to-gray-600',
   Rare: 'from-blue-500 to-blue-600',
   Epic: 'from-purple-500 to-purple-600',
-  Legendary: 'from-yellow-400 to-orange-500'
+  Legendary: 'from-yellow-400 to-orange-500',
+  Mythic: 'from-cyan-400 to-teal-500'
 };
 
 export default function TrainerCard({ trainer, onOpenModal }: TrainerCardProps) {
@@ -19,7 +20,7 @@ export default function TrainerCard({ trainer, onOpenModal }: TrainerCardProps) 
   const rarityGradient = rarityColors[trainer.rarity];
 
   return (
-    <div 
+    <div
       className="relative h-[480px]"
       onClick={() => onOpenModal(trainer)}
     >
@@ -74,7 +75,7 @@ export default function TrainerCard({ trainer, onOpenModal }: TrainerCardProps) 
             <p className="text-xs text-slate-400">
               {trainer.department}
             </p>
-            
+
             {/* Category Badge */}
             <div className="pt-2">
               <span className="inline-block px-3 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-['Orbitron']">

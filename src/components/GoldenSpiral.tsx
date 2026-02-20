@@ -14,7 +14,7 @@ export default function GoldenSpiral({
   onFinish
 }: GoldenSpiralProps) {
   const elementRef = useRef<HTMLImageElement | null>(null)
-  const requestRef = useRef<number>()
+  const requestRef = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     const element = elementRef.current

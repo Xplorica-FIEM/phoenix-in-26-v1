@@ -15,7 +15,6 @@ export default function PreloaderOverlay({
   const [stage, setStage] =
     useState<'loading' | 'spiraling' | 'finished'>('loading')
 
-  // Wait briefly before starting the spiral.
   useEffect(() => {
     const loadTimer = setTimeout(() => {
       setStage('spiraling')
@@ -23,8 +22,6 @@ export default function PreloaderOverlay({
 
     return () => clearTimeout(loadTimer)
   }, [delay])
-
-  if (stage === 'finished') return null
 
   return (
     <div
@@ -37,7 +34,6 @@ export default function PreloaderOverlay({
           : 'opacity-100'}
       `}
     >
-      {/* Centered container for the animation. */}
       <div className="absolute inset-0 flex items-center justify-center bg-black">
         {stage === 'loading' && (
           <img
@@ -52,7 +48,10 @@ export default function PreloaderOverlay({
           <GoldenSpiral
             onFinish={() => {
               setStage('finished')
-              onComplete?.()
+              // Wait for fade out animation before calling onComplete
+              setTimeout(() => {
+                onComplete?.()
+              }, 1000)
             }}
           />
         )}
