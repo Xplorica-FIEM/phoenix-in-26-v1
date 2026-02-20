@@ -53,6 +53,7 @@ const EVENTS = [
 
 const EventCard = ({ event }: any) => {
   const router = useRouter();
+  const primaryType = Array.isArray(event.type) ? event.type[0]?.toLowerCase() : event.type?.toLowerCase();
 
   return (
     <div
@@ -60,7 +61,7 @@ const EventCard = ({ event }: any) => {
       className="cursor-pointer bg-white border-4 border-black rounded-2xl p-4 shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all"
     >
       <div className="h-32 bg-slate-800 rounded-lg relative overflow-hidden">
-        <div className={`absolute inset-0 ${getTypeColor(event.type)} opacity-40`} />
+        <div className={`absolute inset-0 ${getTypeColor(primaryType)} opacity-40`} />
         <PokeballIcon className="absolute inset-0 m-auto w-16 h-16 text-white/30" />
       </div>
 

@@ -363,7 +363,7 @@ export default function Events() {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = ['All Categories', 'Tech Events', 'Gaming Events', 'Sports Events', 'Cultural Events', 'Workshops', 'Competitions'];
+  const categories = ['All Categories', 'Tech Events', 'Gaming Events', 'Sports Events', 'Cultural Events', 'Workshops', 'Competitions', 'Non Tech Events'];
   
   const dummyEvents = [
     { 
@@ -530,6 +530,66 @@ export default function Events() {
       description: 'Competitive eFootball matches with a focus on tactical play and build-up mastery. Double-elimination to keep the pressure high.',
       rules: ['1v1 format', 'Console stations provided', 'Standard squads only', 'Double-elimination bracket'],
       prizes: ['Esports Jersey', 'Runner-up Medals', 'Gift Vouchers']
+    },
+    { 
+      id: 12, 
+      title: 'Carnival', 
+      subtitle: 'Fun & Games', 
+      image: '/placeholder-image.jpg', 
+      status: 'upcoming', 
+      endsIn: '14 days', 
+      progress: 0, 
+      endDate: 'Mar 03, 2026', 
+      category: 'Non Tech Events', 
+      type: 'fire',
+      description: 'Experience the excitement of the carnival with games, rides, and entertainment for everyone. A day full of fun activities and prizes.',
+      rules: ['Open to all', 'Family friendly', 'Multiple activity zones', 'Prize redemption on-site'],
+      prizes: ['Gift Hampers', 'Event Merchandise', 'Fun Coupons']
+    },
+    { 
+      id: 13, 
+      title: 'The Podium', 
+      subtitle: 'Debate & Discussion', 
+      image: '/placeholder-image.jpg', 
+      status: 'upcoming', 
+      endsIn: '15 days', 
+      progress: 0, 
+      endDate: 'Mar 04, 2026', 
+      category: 'Non Tech Events', 
+      type: 'water',
+      description: 'Showcase your speaking and debating skills in structured rounds. Present arguments, counter-points, and engage in intellectual discourse.',
+      rules: ['Teams of 1-2 members', 'Prepared speeches required', 'Q&A round included', 'Time limits strictly enforced'],
+      prizes: ['Trophy & Certificate', 'Books Collection', 'Public Speaking Course']
+    },
+    { 
+      id: 14, 
+      title: 'Penchanted', 
+      subtitle: 'Creative Writing', 
+      image: '/placeholder-image.jpg', 
+      status: 'upcoming', 
+      endsIn: '16 days', 
+      progress: 0, 
+      endDate: 'Mar 05, 2026', 
+      category: 'Non Tech Events', 
+      type: 'psychic',
+      description: 'Let your imagination flow through words. Write compelling stories, poetry, or essays on given themes. Originality and creativity are key.',
+      rules: ['Individual participation', 'Original work only', 'No plagiarism', 'Word limit: 500-2000 words'],
+      prizes: ['Writing Kit', 'Publication Opportunity', 'Author Mentorship']
+    },
+    { 
+      id: 15, 
+      title: 'Sherlockology', 
+      subtitle: 'Mystery & Puzzle Master', 
+      image: '/placeholder-image.jpg', 
+      status: 'upcoming', 
+      endsIn: '17 days', 
+      progress: 0, 
+      endDate: 'Mar 06, 2026', 
+      category: 'Non Tech Events', 
+      type: 'grass',
+      description: 'Solve mysteries, crack codes, and unravel puzzles in a race against time. Test your detective skills and logical reasoning.',
+      rules: ['Teams of 1-3 members', 'Time limited challenges', 'No external hints allowed', 'Progressive difficulty levels'],
+      prizes: ['Detective Kit', 'Puzzle Game Collection', 'Escape Room Vouchers']
     },
   ];
 
