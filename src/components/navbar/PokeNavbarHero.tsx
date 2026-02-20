@@ -171,7 +171,16 @@ export default function PokeNavbarHero() {
                     style={{ y: logoY, scale: logoScale }}
                     className="fixed top-32 left-1/2 -translate-x-1/2 origin-top z-[60] pointer-events-auto w-full max-w-[450px] px-4"
                 >
-                    <Link href="/" className="block">
+                    <Link
+                        href="/"
+                        className="block"
+                        onClick={(e) => {
+                            if (window.location.pathname === "/") {
+                                e.preventDefault();
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                            }
+                        }}
+                    >
                         <Image
                             src="/logo-text.png"
                             alt="Phoenix 2026"

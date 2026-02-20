@@ -208,6 +208,15 @@ export default function Events() {
     });
 
     filtered.sort((a, b) => {
+      // Prioritize Hackathon category
+      if (a.category === 'Hackathon' && b.category !== 'Hackathon') return -1;
+      if (a.category !== 'Hackathon' && b.category === 'Hackathon') return 1;
+
+      // Prioritize Technical Events after Hackathon
+      if (a.category === 'Technical Events' && b.category !== 'Technical Events') return -1;
+      if (a.category !== 'Technical Events' && b.category === 'Technical Events') return 1;
+
+      // Otherwise sort by status (live first)
       if (a.status === 'live' && b.status !== 'live') return -1;
       if (a.status !== 'live' && b.status === 'live') return 1;
       return 0;
@@ -333,6 +342,22 @@ export default function Events() {
                     ))}
                   </ul>
                 </div>
+
+                {expandedEvent.contacts && expandedEvent.contacts.length > 0 && (
+                  <div>
+                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 pt-4 border-t-2 border-slate-100">
+                      Line Commanders
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {expandedEvent.contacts.map((contact, i) => (
+                        <div key={i} className="flex flex-col">
+                          <span className="text-[11px] font-black text-slate-900 uppercase">{contact.name}</span>
+                          <span className="text-[10px] font-bold text-slate-500">{contact.phone}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="mt-8 pt-6 border-t-4 border-slate-100 flex gap-4">

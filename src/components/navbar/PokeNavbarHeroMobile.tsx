@@ -130,7 +130,15 @@ export default function PokeNavbarHeroMobile() {
                     transition={{ duration: 0.3 }}
                     className="z-50"
                 >
-                    <Link href="/">
+                    <Link
+                        href="/"
+                        onClick={(e) => {
+                            if (window.location.pathname === "/") {
+                                e.preventDefault();
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                            }
+                        }}
+                    >
                         <Image
                             src="/logo-text.png"
                             alt="Phoenix 2026"
@@ -149,8 +157,8 @@ export default function PokeNavbarHeroMobile() {
                     >
                         <div
                             className={`w-12 h-12 rounded-full border-2 border-black flex items-center justify-center transition-colors duration-200 ${menuState === "open"
-                                    ? "bg-gray-800"
-                                    : "bg-white"
+                                ? "bg-gray-800"
+                                : "bg-white"
                                 } shadow-[2px_2px_0px_rgba(0,0,0,0.5)]`}
                         >
                             <Image
