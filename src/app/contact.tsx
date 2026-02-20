@@ -66,7 +66,7 @@ export default function ContactUs() {
           {/* LEFT — FORM */}
           <div className="w-full max-w-xl relative">
             <div className="absolute inset-0 -z-10 rounded-xl
-              bg-gradient-to-br from-emerald-500/20 to-emerald-800/10 blur-lg" />
+              bg-gradient-to-br from-emerald-500/20 to-emerald-900/10 blur-lg" />
 
             {!isSubmitted ? (
               <form

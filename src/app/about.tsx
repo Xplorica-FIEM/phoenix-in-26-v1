@@ -5,7 +5,6 @@ import { FaDiscord, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa6";
 export default function AboutPhoenix({
     titleSize = "text-4xl md:text-5xl",
     textSize = "text-lg md:text-xl",
-    iconSize = 26,
 }: {
     titleSize?: string;
     textSize?: string;
@@ -32,22 +31,6 @@ export default function AboutPhoenix({
                     translates human intent into efficient, production-ready
                     solutions across multiple programming languages.
                 </p>
-
-                {/* SOCIALS */}
-                <div className="flex gap-6 justify-center mt-10 text-white">
-                    <a className="hover:text-yellow-400 transition">
-                        <FaInstagram size={iconSize} />
-                    </a>
-                    <a className="hover:text-yellow-400 transition">
-                        <FaLinkedin size={iconSize} />
-                    </a>
-                    <a className="hover:text-yellow-400 transition">
-                        <FaGithub size={iconSize} />
-                    </a>
-                    <a className="hover:text-yellow-400 transition">
-                        <FaDiscord size={iconSize} />
-                    </a>
-                </div>
             </div>
         </section>
     );

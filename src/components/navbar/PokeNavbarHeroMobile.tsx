@@ -227,53 +227,48 @@ export default function PokeNavbarHeroMobile() {
             </div>
 
             {/* ================= DROPDOWN ================= */}
+            {/* ================= FULLSCREEN MENU ================= */}
             <AnimatePresence>
                 {menuState === "open" && (
-                    <>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={toggleMenu}
-                            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
-                        />
-
+                    <motion.div
+                        key="mobile-menu"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="fixed top-20 left-0 right-0 bottom-0 z-40 bg-black/70 backdrop-blur-sm"
+                        onClick={toggleMenu}
+                    >
                         <motion.div
                             initial={{ y: -20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: -20, opacity: 0 }}
                             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 w-56"
+                            onClick={(e) => e.stopPropagation()}
+                            className="h-full w-full bg-white"
                         >
-                            <div className="bg-white border-2 border-gray-700 rounded-md shadow-[6px_6px_0px_rgba(0,0,0,0.5)] overflow-hidden">
-                                <div className="bg-gray-100 border-b-2 border-gray-300 p-2">
-                                    <p className="text-black text-xs font-bold">
-                                        MENU
-                                    </p>
-                                </div>
+                            {/* HEADER */}
+                            <div className="h-14 bg-gray-100 border-b-2 border-gray-300 flex items-center px-4">
+                                <p className="text-black text-xs font-bold tracking-widest">
+                                    MENU
+                                </p>
+                            </div>
 
-                                <div className="flex flex-col py-1">
-                                    {menuItems.map((item) => (
-                                        <Link
-                                            key={item.label}
-                                            href={item.href}
-                                            onClick={toggleMenu}
-                                            className="px-4 py-3 hover:bg-blue-500 hover:text-white text-xs font-bold text-gray-800"
-                                        >
-                                            {item.label}
-                                        </Link>
-                                    ))}
-
-                                    <button
+                            {/* MENU ITEMS */}
+                            <div className="flex flex-col divide-y divide-gray-200">
+                                {menuItems.map((item) => (
+                                    <Link
+                                        key={item.label}
+                                        href={item.href}
                                         onClick={toggleMenu}
-                                        className="px-4 py-3 hover:bg-red-500 hover:text-white text-xs font-bold text-gray-800 border-t-2 border-gray-100 text-left"
+                                        className="px-6 py-5 text-sm font-bold text-gray-800 hover:bg-red-500 hover:text-white transition-colors"
                                     >
-                                        CLOSE
-                                    </button>
-                                </div>
+                                        {item.label}
+                                    </Link>
+                                ))}
                             </div>
                         </motion.div>
-                    </>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </div>

@@ -32,156 +32,156 @@ const getTypeColor = (type) => {
 //   present modal content without interfering with the persistent navbar.
 // - Padding/top offset is used so the modal visually begins beneath the navbar.
 
-const EventModal = ({ event, onClose }) => {
-  if (!event) return null;
-  const typeColor = getTypeColor(event.type);
+// const EventModal = ({ event, onClose }) => {
+//   if (!event) return null;
+//   const typeColor = getTypeColor(event.type);
 
-  // Prevent background scrolling while modal is open to avoid scroll bleed
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = 'unset'; };
-  }, []);
+//   // Prevent background scrolling while modal is open to avoid scroll bleed
+//   useEffect(() => {
+//     document.body.style.overflow = 'hidden';
+//     return () => { document.body.style.overflow = 'unset'; };
+//   }, []);
 
-  return (
-    // STRATEGY: 
-    // z-40: Puts it BEHIND your Navbar (z-50)
-    // pt-28 md:pt-32: Pushes the modal down so it starts visually UNDER the navbar height
-    <div className="fixed inset-0 z-40 flex items-start justify-center px-4 pb-4 pt-32 md:pt-48 font-sans">
+//   return (
+//     // STRATEGY: 
+//     // z-40: Puts it BEHIND your Navbar (z-50)
+//     // pt-28 md:pt-32: Pushes the modal down so it starts visually UNDER the navbar height
+//     <div className="fixed inset-0 z-40 flex items-start justify-center px-4 pb-4 pt-32 md:pt-48 font-sans">
       
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" 
-        onClick={onClose}
-      ></div>
+//       {/* Backdrop */}
+//       <div 
+//         className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" 
+//         onClick={onClose}
+//       ></div>
 
-      {/* Main Modal Container */}
-      <div className="relative w-full max-w-6xl h-full max-h-[85vh] bg-slate-50 border-[6px] border-black rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-[slideInUp_0.3s_ease-out]">
+//       {/* Main Modal Container */}
+//       <div className="relative w-full max-w-6xl h-full max-h-[85vh] bg-slate-50 border-[6px] border-black rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-[slideInUp_0.3s_ease-out]">
         
-        {/* HEADER BAR */}
-        <div className="w-full h-14 bg-slate-900 flex items-center justify-between px-4 border-b-4 border-black shrink-0">
+//         {/* HEADER BAR */}
+//         <div className="w-full h-14 bg-slate-900 flex items-center justify-between px-4 border-b-4 border-black shrink-0">
            
-           {/* DECORATIVE TERMINATE BUTTONS (Function as Close) */}
-           <div className="flex gap-3 group cursor-pointer p-2" onClick={onClose} title="Terminate Connection">
-              <div className="w-4 h-4 rounded-full bg-red-500 border-2 border-transparent group-hover:border-white transition-all shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
-              <div className="w-4 h-4 rounded-full bg-yellow-400 border-2 border-transparent group-hover:border-white/50 opacity-80 transition-all"></div>
-              <div className="w-4 h-4 rounded-full bg-green-500 border-2 border-transparent group-hover:border-white/50 opacity-80 transition-all"></div>
-           </div>
+//            {/* DECORATIVE TERMINATE BUTTONS (Function as Close) */}
+//            <div className="flex gap-3 group cursor-pointer p-2" onClick={onClose} title="Terminate Connection">
+//               <div className="w-4 h-4 rounded-full bg-red-500 border-2 border-transparent group-hover:border-white transition-all shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
+//               <div className="w-4 h-4 rounded-full bg-yellow-400 border-2 border-transparent group-hover:border-white/50 opacity-80 transition-all"></div>
+//               <div className="w-4 h-4 rounded-full bg-green-500 border-2 border-transparent group-hover:border-white/50 opacity-80 transition-all"></div>
+//            </div>
 
-           <div className="text-[10px] md:text-xs text-slate-400 font-mono uppercase tracking-widest hidden sm:block">
-             Entry #{event.id.toString().padStart(3, '0')} // Secure Connection
-           </div>
-        </div>
+//            <div className="text-[10px] md:text-xs text-slate-400 font-mono uppercase tracking-widest hidden sm:block">
+//              Entry #{event.id.toString().padStart(3, '0')} // Secure Connection
+//            </div>
+//         </div>
 
-        {/* SCROLLABLE CONTENT */}
-        <div className="flex-grow overflow-y-auto overflow-x-hidden">
-          <div className="flex flex-col lg:flex-row min-h-full">
+//         {/* SCROLLABLE CONTENT */}
+//         <div className="flex-grow overflow-y-auto overflow-x-hidden">
+//           <div className="flex flex-col lg:flex-row min-h-full">
             
-            {/* LEFT COL: Visuals */}
-            <div className="w-full lg:w-1/3 bg-slate-200 p-6 flex flex-col gap-6 border-r-0 lg:border-r-4 border-black relative">
-               <div className="w-full aspect-square bg-slate-800 rounded-xl border-4 border-slate-700 relative overflow-hidden group">
-                  <div className={`absolute inset-0 opacity-30 ${typeColor} mix-blend-overlay`}></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <PokeballIcon className="w-32 h-32 md:w-40 md:h-40 text-white/10 group-hover:text-white/30 transition-all duration-500 rotate-12" />
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <span className={`inline-block px-3 py-1.5 text-xs font-bold text-white uppercase tracking-wider border border-white/50 rounded shadow-md ${event.status === 'live' ? 'bg-red-500 animate-pulse' : 'bg-blue-500'}`}>
-                        {event.status === 'live' ? '● Live Signal' : 'Signal Pending'}
-                    </span>
-                  </div>
-               </div>
+//             {/* LEFT COL: Visuals */}
+//             <div className="w-full lg:w-1/3 bg-slate-200 p-6 flex flex-col gap-6 border-r-0 lg:border-r-4 border-black relative">
+//                <div className="w-full aspect-square bg-slate-800 rounded-xl border-4 border-slate-700 relative overflow-hidden group">
+//                   <div className={`absolute inset-0 opacity-30 ${typeColor} mix-blend-overlay`}></div>
+//                   <div className="absolute inset-0 flex items-center justify-center">
+//                     <PokeballIcon className="w-32 h-32 md:w-40 md:h-40 text-white/10 group-hover:text-white/30 transition-all duration-500 rotate-12" />
+//                   </div>
+//                   <div className="absolute top-4 left-4">
+//                     <span className={`inline-block px-3 py-1.5 text-xs font-bold text-white uppercase tracking-wider border border-white/50 rounded shadow-md ${event.status === 'live' ? 'bg-red-500 animate-pulse' : 'bg-blue-500'}`}>
+//                         {event.status === 'live' ? '● Live Signal' : 'Signal Pending'}
+//                     </span>
+//                   </div>
+//                </div>
                
-               {/* Quick Stats */}
-               <div className="grid grid-cols-2 gap-3">
-                 <div className="bg-white p-3 rounded-lg border-2 border-slate-300">
-                    <p className="text-[10px] text-slate-400 font-bold uppercase">Class</p>
-                    <p className="text-xs md:text-sm font-black text-slate-800">{event.category.split(' ')[0]}</p>
-                 </div>
-                 <div className="bg-white p-3 rounded-lg border-2 border-slate-300">
-                    <p className="text-[10px] text-slate-400 font-bold uppercase">Type</p>
-                    <p className="text-xs md:text-sm font-black text-slate-800 capitalize">{event.type}</p>
-                 </div>
-               </div>
+//                {/* Quick Stats */}
+//                <div className="grid grid-cols-2 gap-3">
+//                  <div className="bg-white p-3 rounded-lg border-2 border-slate-300">
+//                     <p className="text-[10px] text-slate-400 font-bold uppercase">Class</p>
+//                     <p className="text-xs md:text-sm font-black text-slate-800">{event.category.split(' ')[0]}</p>
+//                  </div>
+//                  <div className="bg-white p-3 rounded-lg border-2 border-slate-300">
+//                     <p className="text-[10px] text-slate-400 font-bold uppercase">Type</p>
+//                     <p className="text-xs md:text-sm font-black text-slate-800 capitalize">{event.type}</p>
+//                  </div>
+//                </div>
                
-               {/* HP Bar */}
-               <div className="mt-auto bg-white p-4 rounded-xl border-2 border-black shadow-[4px_4px_0_rgba(0,0,0,0.1)]">
-                 <div className="flex justify-between text-xs font-bold uppercase mb-2">
-                    <span className="text-slate-800">Remaining Time</span>
-                    <span className="text-red-600">{event.endsIn}</span>
-                 </div>
-                 <div className="w-full h-4 bg-slate-200 rounded-full border-2 border-slate-400 relative overflow-hidden">
-                    <div 
-                        className={`h-full ${event.progress > 80 ? 'bg-red-500' : event.progress > 50 ? 'bg-yellow-400' : 'bg-green-500'} border-r-2 border-white/50`} 
-                        style={{ width: `${100 - event.progress}%` }}
-                    ></div>
-                    <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/diagonal-stripes.png')]"></div>
-                 </div>
-               </div>
-            </div>
+//                {/* HP Bar */}
+//                <div className="mt-auto bg-white p-4 rounded-xl border-2 border-black shadow-[4px_4px_0_rgba(0,0,0,0.1)]">
+//                  <div className="flex justify-between text-xs font-bold uppercase mb-2">
+//                     <span className="text-slate-800">Remaining Time</span>
+//                     <span className="text-red-600">{event.endsIn}</span>
+//                  </div>
+//                  <div className="w-full h-4 bg-slate-200 rounded-full border-2 border-slate-400 relative overflow-hidden">
+//                     <div 
+//                         className={`h-full ${event.progress > 80 ? 'bg-red-500' : event.progress > 50 ? 'bg-yellow-400' : 'bg-green-500'} border-r-2 border-white/50`} 
+//                         style={{ width: `${100 - event.progress}%` }}
+//                     ></div>
+//                     <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/diagonal-stripes.png')]"></div>
+//                  </div>
+//                </div>
+//             </div>
 
-            {/* RIGHT COL: Detailed Text */}
-            <div className="w-full lg:w-2/3 p-6 sm:p-10 bg-white relative">
-               {/* Dot Grid Background */}
-               <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-                    style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-               </div>
+//             {/* RIGHT COL: Detailed Text */}
+//             <div className="w-full lg:w-2/3 p-6 sm:p-10 bg-white relative">
+//                {/* Dot Grid Background */}
+//                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+//                     style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
+//                </div>
 
-               <div className="relative z-10 flex flex-col gap-6 md:gap-8">
-                  <div>
-                    <h2 className="text-2xl md:text-5xl font-black text-slate-900 font-['Press_Start_2P',sans-serif] leading-tight mb-2">
-                        {event.title}
-                    </h2>
-                    <p className="text-sm md:text-xl font-bold text-slate-500 uppercase tracking-wide">
-                        {event.subtitle}
-                    </p>
-                  </div>
+//                <div className="relative z-10 flex flex-col gap-6 md:gap-8">
+//                   <div>
+//                     <h2 className="text-2xl md:text-5xl font-black text-slate-900 font-['Press_Start_2P',sans-serif] leading-tight mb-2">
+//                         {event.title}
+//                     </h2>
+//                     <p className="text-sm md:text-xl font-bold text-slate-500 uppercase tracking-wide">
+//                         {event.subtitle}
+//                     </p>
+//                   </div>
                   
-                  <hr className="border-t-4 border-slate-100" />
+//                   <hr className="border-t-4 border-slate-100" />
                   
-                  <div>
-                    <h3 className="text-xs md:text-sm font-black text-slate-900 uppercase tracking-widest mb-3 flex items-center gap-2">
-                        <span className="w-2 h-2 bg-black"></span> Mission Briefing
-                    </h3>
-                    <p className="text-slate-600 leading-relaxed text-sm md:text-base font-medium">
-                        {event.description}
-                    </p>
-                  </div>
+//                   <div>
+//                     <h3 className="text-xs md:text-sm font-black text-slate-900 uppercase tracking-widest mb-3 flex items-center gap-2">
+//                         <span className="w-2 h-2 bg-black"></span> Mission Briefing
+//                     </h3>
+//                     <p className="text-slate-600 leading-relaxed text-sm md:text-base font-medium">
+//                         {event.description}
+//                     </p>
+//                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                    <div>
-                      <h3 className="text-xs md:text-sm font-black text-slate-900 uppercase tracking-widest mb-3 flex items-center gap-2">
-                         <span className="w-2 h-2 bg-blue-500"></span> Rules
-                      </h3>
-                      <ul className="space-y-2">
-                        {event.rules.map((rule, idx) => (
-                            <li key={idx} className="text-xs md:text-sm text-slate-600 flex items-start gap-2">
-                                <span className="text-slate-400 font-mono select-none">{`>`}</span>
-                                {rule}
-                            </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="text-xs md:text-sm font-black text-slate-900 uppercase tracking-widest mb-3 flex items-center gap-2">
-                         <span className="w-2 h-2 bg-yellow-500"></span> Rewards
-                      </h3>
-                      <ul className="space-y-2">
-                        {event.prizes.map((prize, idx) => (
-                            <li key={idx} className="text-xs md:text-sm text-slate-600 flex items-start gap-2">
-                                <span className="text-yellow-500">★</span>
-                                {prize}
-                            </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+//                     <div>
+//                       <h3 className="text-xs md:text-sm font-black text-slate-900 uppercase tracking-widest mb-3 flex items-center gap-2">
+//                          <span className="w-2 h-2 bg-blue-500"></span> Rules
+//                       </h3>
+//                       <ul className="space-y-2">
+//                         {event.rules.map((rule, idx) => (
+//                             <li key={idx} className="text-xs md:text-sm text-slate-600 flex items-start gap-2">
+//                                 <span className="text-slate-400 font-mono select-none">{`>`}</span>
+//                                 {rule}
+//                             </li>
+//                         ))}
+//                       </ul>
+//                     </div>
+//                     <div>
+//                       <h3 className="text-xs md:text-sm font-black text-slate-900 uppercase tracking-widest mb-3 flex items-center gap-2">
+//                          <span className="w-2 h-2 bg-yellow-500"></span> Rewards
+//                       </h3>
+//                       <ul className="space-y-2">
+//                         {event.prizes.map((prize, idx) => (
+//                             <li key={idx} className="text-xs md:text-sm text-slate-600 flex items-start gap-2">
+//                                 <span className="text-yellow-500">★</span>
+//                                 {prize}
+//                             </li>
+//                         ))}
+//                       </ul>
+//                     </div>
+//                   </div>
+//                </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 // Small presentational components
 // - Page-specific UI (cards, filter bar, empty state) are kept local to
@@ -259,8 +259,7 @@ const EventCard = ({ event }) => {
 
   return (
     <div
-      onClick={goToEvent}
-      className="cursor-pointer group relative w-full max-w-sm md:max-w-none mx-auto bg-white border-4 border-black rounded-2xl p-1 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] md:shadow-[8px_8px_0px_rgba(0,0,0,0.2)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] md:hover:shadow-[12px_12px_0px_rgba(0,0,0,1)] hover:-translate-y-1 md:hover:-translate-y-2 transition-all duration-200 flex flex-col"
+      className=" group relative w-full max-w-sm md:max-w-none mx-auto bg-white border-4 border-black rounded-2xl p-1 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] md:shadow-[8px_8px_0px_rgba(0,0,0,0.2)] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] md:hover:shadow-[12px_12px_0px_rgba(0,0,0,1)] hover:-translate-y-1 md:hover:-translate-y-2 transition-all duration-200 flex flex-col"
     >
       <div className="bg-slate-100 border-2 border-slate-200 rounded-xl overflow-hidden h-full flex flex-col relative z-10">
         <div className="relative h-40 bg-slate-800 overflow-hidden border-b-4 border-black group-hover:bg-slate-700 transition-colors">
@@ -369,7 +368,7 @@ export default function Events() {
   const dummyEvents = [
     { 
       id: 1, 
-      title: 'Hackathon X', 
+      title: 'Hackatonix', 
       subtitle: 'Full Stack Battle', 
       image: '/placeholder-image.jpg', 
       status: 'live', 

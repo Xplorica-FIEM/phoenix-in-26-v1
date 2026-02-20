@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FaInstagram, FaLinkedin, FaGithub, FaDiscord } from "react-icons/fa6";
 
 // --- REUSABLE NAV BUTTON ---
 const NavButton = ({ href, label, hoverColor }) => {
@@ -54,6 +55,7 @@ const Container = ({ children, className = "" }) => (
 );
 
 export default function PokeNavbarHero() {
+    const iconSize = 24;
     const { scrollY } = useScroll();
 
     /* ---------------- LOGO ANIMATION (SMOOTH + CLAMPED) ---------------- */
@@ -179,22 +181,33 @@ export default function PokeNavbarHero() {
                 </motion.div>
 
                 {/* HERO Timer */}
+                {/* CENTER TIMER */}
                 <Container className="flex flex-col items-center justify-center h-full">
                     <motion.div
-                        style={{ y: countdownY, opacity: countdownOpacity }}
-                        className="mt-80"
+                        style={{ opacity: countdownOpacity, y: countdownY }}
+                        className="flex gap-4"
                     >
-                        {!hasStarted && (
-                            <div className="flex flex-wrap justify-center items-center gap-4">
-                                <TimerSlot value={timeLeft.days} label="Days" />
-                                <TimerSlot value={timeLeft.hours} label="Hours" />
-                                <TimerSlot value={timeLeft.minutes} label="Mins" />
-                                <TimerSlot value={timeLeft.seconds} label="Secs" />
-                            </div>
-                        )}
+                        <TimerSlot value={timeLeft.days} label="Days" />
+                        <TimerSlot value={timeLeft.hours} label="Hours" />
+                        <TimerSlot value={timeLeft.minutes} label="Mins" />
+                        <TimerSlot value={timeLeft.seconds  } label="Secs" />
                     </motion.div>
                 </Container>
 
+                {/* SOCIALS – BOTTOM */}
+                <motion.div
+                    style={{ opacity: countdownOpacity }}
+                    className="absolute bottom-20 left-1/2 -translate-x-1/2 z-40"
+                >
+                    <div className="bg-blue-600 border-2 border-white rounded-lg p-1 shadow-[4px_4px_0_rgba(0,0,0,0.6)]">
+                        <div className="bg-blue-500 border-2 border-blue-800 rounded-md px-6 py-4 flex gap-6">
+                            <FaInstagram size={iconSize} className="hover:text-yellow-300 cursor-pointer" />
+                            <FaLinkedin size={iconSize} className="hover:text-yellow-300 cursor-pointer" />
+                            <FaGithub size={iconSize} className="hover:text-yellow-300 cursor-pointer" />
+                            <FaDiscord size={iconSize} className="hover:text-yellow-300 cursor-pointer" />
+                        </div>
+                    </div>
+                </motion.div>
                 {/* CORNER TIMER */}
                 <motion.div
                     animate={{

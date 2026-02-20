@@ -7,6 +7,7 @@ import {
   pressStart2P,
 } from "@/components/fonts"
 import AppShell from "@/components/AppShell"
+import { FaDiscord, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa6"
 
 export const metadata: Metadata = {
   title: "Agun Pakhi",
@@ -14,8 +15,10 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
+  iconSize = 26,
   children,
 }: {
+  iconSize?: number;
   children: React.ReactNode
 }) {
   return (

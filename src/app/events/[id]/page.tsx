@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 /* ---------------- DATA ---------------- */
 
 export const EVENTS = [
-  { id: 1, title: 'Hackathon X', subtitle: 'Full Stack Battle', themeId: 'sinnoh', category: 'Tech Events', type: 'electric', status: 'live', endsIn: '2h 30m', progress: 90, endDate: 'Feb 17, 2026', participants: '2–4 per team', eventFee: '₹200 / team', description: 'The ultimate 48-hour coding marathon. Teams will compete to build the most innovative full-stack application using modern frameworks.', rules: ['Max team size: 4 members', 'No pre-written code allowed', 'Must deploy to Vercel/Netlify', 'API integration required'], prizes: ['₹50,000 Cash Prize', 'Internship Opportunities', 'Exclusive Tech Swag'], contacts: [{ name: 'Aritra', phone: '9876543210', role: 'Mentor' }, { name: 'Sneha', phone: '9123456780', role: 'CC' }] },
+  { id: 1, title: 'Hacktonix', subtitle: 'Full Stack Battle', themeId: 'sinnoh', category: 'Tech Events', type: 'electric', status: 'live', endsIn: '2h 30m', progress: 90, endDate: 'Feb 17, 2026', participants: '2–4 per team', eventFee: '₹200 / team', description: 'The ultimate 48-hour coding marathon. Teams will compete to build the most innovative full-stack application using modern frameworks.', rules: ['Max team size: 4 members', 'No pre-written code allowed', 'Must deploy to Vercel/Netlify', 'API integration required'], prizes: ['₹50,000 Cash Prize', 'Internship Opportunities', 'Exclusive Tech Swag'], contacts: [{ name: 'Aritra', phone: '9876543210', role: 'Mentor' }, { name: 'Sneha', phone: '9123456780', role: 'CC' }] },
   { id: 2, title: 'AI Summit', subtitle: 'Neural Networks', themeId: 'unova', category: 'Tech Events', type: 'psychic', status: 'upcoming', endsIn: '5 days', progress: 10, endDate: 'Feb 22, 2026', participants: 'Individual', eventFee: '₹150', description: 'A deep dive into Generative AI and LLMs with expert-led talks and hands-on workshops.', rules: ['Laptop required for workshops', 'Basic Python knowledge assumed', 'Networking session mandatory'], prizes: ['NVIDIA Credits', 'AI Course Certification', 'Networking Dinner Pass'], contacts: [{ name: 'Rohit', phone: '9988776655', role: 'Mentor' }, { name: 'Kavya', phone: '9800112233', role: 'CC' }] },
   { id: 3, title: 'Speed Code', subtitle: 'Algorithm Race', themeId: 'kanto', category: 'Competitions', type: 'fire', status: 'live', endsIn: '45 mins', progress: 95, endDate: 'Feb 17, 2026', participants: 'Solo', eventFee: '₹100', description: 'Fast-paced algorithmic problem solving. Solve 5 hard problems in under 60 minutes.', rules: ['Individual participation only', 'C++, Java, Python supported', 'No internet help allowed'], prizes: ['Gaming Mouse', 'Premium coding subscriptions', 'Champion Trophy'], contacts: [{ name: 'Neel', phone: '9012345678', role: 'Mentor' }, { name: 'Karan', phone: '9012003004', role: 'CC' }] },
   { id: 4, title: 'UX Sprint', subtitle: 'Design System', themeId: 'kalos', category: 'Workshops', type: 'grass', status: 'upcoming', endsIn: '3 days', progress: 30, endDate: 'Feb 20, 2026', participants: 'Solo / Duo', eventFee: '₹120', description: 'Learn to build scalable design systems in Figma with accessibility and tokens.', rules: ['Figma account required', 'Prototype submission required', 'Accessibility focus mandatory'], prizes: ['Figma Pro License', 'Design Toolkit', 'Wacom Tablet'], contacts: [{ name: 'Ishita', phone: '9345678123', role: 'Mentor' }, { name: 'Meera', phone: '9123400000', role: 'CC' }] },
@@ -21,7 +21,7 @@ export const EVENTS = [
 
 export const THEMES = {
   kanto: {
-    panel: 'bg-[#f8fafc]',
+    panel: 'bg-rose-100',
     accent: 'red-500',
     accentSoft: 'bg-red-50',
     accentDark: 'red-700',
@@ -36,7 +36,7 @@ export const THEMES = {
   },
 
   johto: {
-    panel: 'bg-[#f8fafc]',
+    panel: 'bg-amber-100',
     accent: 'yellow-500',
     accentSoft: 'bg-yellow-50',
     accentDark: 'yellow-700',
@@ -51,7 +51,7 @@ export const THEMES = {
   },
 
   hoenn: {
-    panel: 'bg-[#f8fafc]',
+    panel: 'bg-emerald-100',
     accent: 'emerald-500',
     accentSoft: 'bg-emerald-50',
     accentDark: 'emerald-700',
@@ -66,7 +66,7 @@ export const THEMES = {
   },
 
   sinnoh: {
-    panel: 'bg-[#f8fafc]',
+    panel: 'bg-sky-100',
     accent: 'sky-500',
     accentSoft: 'bg-sky-50',
     accentDark: 'sky-700',
@@ -81,7 +81,7 @@ export const THEMES = {
   },
 
   unova: {
-    panel: 'bg-[#f8fafc]',
+    panel: 'bg-slate-100',
     accent: 'slate-600',
     accentSoft: 'bg-slate-100',
     accentDark: 'slate-800',
@@ -96,7 +96,7 @@ export const THEMES = {
   },
 
   kalos: {
-    panel: 'bg-[#f8fafc]',
+    panel: 'bg-indigo-100',
     accent: 'indigo-500',
     accentSoft: 'bg-indigo-50',
     accentDark: 'indigo-700',
@@ -111,7 +111,7 @@ export const THEMES = {
   },
 
   alola: {
-    panel: 'bg-[#f8fafc]',
+    panel: 'bg-orange-100',
     accent: 'orange-500',
     accentSoft: 'bg-orange-50',
     accentDark: 'orange-700',
@@ -126,7 +126,7 @@ export const THEMES = {
   },
 
   galar: {
-    panel: 'bg-[#f8fafc]',
+    panel: 'bg-violet-100',
     accent: 'violet-500',
     accentSoft: 'bg-violet-50',
     accentDark: 'violet-700',
@@ -141,7 +141,7 @@ export const THEMES = {
   },
 
   paldea: {
-    panel: 'bg-[#f8fafc]',
+    panel: 'bg-fuchsia-100',
     accent: 'fuchsia-500',
     accentSoft: 'bg-fuchsia-50',
     accentDark: 'fuchsia-700',
