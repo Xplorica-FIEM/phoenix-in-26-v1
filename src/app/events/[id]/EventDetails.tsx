@@ -1,143 +1,75 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { EVENTS } from '@/data/events';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
+import RichTextRenderer from '@/components/RichTextRenderer';
+import { ChevronLeft, Trophy, Phone, Zap } from 'lucide-react';
 
-export const THEMES = {
-    kanto: {
-        panel: 'bg-rose-100',
-        accent: 'red-500',
-        accentSoft: 'bg-red-50',
-        accentDark: 'red-700',
+interface EventDetail {
+    event_id: number;
+    name: string;
+    fee: string;
+    status: string;
+    category: string;
+    max_participants: number;
+    max_attempts_per_team: number;
+    details: { key: string; value: string }[] | null;
+    schedules: {
+        schedule_id: number;
+        label: string;
+        startTime: string;
+        endTime: string;
+    }[];
+    prizes: {
+        prize_id: number;
+        title: string;
+        value: string;
+    }[];
+}
 
-        description: 'bg-white border-t-[6px] border-t-red-500',
-        rules: 'bg-white border-t-[6px] border-t-red-600',
-        contact: 'bg-white border-l-[6px] border-l-red-500',
-
-        backButton: 'bg-red-100 text-red-900',
-        backButtonHover: 'hover:bg-red-200',
-        ruleArrow: 'text-red-600',
-    },
-
-    johto: {
-        panel: 'bg-amber-100',
+const THEMES = {
+    electric: {
+        panel: 'bg-yellow-50/90',
         accent: 'yellow-500',
-        accentSoft: 'bg-yellow-50',
         accentDark: 'yellow-700',
-
-        description: 'bg-white border-t-[6px] border-t-yellow-500',
-        rules: 'bg-white border-t-[6px] border-t-yellow-600',
-        contact: 'bg-white border-l-[6px] border-l-yellow-500',
-
-        backButton: 'bg-yellow-100 text-yellow-900',
-        backButtonHover: 'hover:bg-yellow-200',
-        ruleArrow: 'text-yellow-600',
+        card: 'bg-white border-yellow-400',
+        glow: 'shadow-[0_0_20px_rgba(234,179,8,0.2)]',
     },
-
-    hoenn: {
-        panel: 'bg-emerald-100',
+    fire: {
+        panel: 'bg-red-50/90',
+        accent: 'red-500',
+        accentDark: 'red-700',
+        card: 'bg-white border-red-400',
+        glow: 'shadow-[0_0_20px_rgba(239,68,68,0.2)]',
+    },
+    grass: {
+        panel: 'bg-emerald-50/90',
         accent: 'emerald-500',
-        accentSoft: 'bg-emerald-50',
         accentDark: 'emerald-700',
-
-        description: 'bg-white border-t-[6px] border-t-emerald-500',
-        rules: 'bg-white border-t-[6px] border-t-emerald-600',
-        contact: 'bg-white border-l-[6px] border-l-emerald-500',
-
-        backButton: 'bg-emerald-100 text-emerald-900',
-        backButtonHover: 'hover:bg-emerald-200',
-        ruleArrow: 'text-emerald-600',
+        card: 'bg-white border-emerald-400',
+        glow: 'shadow-[0_0_20px_rgba(16,185,129,0.2)]',
     },
-
-    sinnoh: {
-        panel: 'bg-sky-100',
-        accent: 'sky-500',
-        accentSoft: 'bg-sky-50',
-        accentDark: 'sky-700',
-
-        description: 'bg-white border-t-[6px] border-t-sky-500',
-        rules: 'bg-white border-t-[6px] border-t-sky-600',
-        contact: 'bg-white border-l-[6px] border-l-sky-500',
-
-        backButton: 'bg-sky-100 text-sky-900',
-        backButtonHover: 'hover:bg-sky-200',
-        ruleArrow: 'text-sky-600',
+    water: {
+        panel: 'bg-blue-50/90',
+        accent: 'blue-500',
+        accentDark: 'blue-700',
+        card: 'bg-white border-blue-400',
+        glow: 'shadow-[0_0_20px_rgba(59,130,246,0.2)]',
     },
-
-    unova: {
-        panel: 'bg-slate-100',
+    psychic: {
+        panel: 'bg-purple-50/90',
+        accent: 'purple-500',
+        accentDark: 'purple-700',
+        card: 'bg-white border-purple-400',
+        glow: 'shadow-[0_0_20px_rgba(168,85,247,0.2)]',
+    },
+    default: {
+        panel: 'bg-slate-50/90',
         accent: 'slate-600',
-        accentSoft: 'bg-slate-100',
         accentDark: 'slate-800',
-
-        description: 'bg-white border-t-[6px] border-t-slate-700',
-        rules: 'bg-white border-t-[6px] border-t-slate-800',
-        contact: 'bg-white border-l-[6px] border-l-slate-700',
-
-        backButton: 'bg-slate-200 text-slate-900',
-        backButtonHover: 'hover:bg-slate-300',
-        ruleArrow: 'text-slate-700',
-    },
-
-    kalos: {
-        panel: 'bg-indigo-100',
-        accent: 'indigo-500',
-        accentSoft: 'bg-indigo-50',
-        accentDark: 'indigo-700',
-
-        description: 'bg-white border-t-[6px] border-t-indigo-500',
-        rules: 'bg-white border-t-[6px] border-t-indigo-600',
-        contact: 'bg-white border-l-[6px] border-l-indigo-500',
-
-        backButton: 'bg-indigo-100 text-indigo-900',
-        backButtonHover: 'hover:bg-indigo-200',
-        ruleArrow: 'text-indigo-600',
-    },
-
-    alola: {
-        panel: 'bg-orange-100',
-        accent: 'orange-500',
-        accentSoft: 'bg-orange-50',
-        accentDark: 'orange-700',
-
-        description: 'bg-white border-t-[6px] border-t-orange-500',
-        rules: 'bg-white border-t-[6px] border-t-orange-600',
-        contact: 'bg-white border-l-[6px] border-l-orange-500',
-
-        backButton: 'bg-orange-100 text-orange-900',
-        backButtonHover: 'hover:bg-orange-200',
-        ruleArrow: 'text-orange-600',
-    },
-
-    galar: {
-        panel: 'bg-violet-100',
-        accent: 'violet-500',
-        accentSoft: 'bg-violet-50',
-        accentDark: 'violet-700',
-
-        description: 'bg-white border-t-[6px] border-t-violet-500',
-        rules: 'bg-white border-t-[6px] border-t-violet-600',
-        contact: 'bg-white border-l-[6px] border-l-violet-500',
-
-        backButton: 'bg-violet-100 text-violet-900',
-        backButtonHover: 'hover:bg-violet-200',
-        ruleArrow: 'text-violet-600',
-    },
-
-    paldea: {
-        panel: 'bg-fuchsia-100',
-        accent: 'fuchsia-500',
-        accentSoft: 'bg-fuchsia-50',
-        accentDark: 'fuchsia-700',
-
-        description: 'bg-white border-t-[6px] border-t-fuchsia-500',
-        rules: 'bg-white border-t-[6px] border-t-fuchsia-600',
-        contact: 'bg-white border-l-[6px] border-l-fuchsia-500',
-
-        backButton: 'bg-fuchsia-100 text-fuchsia-900',
-        backButtonHover: 'hover:bg-fuchsia-200',
-        ruleArrow: 'text-fuchsia-600',
+        card: 'bg-white border-slate-400',
+        glow: 'shadow-[0_0_20px_rgba(71,85,105,0.2)]',
     },
 } as const;
 
@@ -149,161 +81,313 @@ const PokeballIcon = ({ className }: { className?: string }) => (
     </svg>
 );
 
-const StatItem = ({ label, value, theme }: { label: string; value: string; theme: any }) => (
-    <div className="flex flex-col gap-2">
-        <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest leading-none">
-            {label}
-        </span>
-        <span className={`text-lg md:text-xl font-black text-white leading-none tracking-tight`}>
-            {value}
-        </span>
-    </div>
-);
-
 export default function EventDetails({ id }: { id: string }) {
     const router = useRouter();
-    const event = EVENTS.find((e) => e.id === Number(id));
+    const [event, setEvent] = useState<EventDetail | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    // --- SEO Optimization ---
+    useEffect(() => {
+        const fetchEventDetails = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`https://phoenix-app-2-0-backend-nodejs-qqwx.onrender.com/api/catalog/events/${id}`);
+                const result = await response.json();
+
+                if (result.status === 'success' && result.data) {
+                    setEvent(result.data);
+                } else {
+                    setError('Event not found');
+                }
+            } catch (err) {
+                console.error('Failed to fetch event details:', err);
+                setError('Failed to load event details.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchEventDetails();
+    }, [id]);
+
     useEffect(() => {
         if (event) {
-            document.title = `${event.title} (${event.category}) | PHOENIX 2026`;
+            document.title = `${event.name} | Phoenix 2026`;
         }
     }, [event]);
 
-    if (!event) return null;
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-transparent flex items-center justify-center">
+                <div className="flex flex-col items-center">
+                    <div className="w-16 h-16 border-4 border-white/20 border-t-white rounded-full animate-spin mb-4"></div>
+                    <p className="text-white font-press-start text-[10px] animate-pulse">INITIATING SCAN...</p>
+                </div>
+            </div>
+        );
+    }
 
-    const theme = THEMES[event.themeId as keyof typeof THEMES] || THEMES.kanto;
+    if (error || !event) {
+        return (
+            <div className="min-h-screen bg-transparent flex flex-col items-center justify-center p-6 text-center">
+                <h2 className="text-2xl font-press-start text-white mb-6 uppercase">404 SIGNAL LOST</h2>
+                <button
+                    onClick={() => router.push('/#events')}
+                    className="px-6 py-3 bg-white text-slate-950 font-black rounded border-b-4 border-slate-400 active:border-b-0 active:translate-y-1 transition-all uppercase text-xs"
+                >
+                    Return to Map
+                </button>
+            </div>
+        );
+    }
+
+    // Determine theme based on category
+    const cat = event.category?.toLowerCase() || '';
+    let themeKey: keyof typeof THEMES = 'default';
+    if (cat.includes('tech')) themeKey = 'electric';
+    else if (cat.includes('gaming')) themeKey = 'fire';
+    else if (cat.includes('non')) themeKey = 'grass';
+    else if (cat.includes('carnival')) themeKey = 'water';
+
+    const theme = THEMES[themeKey];
+
+    const shortDescription = event.details?.find(d => d.key === 'short_description')?.value;
+    const longDescriptionRaw = event.details?.find(d => d.key === 'long_description')?.value;
+    let longDescription = null;
+
+    if (longDescriptionRaw) {
+        try {
+            longDescription = JSON.parse(longDescriptionRaw);
+        } catch (e) {
+            console.error('Failed to parse long description JSON', e);
+        }
+    }
+
+    const rules = event.details?.filter(d => d.key.toLowerCase().includes('rule')) || [];
+    const coordinators = event.details?.filter(d => d.key.toLowerCase().includes('coordinator')).map(d => ({
+        name: d.key.split('-')[1] || d.key,
+        phone: d.value
+    })) || [];
 
     return (
-        <div className="min-h-screen w-full p-2 pt-24 md:p-8 md:pt-32 flex items-start justify-center overflow-y-auto scrollbar-hide">
-            <div
-                className={`relative border-4 md:border-[6px] border-black rounded-[1.5rem] md:rounded-[3.5rem] overflow-hidden w-full max-w-7xl 
-        shadow-[8px_8px_0_rgba(0,0,0,1)] md:shadow-[12px_12px_0_rgba(0,0,0,1)] ${theme.panel} animate-fadeInUp`}
-            >
-                <div className={`min-h-[80vh] ${theme.panel} selection:bg-${theme.accent} selection:text-white font-sans overflow-x-hidden`}>
-                    {/* HEADER SECTION */}
-                    <div className="w-full bg-slate-900 border-b-4 md:border-b-8 border-black pt-12 md:pt-20 pb-8 md:pb-12 relative overflow-hidden group">
-                        <div className="absolute inset-0 opacity-10 pointer-events-none">
-                            <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
-                        </div>
+        <div className="min-h-screen w-full bg-transparent flex items-start justify-center p-4 md:p-8 pt-24 md:pt-32 font-sans relative">
 
-                        <div className="max-w-7xl mx-auto px-6 relative z-10">
+            {/* MAIN POKEDEX-LIKE COMPONENT WRAPPER */}
+            <div className="relative w-full max-w-7xl border-4 md:border-[6px] border-black rounded-[2rem] md:rounded-[3.5rem] overflow-hidden shadow-[12px_12px_0_rgba(0,0,0,1)] flex flex-col backdrop-blur-sm animate-fadeIn">
+
+                {/* DARK HEADER SECTION (TOP ~1/3) */}
+                <div className="w-full bg-[#0f172a]/95 p-8 md:p-14 border-b-6 md:border-b-8 border-black relative">
+                    <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+
+                    <div className="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
+                        <div className="space-y-8 flex-grow">
                             <button
                                 onClick={() => router.push('/#events')}
-                                className={`flex items-center gap-2 ${theme.backButton} ${theme.backButtonHover} px-3 py-1.5 md:px-4 md:py-2 rounded-lg font-black text-[10px] md:text-xs uppercase tracking-tighter transition-all mb-6 md:mb-8 shadow-[3px_3px_0_rgba(0,0,0,1)] md:shadow-[4px_4px_0_rgba(0,0,0,1)] active:shadow-none active:translate-y-1 active:translate-x-1`}
+                                className="bg-white text-slate-900 px-4 py-2 rounded font-black text-[10px] uppercase shadow-[4px_4px_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none active:scale-95 transition-all flex items-center gap-2 border-2 border-black group"
                             >
-                                ← Back to Pokédex
+                                <ChevronLeft size={14} strokeWidth={3} className="group-hover:-translate-x-0.5 transition-transform" /> BACK TO POKÉDEX
                             </button>
 
-                            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8">
-                                <div className="space-y-3 md:space-y-4 max-w-3xl">
-                                    <div className="flex items-center gap-3">
-                                        <span className={`px-2 py-0.5 md:px-3 md:py-1 bg-${theme.accent} text-white text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded`}>
-                                            #{event.id.toString().padStart(3, '0')}
-                                        </span>
-                                        <span className="text-slate-400 font-bold uppercase text-[8px] md:text-[10px] tracking-widest">
-                                            {event.category}
-                                        </span>
-                                    </div>
-                                    <h1 className="text-2xl sm:text-4xl md:text-7xl font-black text-white uppercase leading-tight font-press-start drop-shadow-[0_2px_0_rgba(0,0,0,1)] md:drop-shadow-[0_4px_0_rgba(0,0,0,1)]">
-                                        {event.title}
-                                    </h1>
-                                    <p className={`text-lg md:text-2xl font-bold text-${theme.accent} uppercase tracking-wide`}>
-                                        {event.subtitle}
-                                    </p>
+                            <div className="space-y-4">
+                                <div className="flex flex-wrap items-center gap-4">
+                                    <span className="bg-fuchsia-600 text-white font-press-start text-[8px] md:text-[10px] px-3 py-1.5 rounded shadow-[4px_4px_0_rgba(0,0,0,0.5)] border-2 border-black uppercase text-center inline-block">
+                                        {event.category || "GENERAL"}
+                                    </span>
+                                    <span className={cn(
+                                        "font-press-start text-[8px] md:text-[10px] px-3 py-1.5 rounded shadow-[4px_4px_0_rgba(0,0,0,0.5)] border-2 border-black uppercase transition-all inline-block",
+                                        event.status === 'open' ? "bg-emerald-500 text-white" : "bg-red-500 text-white"
+                                    )}>
+                                        {event.status === 'open' ? "REGISTRATION OPEN" : "REGISTRATION CLOSED"}
+                                    </span>
                                 </div>
-
-                                <div className="hidden lg:block">
-                                    <div className="w-48 h-48 bg-slate-800 border-4 border-black rounded-3xl relative overflow-hidden rotate-3 hover:rotate-0 transition-transform duration-500 shadow-[8px_8px_0_rgba(0,0,0,1)]">
-                                        <div className={`absolute inset-0 bg-${theme.accent} opacity-20`}></div>
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <PokeballIcon className="w-24 h-24 text-white/20" />
-                                        </div>
-                                    </div>
-                                </div>
+                                <h1 className="text-4xl md:text-8xl font-press-start text-white uppercase leading-none tracking-tighter drop-shadow-[0_4px_0_rgba(0,0,0,1)] hover:text-fuchsia-400 transition-colors cursor-default">
+                                    {event.name}
+                                </h1>
+                                <p className="text-fuchsia-500 font-bold text-xs md:text-lg uppercase tracking-widest mt-4">
+                                    {event.details?.find(d => d.key === 'subtitle')?.value || "Signal Detected // Authorized Access"}
+                                </p>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-20 text-slate-800">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-20">
-                            {/* LEFT: Info */}
-                            <div className="lg:col-span-8 space-y-10 md:space-y-16">
-                                <section className={`${theme.description} p-6 md:p-12 rounded-2xl md:rounded-3xl shadow-[0_8px_0_0_rgba(0,0,0,0.05)] md:shadow-[0_12px_0_0_rgba(0,0,0,0.05)]`}>
-                                    <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
-                                        <span className={`w-2 md:w-3 h-6 md:h-8 bg-${theme.accent}`}></span>
-                                        Mission Briefing
-                                    </h3>
-                                    <p className="text-slate-600 text-base md:text-xl leading-relaxed font-medium">
-                                        {event.description}
-                                    </p>
-                                </section>
-
-                                <section className={`${theme.rules} p-6 md:p-12 rounded-2xl md:rounded-3xl shadow-[0_8px_0_0_rgba(0,0,0,0.05)] md:shadow-[0_12px_0_0_rgba(0,0,0,0.05)]`}>
-                                    <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
-                                        <span className={`w-2 md:w-3 h-6 md:h-8 bg-${theme.accent}`}></span>
-                                        Engagement Rules
-                                    </h3>
-                                    <ul className="space-y-4 md:space-y-6">
-                                        {event.rules.map((rule, idx) => (
-                                            <li key={idx} className="flex gap-3 md:gap-4 group">
-                                                <span className={`${theme.ruleArrow} font-black text-lg md:text-xl group-hover:translate-x-1 transition-transform shrink-0`}>▶</span>
-                                                <span className="text-slate-700 text-sm md:text-lg font-bold">{rule}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </section>
-                            </div>
-
-                            {/* RIGHT: Stats */}
-                            <div className="lg:col-span-4 space-y-6 md:space-y-8">
-                                <div className="bg-slate-900 border-4 border-black rounded-[2rem] md:rounded-3xl p-6 md:p-8 text-white shadow-[8px_8px_0_rgba(0,0,0,1)] md:shadow-[12px_12px_0_rgba(0,0,0,1)] relative overflow-hidden group">
-                                    <div className={`absolute top-0 right-0 w-32 h-32 bg-${theme.accent} opacity-10 rounded-full -translate-y-1/2 translate-x-1/2`}></div>
-
-                                    <h4 className="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400 mb-6 md:mb-8 pb-3 md:pb-4 border-b border-white/10">
-                                        Key Parameters
-                                    </h4>
-
-                                    <div className="space-y-6 md:space-y-8">
-                                        <StatItem label="CLOSING DATE" value={event.endDate} theme={theme} />
-                                        <StatItem label="PARTICIPATION" value={event.participants || 'N/A'} theme={theme} />
-                                        <StatItem label="CREDIT COST" value={event.eventFee || 'Free'} theme={theme} />
-                                    </div>
-
-                                    <button className={`w-full mt-10 md:mt-12 bg-${theme.accent} hover:bg-${theme.accentDark} text-white font-black py-4 md:py-5 rounded-xl md:rounded-2xl border-2 md:border-4 border-black shadow-[4px_4px_0_rgba(0,0,0,0.5)] md:shadow-[6px_6px_0_rgba(0,0,0,0.5)] active:shadow-none active:translate-y-1 active:translate-x-1 transition-all uppercase tracking-widest text-xs md:text-sm flex items-center justify-center gap-3`}>
-                                        JOIN CONNECTION ⚡
-                                    </button>
-                                </div>
-
-                                {/* CONTACTS */}
-                                {event.contacts && event.contacts.length > 0 && (
-                                    <div className={`${theme.contact} p-6 md:p-8 rounded-[2rem] md:rounded-3xl shadow-[0_8px_0_0_rgba(0,0,0,0.03)]`}>
-                                        <h4 className="text-[10px] md:text-xs font-black uppercase text-slate-400 mb-6">Line Commanders</h4>
-                                        <div className="space-y-5 md:space-y-6">
-                                            {event.contacts.map((contact, idx) => (
-                                                <div key={idx} className="flex flex-col group">
-                                                    <span className="text-slate-900 font-black text-xs md:text-sm uppercase tracking-tight group-hover:text-amber-600 transition-colors">
-                                                        {contact.name}
-                                                    </span>
-                                                    <div className="flex justify-between items-center mt-1">
-                                                        <span className="text-slate-400 font-bold text-[8px] md:text-[10px] uppercase">
-                                                            {contact.role}
-                                                        </span>
-                                                        <a href={`tel:${contact.phone}`} className="text-slate-900 font-mono text-[10px] md:text-xs font-black hover:underline underline-offset-4 decoration-2">
-                                                            {contact.phone}
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
+                        {/* LARGE ICON PANEL */}
+                        <div className="hidden lg:block">
+                            <div className="w-52 h-52 bg-slate-800/80 border-4 border-black rounded-[2.5rem] flex items-center justify-center shadow-xl rotate-3 relative overflow-hidden group hover:rotate-0 hover:scale-105 transition-all duration-500 cursor-crosshair">
+                                <PokeballIcon className="w-32 h-32 text-white/10 group-hover:text-fuchsia-500/20 group-hover:scale-110 transition-all duration-500" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+                                {/* Scanline Effect */}
+                                <div className="absolute inset-0 bg-scanline pointer-events-none opacity-20"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {/* BODY CONTENT (LIGHT THEMED PANEL) */}
+                <div className={cn("flex-grow p-6 md:p-12 lg:p-16 relative", theme.panel)}>
+                    {/* Retro Grid Background for Body */}
+                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                        style={{ backgroundImage: 'linear-gradient(#000 1.5px, transparent 1.5px), linear-gradient(90deg, #000 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }}></div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 relative z-10">
+
+                        {/* LEFT COLUMN: LARGE DESCRIPTION BOX */}
+                        <div className="lg:col-span-8 flex flex-col gap-10">
+
+                            {/* Combined Description & Rules Box */}
+                            <div className="bg-white rounded-[2.5rem] p-8 md:p-14 border-4 border-black shadow-[8px_8px_0_rgba(0,0,0,1)] hover:shadow-[12px_12px_0_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300 relative group">
+                                {/* SCROLLABLE CONTENT AREA */}
+                                <div className="space-y-12 max-h-[600px] overflow-y-auto pr-4 custom-scrollbar">
+                                    <div className="space-y-6">
+                                        <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase flex items-center gap-4 group-hover:text-fuchsia-600 transition-colors">
+                                            <span className="w-3 h-8 bg-fuchsia-600 shadow-[2px_2px_0_rgba(0,0,0,1)]"></span> MISSION BRIEFING
+                                        </h3>
+                                        <div className="text-lg md:text-xl font-bold text-slate-700 leading-relaxed italic border-l-4 border-fuchsia-100 pl-6">
+                                            {shortDescription}
+                                        </div>
+                                        {longDescription && (
+                                            <div className="prose prose-slate max-w-none text-slate-600 font-medium leading-relaxed mt-6">
+                                                <RichTextRenderer content={longDescription} />
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {rules.length > 0 && (
+                                        <div className="pt-10 border-t-4 border-fuchsia-50">
+                                            <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase mb-8 flex items-center gap-4 group-hover:text-fuchsia-600 transition-colors">
+                                                <span className="w-3 h-8 bg-slate-900 shadow-[2px_2px_0_rgba(0,0,0,1)]"></span> ENGAGEMENT RULES
+                                            </h3>
+                                            <div className="space-y-4">
+                                                {rules.map((rule, idx) => (
+                                                    <div key={idx} className="flex gap-4 items-start group/rule hover:bg-fuchsia-50/50 p-2 rounded-lg transition-colors">
+                                                        <span className="text-fuchsia-600 font-black text-xl flex-shrink-0 group-hover/rule:translate-x-1 transition-transform">▶</span>
+                                                        <p className="text-slate-800 font-bold text-base md:text-lg">{rule.value}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* RIGHT COLUMN: STACKED BOXES */}
+                        <div className="lg:col-span-4 flex flex-col gap-8 md:gap-10">
+
+                            {/* 1. PRIZE POOLS BOX */}
+                            {event.prizes && event.prizes.length > 0 && (
+                                <div className="bg-white rounded-[2rem] p-8 border-4 border-black shadow-[6px_6px_0_rgba(0,0,0,1)] hover:shadow-[10px_10px_0_rgba(245,158,11,0.2)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+                                    <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-6 flex items-center gap-2">
+                                        <Trophy size={14} className="text-amber-500 group-hover:scale-110 transition-transform" /> PRIZE POOLS
+                                    </h4>
+                                    <div className="space-y-4">
+                                        {event.prizes.map((p, i) => (
+                                            <div key={i} className="flex justify-between items-center bg-slate-50 p-3 rounded-xl border-2 border-slate-100 group-hover:border-amber-400 group-hover:bg-amber-50 transition-all duration-300">
+                                                <span className="text-xs font-black uppercase text-slate-900">{p.title}</span>
+                                                <span className="text-xs font-bold text-fuchsia-600 font-mono shadow-[0_0_8px_rgba(192,38,211,0.2)]">{p.value}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* 2. LINE COMMANDER BOX */}
+                            {coordinators.length > 0 && (
+                                <div className="bg-white rounded-[2rem] p-8 border-4 border-black shadow-[6px_6px_0_rgba(0,0,0,1)] hover:shadow-[10px_10px_0_rgba(0,0,0,1)] hover:-translate-y-1 transition-all duration-300 group">
+                                    <h4 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-6">LINE COMMANDERS</h4>
+                                    <div className="space-y-6">
+                                        {coordinators.map((c, i) => (
+                                            <div key={i} className="group/item">
+                                                <p className="text-sm font-black uppercase text-slate-900 group-hover/item:text-fuchsia-600 transition-colors">{c.name}</p>
+                                                <div className="flex items-center justify-between mt-1">
+                                                    <div className="flex items-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-tight">
+                                                        <Phone size={10} /> ACCESS CODE
+                                                    </div>
+                                                    <p className="font-mono font-black text-xs text-slate-900 bg-slate-100 px-2 py-0.5 rounded border-b-2 border-slate-200 group-hover/item:bg-fuchsia-50 group-hover/item:border-fuchsia-200 transition-all select-all">{c.phone}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* 3. KEY PARAMETERS BOX + REGISTER BUTTON */}
+                            <div className="bg-slate-950 rounded-[2.5rem] p-8 md:p-10 border-4 border-black shadow-[10px_10px_0_rgba(0,0,0,1)] hover:shadow-[15px_15px_0_rgba(192,38,211,0.3)] hover:-translate-y-1 transition-all duration-500 text-white relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500 opacity-5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700"></div>
+                                <h3 className="text-[9px] font-press-start uppercase tracking-widest text-white/30 mb-8 pb-3 border-b border-white/10 flex justify-between items-center">
+                                    KEY PARAMETERS
+                                    <Zap size={10} className="text-fuchsia-500 animate-pulse" />
+                                </h3>
+
+                                <div className="space-y-8 relative z-10">
+                                    <div className="space-y-1 hover:translate-x-1 transition-transform">
+                                        <p className="text-[9px] font-black uppercase text-slate-500 tracking-widest">CLOSING DATE</p>
+                                        <p className="text-lg font-black text-white uppercase font-press-start text-[10px] tracking-tight">APRIL 17-19, 2026</p>
+                                    </div>
+
+                                    <div className="space-y-1 hover:translate-x-1 transition-transform">
+                                        <p className="text-[9px] font-black uppercase text-slate-500 tracking-widest">PARTICIPATION</p>
+                                        <p className="text-lg font-black text-white uppercase">
+                                            {event.max_participants > 1 ? `${event.max_participants} MEMBERS` : 'INDIVIDUAL'}
+                                        </p>
+                                    </div>
+
+                                    <div className="space-y-1 hover:translate-x-1 transition-transform">
+                                        <p className="text-[9px] font-black uppercase text-slate-500 tracking-widest">CREDIT COST</p>
+                                        <p className="text-3xl font-black text-white group-hover:text-fuchsia-400 transition-colors">
+                                            {event.fee === '0.00' ? 'FREE' : `₹${parseFloat(event.fee).toFixed(0)}`}
+                                        </p>
+                                    </div>
+
+                                    {/* Register Button */}
+                                    {event.status === 'open' && (
+                                        <button className="w-full mt-10 bg-fuchsia-600 hover:bg-fuchsia-500 text-white transition-all rounded-xl py-5 font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 active:scale-95 border-b-8 border-fuchsia-800 active:border-b-0 shadow-[0_10px_20px_rgba(192,38,211,0.3)] group-hover:shadow-[0_15px_30px_rgba(192,38,211,0.5)]">
+                                            REGISTER NOW ⚡
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            {/* MINIMAL FOOTER LABEL */}
+            <div className="fixed bottom-4 right-8 z-[100] hidden md:block">
+                <p className="text-[9px] font-press-start text-white/20 uppercase tracking-widest">PHOENIX // SIGNAL STABLE // SYSTEM ACTIVE</p>
+            </div>
+
+            <style jsx global>{`
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(30px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .animate-fadeIn {
+                    animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+                }
+                .bg-scanline {
+                    background: linear-gradient(
+                        to bottom,
+                        transparent,
+                        transparent 50%,
+                        rgba(0, 0, 0, 0.5) 50%,
+                        rgba(0, 0, 0, 0.5)
+                    );
+                    background-size: 100% 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: #e2e8f0;
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: #cbd5e1;
+                }
+            `}</style>
         </div>
     );
 }

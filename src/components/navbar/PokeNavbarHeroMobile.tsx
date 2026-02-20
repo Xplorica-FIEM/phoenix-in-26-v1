@@ -9,6 +9,7 @@ import {
     useTransform,
 } from "framer-motion";
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 /* ================= MENU CONFIG ================= */
 
 type MenuItem = {
@@ -26,6 +27,28 @@ const menuItems: MenuItem[] = [
 ];
 
 type MenuState = "closed" | "opening" | "open" | "closing";
+
+/* ================= COMPONENTS ================= */
+
+const TimerSlot = ({ value, label }: { value: string | number; label: string }) => (
+    <div className="flex flex-col items-center mx-1 group">
+        <div className="relative w-14 h-14 bg-blue-600 border-[3px] border-white rounded-lg flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)]">
+            <div className="absolute inset-1 border-2 border-blue-800/30 rounded-md pointer-events-none" />
+            <span className="font-mono text-2xl font-bold text-white drop-shadow-md z-10">
+                {String(value).padStart(2, "0")}
+            </span>
+            <div className="absolute top-1 left-1 w-1.5 h-1.5 bg-white/40 rounded-full" />
+        </div>
+
+        <div className="mt-2 bg-yellow-400 border-[1.5px] border-black px-1.5 py-0.5 rounded-sm shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
+            <span className="text-[8px] font-bold font-mono text-black uppercase tracking-wider">
+                {label}
+            </span>
+        </div>
+    </div>
+);
+
+const targetDate = new Date("2026-04-17T00:00:00");
 
 export default function PokeNavbarHeroMobile() {
     const [menuState, setMenuState] = useState<MenuState>("closed");
@@ -47,7 +70,11 @@ export default function PokeNavbarHeroMobile() {
 
     useEffect(() => {
         return scrollY.on("change", (y) => {
-            setIsDocked(y > 200);
+            const nextDocked = y > 200;
+            setIsDocked((prev) => {
+                if (prev !== nextDocked) return nextDocked;
+                return prev;
+            });
         });
     }, [scrollY]);
 
@@ -79,7 +106,8 @@ export default function PokeNavbarHeroMobile() {
 
     /* ================= TIMER ================= */
 
-    const targetDate = new Date("2026-04-17T00:00:00");
+    /* ================= TIMER ================= */
+
     const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
     const [eventStarted, setEventStarted] = useState(false);
 
@@ -112,13 +140,14 @@ export default function PokeNavbarHeroMobile() {
             timeLeft.h
         ).padStart(2, "0")}H`;
 
+
     /* ================= RENDER ================= */
 
     return (
         <div className="relative h-screen flex flex-col items-center text-white overflow-hidden font-press-start">
 
             {/* ================= NAVBAR ================= */}
-            <div className={`fixed top-0 left-0 right-0 h-20 z-50 transition-colors duration-300 flex items-center px-4 ${isDocked ? "bg-red-600 border-b-4 border-red-800 shadow-lg" : "bg-transparent"
+            <div className={`fixed top-0 left-0 right-0 h-20 z-50 transition-colors duration-300 flex items-center px-4 ${isDocked ? "bg-transparent" : "bg-transparent"
                 }`}>
 
                 {/* LEFT: Pokeball Button */}
@@ -187,7 +216,7 @@ export default function PokeNavbarHeroMobile() {
 
                 <motion.div
                     style={{ y: logoY, scale: logoScale }}
-                    className="origin-top mb-20 w-full max-w-[280px]"
+                    className="origin-top mb-12 w-full max-w-[280px]"
                 >
                     <Image
                         src="/logo-text.png"
@@ -201,27 +230,44 @@ export default function PokeNavbarHeroMobile() {
 
                 <motion.div
                     style={{ opacity: timerOpacity, y: timerY }}
-                    className="w-full max-w-sm mt-8 px-4"
+                    className="flex justify-center w-full mt-4"
                 >
-                    <div className="bg-blue-600 border-2 border-white rounded-lg p-1 shadow-[4px_4px_0px_rgba(0,0,0,0.5)]">
-                        <div className="bg-blue-500 border-2 border-blue-800 rounded p-4 flex flex-col items-center">
-                            <h3 className="text-xs text-yellow-300 mb-2 uppercase tracking-widest">
-                                Time Until Launch
-                            </h3>
-
-                            {eventStarted ? (
-                                <span className="text-red-300 animate-pulse">
-                                    EVENT STARTED
-                                </span>
-                            ) : (
-                                <div className="flex gap-2 text-white font-mono font-bold text-lg">
-                                    {String(timeLeft.d).padStart(2, "0")}:
-                                    {String(timeLeft.h).padStart(2, "0")}:
-                                    {String(timeLeft.m).padStart(2, "0")}
-                                </div>
-                            )}
+                    {eventStarted ? (
+                        <div className="bg-blue-600 border-2 border-white rounded-lg px-6 py-4 shadow-[4px_4px_0px_rgba(0,0,0,0.5)]">
+                            <span className="text-red-300 font-bold uppercase animate-pulse">
+                                EVENT STARTED
+                            </span>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="flex gap-2">
+                            <TimerSlot value={timeLeft.d} label="Days" />
+                            <TimerSlot value={timeLeft.h} label="Hours" />
+                            <TimerSlot value={timeLeft.m} label="Mins" />
+                            <TimerSlot value={timeLeft.s} label="Secs" />
+                        </div>
+                    )}
+                </motion.div>
+
+                {/* SCROLL INDICATOR */}
+                <motion.div
+                    style={{ opacity: timerOpacity }}
+                    className="absolute bottom-16 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
+                >
+                    <motion.div
+                        animate={{
+                            y: [0, 20],
+                            opacity: [0, 1, 0],
+                        }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                        className="flex flex-col items-center -space-y-4"
+                    >
+                        <ChevronDown size={28} strokeWidth={2.5} className="text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.4)]" />
+                        <ChevronDown size={28} strokeWidth={2.5} className="text-yellow-400/40" />
+                    </motion.div>
                 </motion.div>
             </div>
 

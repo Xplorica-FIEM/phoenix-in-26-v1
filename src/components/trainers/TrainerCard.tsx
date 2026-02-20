@@ -88,7 +88,7 @@ export default function TrainerCard({
           </div>
 
           <div className="absolute bottom-2 right-3 text-[10px] text-black">
-            HT: 5'10" WT: 160lb
+            HT: 5&apos;10&quot; WT: 160lb
           </div>
         </div>
 

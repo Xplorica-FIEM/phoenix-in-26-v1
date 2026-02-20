@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 type MenuState = "closed" | "opening" | "open" | "closing";
@@ -24,7 +23,6 @@ const colorClasses: Record<string, string> = {
 };
 
 export default function UnifiedNavbar({ isScrolled = true }: { isScrolled?: boolean }) {
-    const pathname = usePathname();
     const [menuState, setMenuState] = useState<MenuState>("closed");
     const isOpen = menuState === "open" || menuState === "opening";
 
@@ -61,7 +59,7 @@ export default function UnifiedNavbar({ isScrolled = true }: { isScrolled?: bool
     return (
         <nav className="w-full select-none font-press-start">
             {/* MOBILE NAVBAR (Red Header Style) */}
-            <div className={`flex md:hidden fixed top-0 left-0 right-0 h-20 items-center px-4 z-[100] transition-colors duration-300 ${isScrolled ? "bg-red-600 border-b-4 border-red-800 shadow-lg" : "bg-transparent"
+            <div className={`flex md:hidden fixed top-0 left-0 right-0 h-20 items-center px-4 z-[100] transition-colors duration-300 ${isScrolled ? "bg-transparent" : "bg-transparent"
                 }`}>
                 {/* Pokeball Button on Left */}
                 <button
@@ -97,7 +95,7 @@ export default function UnifiedNavbar({ isScrolled = true }: { isScrolled?: bool
             </div>
 
             {/* DESKTOP NAVBAR (Centered Logo Style) */}
-            <div className={`hidden md:flex fixed top-0 left-0 right-0 h-24 items-center justify-center gap-6 px-10 transition-all duration-300 z-[100] ${isScrolled ? "bg-black/80 backdrop-blur-md border-b border-white/10 shadow-xl" : "bg-transparent"
+            <div className={`hidden md:flex fixed top-0 left-0 right-0 h-24 items-center justify-center gap-6 px-10 transition-all duration-300 z-[100] ${isScrolled ? "bg-transparent" : "bg-transparent"
                 }`}>
                 {links.slice(0, 3).map((link) => (
                     <DesktopItem key={link.href} {...link} />

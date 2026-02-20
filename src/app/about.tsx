@@ -1,14 +1,9 @@
-"use client";
-
-import { FaDiscord, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa6";
-
 export default function AboutPhoenix({
     titleSize = "text-4xl md:text-5xl",
     textSize = "text-lg md:text-xl",
 }: {
     titleSize?: string;
     textSize?: string;
-    iconSize?: number;
 }) {
     return (
         <section

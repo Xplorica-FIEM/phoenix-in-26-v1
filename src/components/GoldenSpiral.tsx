@@ -53,8 +53,8 @@ export default function GoldenSpiral({
           startAngle + ease * rotations * 2 * Math.PI
 
         // Convert polar coordinates (distance, angle) to Cartesian coordinates (x, y).
-        let relX = currentDistanceToEye * Math.cos(currentAngle)
-        let relY = currentDistanceToEye * Math.sin(currentAngle)
+        const relX = currentDistanceToEye * Math.cos(currentAngle)
+        const relY = currentDistanceToEye * Math.sin(currentAngle)
 
         // Translate coordinates from the focal point back to the screen space.
         // Inverting X creates a counter-clockwise path.

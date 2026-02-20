@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaInstagram, FaLinkedin, FaGithub, FaDiscord } from "react-icons/fa6";
+import { ChevronDown } from "lucide-react";
 
 // --- REUSABLE NAV BUTTON ---
 const NavButton = ({ href, label, hoverColor }: { href: string; label: string; hoverColor: string }) => {
@@ -54,6 +55,8 @@ const Container = ({ children, className = "" }: { children: React.ReactNode; cl
     </div>
 );
 
+const targetDate = new Date("2026-04-17T00:00:00");
+
 export default function PokeNavbarHero() {
     const iconSize = 24;
     const { scrollY } = useScroll();
@@ -87,13 +90,18 @@ export default function PokeNavbarHero() {
 
     useEffect(() => {
         return scrollY.on("change", (y) => {
-            setTimerDocked(y > 200);
+            const nextDocked = y > 200;
+            setTimerDocked((prev) => {
+                if (prev !== nextDocked) return nextDocked;
+                return prev;
+            });
         });
     }, [scrollY]);
 
     /* ---------------- COUNTDOWN LOGIC ---------------- */
 
-    const targetDate = new Date("2026-04-17T00:00:00");
+    /* ---------------- COUNTDOWN LOGIC ---------------- */
+
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
         hours: 0,
@@ -220,6 +228,29 @@ export default function PokeNavbarHero() {
                         </div>
                     </div>
                 </motion.div>
+
+                {/* SCROLL INDICATOR */}
+                <motion.div
+                    style={{ opacity: countdownOpacity }}
+                    className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
+                >
+                    <motion.div
+                        animate={{
+                            y: [0, 24],
+                            opacity: [0, 1, 0],
+                        }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                        className="flex flex-col items-center -space-y-4"
+                    >
+                        <ChevronDown size={32} strokeWidth={2.5} className="text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.4)]" />
+                        <ChevronDown size={32} strokeWidth={2.5} className="text-yellow-400/40" />
+                    </motion.div>
+                </motion.div>
+
                 {/* CORNER TIMER */}
                 <motion.div
                     animate={{

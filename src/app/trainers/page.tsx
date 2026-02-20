@@ -3,7 +3,6 @@
 import React, { useMemo, useState, useEffect, useRef, useDeferredValue } from 'react';
 import { TrainerCard, RarityLevel } from '@/components/TrainerCard';
 import TEAM_MEMBERS from '@/data/TEAM_MEMBERS';
-import { motion } from 'framer-motion';
 
 // Updated Mapping to match your logic: Mentors = Legendary, etc.
 const CATEGORY_MAPPING: Record<string, string> = {
@@ -20,6 +19,18 @@ const RARITY_MAPPING: Record<string, RarityLevel> = {
 
 const INITIAL_BATCH = 4;
 const SCROLL_BATCH = 4;
+
+interface TeamMember {
+  name: string;
+  position: string;
+  depertment: string;
+  phone: string;
+  email: string;
+  linkedin?: string;
+  instagram?: string;
+  facebook?: string;
+  image?: string;
+}
 
 // --- Hardware Skeleton (Matches the Red Pokedex Shape) ---
 const CardSkeleton = () => (
@@ -70,12 +81,17 @@ export default function TrainerComparison() {
   const [isPageMounted, setIsPageMounted] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { setIsPageMounted(true); }, []);
+  useEffect(() => {
+    const timer = requestAnimationFrame(() => {
+      setIsPageMounted(true);
+    });
+    return () => cancelAnimationFrame(timer);
+  }, []);
 
   const categories = ['All', 'Mentors', 'Core Committee', 'Working Committee'];
 
   const filteredMembers = useMemo(() => {
-    return TEAM_MEMBERS.filter((m: any) => {
+    return (TEAM_MEMBERS as TeamMember[]).filter((m) => {
       const matchesSearch = m.name.toLowerCase().includes(deferredSearch.toLowerCase()) ||
         (m.position && m.position.toLowerCase().includes(deferredSearch.toLowerCase())) ||
         (m.depertment && m.depertment.toLowerCase().includes(deferredSearch.toLowerCase()));
@@ -92,17 +108,17 @@ export default function TrainerComparison() {
   useEffect(() => {
     if (!isPageMounted) return;
     const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && visibleCount < filteredMembers.length) {
-          requestAnimationFrame(() => setVisibleCount(prev => prev + SCROLL_BATCH));
-        }
-      }, { threshold: 0.1, rootMargin: '400px' });
+      if (entries[0].isIntersecting && visibleCount < filteredMembers.length) {
+        requestAnimationFrame(() => setVisibleCount(prev => prev + SCROLL_BATCH));
+      }
+    }, { threshold: 0.1, rootMargin: '400px' });
     if (loadMoreRef.current) observer.observe(loadMoreRef.current);
     return () => observer.disconnect();
   }, [visibleCount, filteredMembers.length, isPageMounted]);
 
   return (
     <section className="min-h-screen w-full flex flex-col items-center p-6 pt-32 pb-20 font-mono" id="trainers">
-      
+
       {/* 1. Header Section - Neo Brutalist Hardware Style */}
       <div className="w-full max-w-7xl mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-2">
@@ -129,7 +145,7 @@ export default function TrainerComparison() {
               className="w-full bg-transparent outline-none font-bold text-black placeholder:text-black/30 uppercase text-xs"
             />
             {search && (
-                <button onClick={() => setSearch('')} className="bg-red-500 text-white p-1 rounded-full text-[8px] font-black ml-2">X</button>
+              <button onClick={() => setSearch('')} className="bg-red-500 text-white p-1 rounded-full text-[8px] font-black ml-2">X</button>
             )}
           </div>
         </div>
@@ -143,8 +159,8 @@ export default function TrainerComparison() {
             onClick={() => { setActiveCategory(cat); setVisibleCount(INITIAL_BATCH); }}
             className={`
               relative px-5 py-2.5 border-4 border-black font-black uppercase text-[10px] tracking-widest transition-all
-              ${activeCategory === cat 
-                ? 'bg-[#dc0a2d] text-white -translate-y-1 shadow-[6px_6px_0px_rgba(0,0,0,1)]' 
+              ${activeCategory === cat
+                ? 'bg-[#dc0a2d] text-white -translate-y-1 shadow-[6px_6px_0px_rgba(0,0,0,1)]'
                 : 'bg-white text-black hover:-translate-y-1 hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] shadow-[2px_2px_0px_rgba(0,0,0,1)]'
               }
             `}
@@ -160,7 +176,7 @@ export default function TrainerComparison() {
           Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />)
         ) : (
           <>
-            {visibleMembers.map((member: any, index: number) => (
+            {visibleMembers.map((member, index) => (
               <CardLoadWrapper
                 key={`${member.name}-${index}`}
                 index={index}
@@ -202,8 +218,8 @@ export default function TrainerComparison() {
 
       {/* Hardware Accents */}
       <div className="fixed bottom-10 right-10 flex flex-col gap-2 opacity-20 pointer-events-none select-none">
-          <div className="w-24 h-2 bg-black rounded-full" />
-          <div className="w-16 h-2 bg-black rounded-full ml-auto" />
+        <div className="w-24 h-2 bg-black rounded-full" />
+        <div className="w-16 h-2 bg-black rounded-full ml-auto" />
       </div>
 
     </section>

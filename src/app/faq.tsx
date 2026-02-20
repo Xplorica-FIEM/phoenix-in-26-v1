@@ -51,21 +51,21 @@ export default function FAQSection() {
       <div className="max-w-5xl w-full flex flex-col items-center">
 
         {/* HEADING – original font preserved */}
-        <h1
+        <h2
           className="
-            mb-14 text-center
+            mb-10 md:mb-14 text-center
             font-press-start
-            text-xl md:text-6xl
+            text-2xl md:text-6xl
             text-emerald-400
-            drop-shadow-[4px_4px_0px_#14532d]
-            tracking-wider
+            drop-shadow-[3px_3px_0px_#14532d] md:drop-shadow-[4px_4px_0px_#14532d]
+            tracking-wider uppercase
           "
         >
           FAQs
-        </h1>
+        </h2>
 
         {/* FAQ LIST */}
-        <div className="w-full flex flex-col gap-6">
+        <div className="w-full flex flex-col gap-4 md:gap-6">
           {faqs.map((faq, index) => {
             const isActive = activeIndex === index;
 
@@ -76,38 +76,40 @@ export default function FAQSection() {
                 className="
                   cursor-pointer
                   bg-emerald-900/90
-                  border-4 border-emerald-400
-                  shadow-[6px_6px_0px_#14532d]
-                  hover:shadow-[9px_9px_0px_#14532d]
-                  hover:-translate-x-[3px] hover:-translate-y-[3px]
+                  border-[3px] md:border-4 border-emerald-400
+                  shadow-[4px_4px_0px_#14532d] md:shadow-[6px_6px_0px_#14532d]
+                  hover:shadow-[5px_5px_0px_#14532d] md:hover:shadow-[9px_9px_0px_#14532d]
+                  hover:-translate-x-[2px] md:hover:-translate-x-[3px] 
+                  hover:-translate-y-[2px] md:hover:-translate-y-[3px]
                   transition-all duration-200
                   rounded-xl
-                  p-6
+                  p-4 md:p-6
                 "
               >
                 {/* QUESTION */}
-                <div className="flex justify-between items-center text-sm md:text-base font-bold text-emerald-100 tracking-wide">
+                <div className="flex justify-between items-center text-xs md:text-base font-bold text-emerald-100 tracking-wide">
 
-                  <div className="flex items-center gap-3">
-                    <Image
-                      src="/pball.png"
-                      alt="pokeball bullet"
-                      width={22}
-                      height={22}
-                      className={`transition-transform duration-300 ${isActive ? "rotate-180" : ""
-                        }`}
-                    />
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="relative w-4 h-4 md:w-5 md:h-5 flex-shrink-0">
+                      <Image
+                        src="/pball.png"
+                        alt="pokeball bullet"
+                        fill
+                        className={`object-contain transition-transform duration-300 ${isActive ? "rotate-180" : ""
+                          }`}
+                      />
+                    </div>
                     <span>{faq.question}</span>
                   </div>
 
-                  <span className="text-xl text-emerald-400 drop-shadow-[2px_2px_0px_#14532d]">
+                  <span className="text-lg md:text-xl text-emerald-400 drop-shadow-[2px_2px_0px_#14532d]">
                     {isActive ? "−" : "+"}
                   </span>
                 </div>
 
                 {/* ANSWER */}
                 {isActive && (
-                  <div className="mt-4 pt-4 border-t-2 border-emerald-700 text-emerald-50 text-sm md:text-base leading-relaxed">
+                  <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t-2 border-emerald-700/50 text-emerald-50 text-[11px] md:text-sm leading-relaxed">
                     {faq.answer}
                   </div>
                 )}

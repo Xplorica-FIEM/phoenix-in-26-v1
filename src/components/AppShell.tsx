@@ -23,7 +23,9 @@ export default function AppShell({
     // Check session storage for home page
     const hasLoaded = sessionStorage.getItem('phoenix_loaded')
     if (hasLoaded) {
-      setReady(true)
+      requestAnimationFrame(() => {
+        setReady(true)
+      });
     }
   }, [pathname, ready])
 

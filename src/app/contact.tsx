@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaChevronDown, FaEnvelope, FaGlobe, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaChevronDown } from 'react-icons/fa';
 
 const SUBJECT_OPTIONS = [
   { value: "general", label: "General Query" },
@@ -73,44 +73,45 @@ export default function ContactUs() {
 
   return (
     <section
-      className="min-h-screen w-full flex flex-col items-center p-4 pt-[140px] md:pt-[150px] pb-24"
+      className="py-12 md:py-24 w-full flex flex-col items-center px-4 md:px-8"
       id="contact"
     >
-      <main className="flex flex-col items-center max-w-7xl w-full">
+      <main className="flex flex-col items-center max-w-7xl w-full text-center">
 
         {/* Title */}
         <h2 className="
-          text-3xl md:text-6xl font-press-start mb-12 font-bold tracking-wider
+          text-2xl md:text-6xl font-press-start mb-8 md:mb-12 font-bold tracking-wider
           text-transparent bg-clip-text
           bg-gradient-to-b from-emerald-300 via-emerald-400 to-emerald-600
-          drop-shadow-[0_0_18px_rgba(16,185,129,0.7)]
+          drop-shadow-[0_0_12px_rgba(16,185,129,0.7)] md:drop-shadow-[0_0_18px_rgba(16,185,129,0.7)]
+          uppercase
         ">
           Contact Us
         </h2>
 
-        <div className="flex flex-col gap-12 w-full">
+        <div className="flex flex-col gap-8 md:gap-12 w-full">
           {/* Row 1: Form and Info */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 w-full">
 
             {/* LEFT — FORM */}
             <div className="w-full relative">
               <div className="absolute inset-0 -z-10 rounded-xl
-                bg-gradient-to-br from-emerald-500/20 to-emerald-900/10 blur-lg" />
+                bg-gradient-to-br from-emerald-500/20 to-emerald-900/10 blur-md md:blur-lg" />
 
               {!isSubmitted ? (
                 <form
                   onSubmit={handleSubmit}
                   className="
-                    h-full w-full p-6 rounded-xl
+                    h-full w-full p-4 md:p-6 rounded-xl
                     bg-black/70
-                    border-[3px] border-emerald-500
-                    shadow-[6px_6px_0px_#10b981]
-                    flex flex-col gap-4
+                    border-[2px] md:border-[3px] border-emerald-500
+                    shadow-[4px_4px_0px_#10b981] md:shadow-[6px_6px_0px_#10b981]
+                    flex flex-col gap-3 md:gap-4 text-left
                   "
                 >
-                  <div className="text-lg font-bold text-white mb-2 uppercase tracking-tighter">
+                  <div className="text-base md:text-lg font-bold text-white mb-1.5 md:mb-2 uppercase tracking-tighter">
                     Transmission Port<br />
-                    <span className="text-[10px] font-bold text-emerald-400/70 tracking-[0.2em]">
+                    <span className="text-[8px] md:text-[10px] font-bold text-emerald-400/70 tracking-[0.2em]">
                       UPLOADING_PROTOCOL_READY
                     </span>
                   </div>
@@ -158,7 +159,7 @@ export default function ContactUs() {
                             <div
                               key={option.value}
                               onClick={() => handleSubjectSelect(option.value)}
-                              className="p-3 text-sm text-emerald-300 hover:bg-emerald-500 hover:text-black transition-colors cursor-pointer font-bold uppercase tracking-tight"
+                              className="p-3 text-xs md:text-sm text-emerald-300 hover:bg-emerald-500 hover:text-black transition-colors cursor-pointer font-bold uppercase tracking-tight"
                             >
                               {option.label}
                             </div>
@@ -171,7 +172,7 @@ export default function ContactUs() {
                   <textarea
                     name="message"
                     placeholder="Your Message"
-                    className={`${inputClasses} resize-none h-32 flex-grow`}
+                    className={`${inputClasses} resize-none h-24 md:h-32 flex-grow`}
                     value={formData.message}
                     onChange={handleChange}
                     required
@@ -180,10 +181,10 @@ export default function ContactUs() {
                   <button
                     type="submit"
                     className="
-                      mt-2 py-2.5 rounded-md font-black uppercase tracking-widest
+                      mt-2 py-2 md:py-3 rounded-md font-black uppercase tracking-widest text-[10px] md:text-xs
                       bg-yellow-400 hover:bg-yellow-300
                       text-black
-                      shadow-[4px_4px_0px_#a16207]
+                      shadow-[3px_3px_0px_#a16207] md:shadow-[4px_4px_0px_#a16207]
                       active:shadow-none active:translate-y-1 active:translate-x-1
                       transition-all
                     "
@@ -193,13 +194,13 @@ export default function ContactUs() {
                 </form>
               ) : (
                 <div className="
-                  h-full w-full p-8 rounded-xl
+                  h-full w-full p-6 md:p-8 rounded-xl
                   bg-black/70
-                  border-[3px] border-emerald-400
-                  shadow-[6px_6px_0px_#34d399]
+                  border-[2px] md:border-[3px] border-emerald-400
+                  shadow-[4px_4px_0px_#34d399] md:shadow-[6px_6px_0px_#34d399]
                   flex items-center justify-center
                 ">
-                  <p className="text-emerald-300 font-bold text-xl text-center font-press-start text-[10px] leading-relaxed uppercase tracking-widest">
+                  <p className="text-emerald-300 font-bold text-center font-press-start text-[8px] md:text-[10px] leading-relaxed uppercase tracking-widest px-4">
                     Transmission Successful.<br />
                     Encrypted signal received.
                   </p>
@@ -210,56 +211,56 @@ export default function ContactUs() {
             {/* RIGHT — INFO */}
             <div className="w-full relative">
               <div className="absolute inset-0 -z-10 rounded-xl
-                bg-gradient-to-bl from-emerald-500/20 to-emerald-800/10 blur-lg" />
+                bg-gradient-to-bl from-emerald-500/20 to-emerald-800/10 blur-md md:blur-lg" />
 
               <div className="
-                h-full w-full p-6 rounded-xl
+                h-full w-full p-4 md:p-6 rounded-xl
                 bg-black/70
-                border-[3px] border-emerald-400
-                shadow-[6px_6px_0px_#34d399]
-                flex flex-col gap-6
+                border-[2px] md:border-[3px] border-emerald-400
+                shadow-[4px_4px_0px_#34d399] md:shadow-[6px_6px_0px_#34d399]
+                flex flex-col gap-4 md:gap-6 text-left
               ">
-                <div className="text-xl font-black text-white uppercase tracking-tighter">
+                <div className="text-lg md:text-xl font-black text-white uppercase tracking-tighter">
                   Contact Center<br />
-                  <span className="text-[10px] font-bold text-emerald-400/70 tracking-[0.3em]">
+                  <span className="text-[8px] md:text-[10px] font-bold text-emerald-400/70 tracking-[0.3em]">
                     SECURE_COMM_CHANNEL_ACTIVE
                   </span>
                 </div>
 
-                <div className="flex flex-col gap-8 flex-grow">
+                <div className="flex flex-col gap-6 md:gap-8 flex-grow">
                   {/* Organization & Event Section */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-emerald-900/20 border-2 border-emerald-500/30 rounded-lg p-4 shadow-[4px_4px_0px_rgba(16,185,129,0.1)]">
-                      <h3 className="text-emerald-400 font-black text-[10px] uppercase tracking-widest mb-2 underline decoration-2 underline-offset-4">Organization</h3>
-                      <p className="text-white font-bold text-sm mb-1">XplOriCa</p>
-                      <p className="text-emerald-100/60 text-[9px] leading-relaxed mb-2 uppercase tracking-tight">Sonarpur Station Rd, Mission Pally, Narendrapur, West Bengal 700150</p>
-                      <div className="flex flex-col gap-1">
-                        <a href="mailto:xplorica@teamfuture.in" className="text-[10px] font-mono text-emerald-400 hover:text-white transition-colors">xplorica@teamfuture.in</a>
-                        <a href="https://xplorica.in" target="_blank" className="text-[10px] font-mono text-emerald-400 hover:text-white transition-colors">xplorica.in</a>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                    <div className="bg-emerald-900/20 border-2 border-emerald-500/30 rounded-lg p-3 md:p-4 shadow-[3px_3px_0px_rgba(16,185,129,0.1)]">
+                      <h3 className="text-emerald-400 font-black text-[8px] md:text-[10px] uppercase tracking-widest mb-1.5 md:mb-2 underline decoration-2 underline-offset-4">Organization</h3>
+                      <p className="text-white font-bold text-xs md:text-sm mb-1">XplOriCa</p>
+                      <p className="text-emerald-100/60 text-[8px] md:text-[9px] leading-relaxed mb-2 uppercase tracking-tight">Sonarpur Station Rd, Mission Pally, Narendrapur, West Bengal 700150</p>
+                      <div className="flex flex-col gap-1.5">
+                        <a href="mailto:xplorica@teamfuture.in" className="text-[9px] md:text-[10px] font-mono text-emerald-400 hover:text-white transition-colors truncate block">xplorica@teamfuture.in</a>
+                        <a href="https://xplorica.in" target="_blank" className="text-[9px] md:text-[10px] font-mono text-emerald-400 hover:text-white transition-colors block">xplorica.in</a>
                       </div>
                     </div>
 
-                    <div className="bg-emerald-900/20 border-2 border-emerald-500/30 rounded-lg p-4 shadow-[4px_4px_0px_rgba(16,185,129,0.1)]">
-                      <h3 className="text-emerald-400 font-black text-[10px] uppercase tracking-widest mb-2 underline decoration-2 underline-offset-4">Tech Fest</h3>
-                      <p className="text-white font-bold text-sm mb-1">Phoenix &apos;26</p>
-                      <p className="text-emerald-100/60 text-[9px] leading-relaxed mb-4 uppercase tracking-tight">Authorized Festival Inquiry Channel</p>
-                      <a href="mailto:phoenix@teamfuture.in" className="text-[10px] font-mono text-emerald-400 hover:text-white transition-colors">phoenix@teamfuture.in</a>
+                    <div className="bg-emerald-900/20 border-2 border-emerald-500/30 rounded-lg p-3 md:p-4 shadow-[3px_3px_0px_rgba(16,185,129,0.1)]">
+                      <h3 className="text-emerald-400 font-black text-[8px] md:text-[10px] uppercase tracking-widest mb-1.5 md:mb-2 underline decoration-2 underline-offset-4">Tech Fest</h3>
+                      <p className="text-white font-bold text-xs md:text-sm mb-1">Phoenix &apos;26</p>
+                      <p className="text-emerald-100/60 text-[8px] md:text-[9px] leading-relaxed mb-2 md:mb-4 uppercase tracking-tight">Authorized Festival Inquiry Channel</p>
+                      <a href="mailto:phoenix@teamfuture.in" className="text-[9px] md:text-[10px] font-mono text-emerald-400 hover:text-white transition-colors truncate block">phoenix@teamfuture.in</a>
                     </div>
                   </div>
 
                   {/* Core Committee Section */}
-                  <div className="flex flex-col gap-3">
-                    <h3 className="text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em] mb-1">Core Committee Personnel</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="flex flex-col gap-2 md:gap-3">
+                    <h3 className="text-emerald-400 font-black text-[8px] md:text-[10px] uppercase tracking-[0.2em] mb-1">Core Committee Personnel</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                       {[
                         { name: "Dipannita Sharma", email: "dipannita.sharma.fiem.cse23@teamfuture.in" },
                         { name: "Rajjyashree Raychaudhuri", email: "rajjyashree.raychaudhuri.fiem.cse23@teamfuture.in" },
                         { name: "Sayan Paul", email: "sayan.paul.fiem.it23@gmail.com" },
                         { name: "Unit_NX (AI)", email: "signal_offline@phoenix.fiem", placeholder: true },
                       ].map((cc) => (
-                        <div key={cc.name} className={`p-3 border-2 transition-all ${cc.placeholder ? 'border-dashed border-emerald-500/20 bg-black/40 opacity-50' : 'border-emerald-500/40 bg-emerald-900/10 hover:border-emerald-400 shadow-[2px_2px_0px_rgba(16,185,129,0.1)]'}`}>
-                          <p className="text-white text-[11px] font-black uppercase tracking-tight truncate">{cc.name}</p>
-                          <a href={cc.placeholder ? '#' : `mailto:${cc.email}`} className="text-[9px] font-mono text-emerald-400/80 hover:text-white truncate block mt-1">{cc.email}</a>
+                        <div key={cc.name} className={`p-2.5 md:p-3 border-2 transition-all ${cc.placeholder ? 'border-dashed border-emerald-500/20 bg-black/40 opacity-50' : 'border-emerald-500/40 bg-emerald-900/10 hover:border-emerald-400 shadow-[2px_2px_0px_rgba(16,185,129,0.1)]'}`}>
+                          <p className="text-white text-[10px] md:text-[11px] font-black uppercase tracking-tight truncate">{cc.name}</p>
+                          <a href={cc.placeholder ? '#' : `mailto:${cc.email}`} className="text-[8px] md:text-[9px] font-mono text-emerald-400/80 hover:text-white truncate block mt-0.5">{cc.email}</a>
                         </div>
                       ))}
                     </div>
@@ -270,15 +271,15 @@ export default function ContactUs() {
           </div>
 
           {/* Row 2: Full Width Map */}
-          <div className="w-full relative group mt-12">
-            <div className="absolute inset-0 -z-10 rounded-3xl
-                bg-gradient-to-t from-emerald-500/10 to-transparent blur-xl" />
+          <div className="w-full relative group mt-8 md:mt-12">
+            <div className="absolute inset-0 -z-10 rounded-2xl md:rounded-3xl
+                bg-gradient-to-t from-emerald-500/10 to-transparent blur-md md:blur-xl" />
 
-            <div className="w-full rounded-2xl overflow-hidden border-[4px] border-emerald-400 shadow-[8px_8px_0px_#10b981] transition-all duration-500 hover:shadow-[12px_12px_0px_#10b981]">
-              <div className="h-[400px] w-full bg-slate-900 relative">
+            <div className="w-full rounded-xl md:rounded-2xl overflow-hidden border-[3px] md:border-[4px] border-emerald-400 shadow-[6px_6px_0px_#10b981] md:shadow-[8px_8px_0px_#10b981] transition-all duration-500 hover:shadow-[10px_10px_0px_#10b981] md:hover:shadow-[12px_12px_0px_#10b981]">
+              <div className="h-[300px] md:h-[400px] w-full bg-slate-900 relative">
                 {/* Subtle heading over map */}
-                <div className="absolute top-4 left-4 z-10 bg-black/80 backdrop-blur-md px-4 py-2 border-2 border-emerald-500 rounded-lg shadow-lg">
-                  <p className="font-press-start text-[10px] text-emerald-400 uppercase tracking-widest">Command Center Location</p>
+                <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10 bg-black/80 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 border-[1.5px] md:border-2 border-emerald-500 rounded-lg shadow-lg">
+                  <p className="font-press-start text-[8px] md:text-[10px] text-emerald-400 uppercase tracking-widest">Command Center Location</p>
                 </div>
 
                 <iframe

@@ -48,38 +48,38 @@ export default function Sponsors() {
     return (
         <>
             <section
-                className="min-h-screen flex flex-col items-center p-8 pt-45 md:pt-47.5"
+                className="py-12 md:py-24 flex flex-col items-center px-4 md:px-8"
                 id="sponsors"
             >
-                <main className="flex flex-col items-center text-center space-y-8 w-full max-w-7xl">
-                    <h1 className="text-3xl md:text-5xl font-bold tracking-wider text-yellow-400 drop-shadow-lg font-press-start">
+                <main className="flex flex-col items-center text-center space-y-6 md:space-y-10 w-full max-w-7xl">
+                    <h1 className="text-2xl md:text-5xl font-bold tracking-wider text-yellow-400 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] md:drop-shadow-[6px_6px_0_rgba(0,0,0,1)] font-press-start uppercase">
                         SPONSORS
                     </h1>
 
-                    <p className="text-lg md:text-xl text-gray-300 max-w-2xl font-medium">
+                    <p className="text-sm md:text-xl text-gray-400 max-w-2xl font-medium leading-relaxed">
                         Our partners who make this possible. Interested in
                         sponsoring? Get in touch.
                     </p>
 
                     {/* buttons */}
-                    <div className="flex flex-col sm:flex-row gap-6">
-                        <RetroButton onClick={() => window.open('https://linktr.ee/phoenix.fiem', '_blank')}>
-                            Be a Sponsor
+                    <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full sm:w-auto items-center">
+                        <RetroButton onClick={() => window.open('https://linktr.ee/phoenix.fiem', '_blank')} className="w-full sm:w-auto">
+                            <span className="text-[10px] md:text-base">Be a Sponsor</span>
                         </RetroButton>
 
-                        <RetroButton onClick={() => setIsFormOpen(true)}>
-                            Schedule a Call
+                        <RetroButton onClick={() => setIsFormOpen(true)} className="w-full sm:w-auto">
+                            <span className="text-[10px] md:text-base">Schedule a Call</span>
                         </RetroButton>
                     </div>
 
-                    <div className="w-full space-y-16 pt-12">
+                    <div className="w-full space-y-12 md:space-y-24 pt-8 md:pt-16">
                         {/* Current Year */}
-                        <div className="space-y-8">
-                            <h2 className="text-xl md:text-3xl font-bold text-white uppercase tracking-widest font-press-start">
+                        <div className="space-y-6 md:space-y-8">
+                            <h2 className="text-xs md:text-3xl font-bold text-white uppercase tracking-widest font-press-start flex flex-wrap justify-center items-center gap-2 md:gap-4 leading-relaxed">
                                 <span className="text-yellow-400">#</span> This Year&apos;s Sponsors
                             </h2>
-                            <div className="w-full overflow-hidden py-8">
-                                <div className="marquee flex gap-8 md:gap-12 w-max items-center animate-scroll">
+                            <div className="w-full overflow-hidden py-4 md:py-8">
+                                <div className="marquee flex gap-6 md:gap-12 w-max items-center animate-scroll">
                                     {duplicatedCurrent.map((sponsor, i) => (
                                         <SponsorBubble key={`current-${i}`} logo={sponsor.logo} name={sponsor.name} />
                                     ))}
@@ -88,12 +88,12 @@ export default function Sponsors() {
                         </div>
 
                         {/* Past Year */}
-                        <div className="space-y-8 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                            <h2 className="text-lg md:text-2xl font-bold text-white/70 uppercase tracking-widest font-press-start">
-                                <span className="text-white/30">#</span> Past Year Partners
+                        <div className="space-y-6 md:space-y-8 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                            <h2 className="text-[10px] md:text-2xl font-bold text-white/50 uppercase tracking-widest font-press-start flex flex-wrap justify-center items-center gap-2 md:gap-4 leading-relaxed text-center">
+                                <span className="text-white/20">#</span> Past Year Partners
                             </h2>
-                            <div className="w-full overflow-hidden py-4">
-                                <div className="marquee-reverse flex gap-8 md:gap-12 w-max items-center animate-scroll-reverse">
+                            <div className="w-full overflow-hidden py-2 md:py-4">
+                                <div className="marquee-reverse flex gap-6 md:gap-12 w-max items-center animate-scroll-reverse">
                                     {duplicatedPast.map((sponsor, i) => (
                                         <SponsorBubble key={`past-${i}`} logo={sponsor.logo} name={sponsor.name} />
                                     ))}
@@ -207,7 +207,7 @@ export default function Sponsors() {
 function SponsorBubble({ logo, name }: { logo?: string; name: string }) {
     return (
         <div className="shrink-0 group relative">
-            <div className="w-32 h-32 md:w-44 md:h-44 rounded-2xl bg-white border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] flex items-center justify-center p-6 group-hover:-translate-y-2 group-hover:translate-x-1 group-hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all duration-300 overflow-hidden">
+            <div className="w-20 h-20 md:w-44 md:h-44 rounded-xl md:rounded-2xl bg-white border-[3px] md:border-4 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[6px_6px_0px_rgba(0,0,0,1)] flex items-center justify-center p-3 md:p-6 group-hover:-translate-y-2 group-hover:translate-x-1 group-hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] transition-all duration-300 overflow-hidden relative">
                 {logo ? (
                     <Image
                         src={logo}
@@ -217,7 +217,7 @@ function SponsorBubble({ logo, name }: { logo?: string; name: string }) {
                         className="object-contain w-full h-full group-hover:scale-110 transition-transform duration-300"
                     />
                 ) : (
-                    <div className="text-slate-400 font-bold uppercase text-xs text-center">{name}</div>
+                    <div className="text-slate-400 font-bold uppercase text-[8px] md:text-xs text-center">{name}</div>
                 )}
 
                 {/* Scanline Effect */}
@@ -225,8 +225,8 @@ function SponsorBubble({ logo, name }: { logo?: string; name: string }) {
             </div>
 
             {/* Tag */}
-            <div className="absolute -bottom-2 -right-2 bg-yellow-400 border-2 border-black px-2 py-1 shadow-[2px_2px_0_rgba(0,0,0,1)] opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="text-[10px] font-black uppercase text-black">{name}</span>
+            <div className="absolute -bottom-1 -right-1 md:-bottom-2 md:-right-2 bg-yellow-400 border md:border-2 border-black px-1.5 md:px-2 py-0.5 md:py-1 shadow-[2px_2px_0_rgba(0,0,0,1)] opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                <span className="text-[7px] md:text-[10px] font-black uppercase text-black">{name}</span>
             </div>
         </div>
     );
