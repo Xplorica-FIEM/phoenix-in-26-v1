@@ -153,17 +153,29 @@ export default function PokeNavbarHeroMobile() {
                 {/* LEFT: Pokeball Button */}
                 <button
                     onClick={toggleMenu}
-                    className={`relative z-50 w-12 h-12 flex items-center justify-center bg-white rounded-full border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,0.5)] active:translate-y-1 transition-all ${isDocked ? "opacity-100" : "opacity-0 pointer-events-none"
-                        }`}
+                    className={`relative z-50 w-12 h-12 flex items-center justify-center bg-white rounded-full border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,0.5)] active:translate-y-1 transition-all ${isDocked ? "opacity-100" : "opacity-0 pointer-events-none"}`}
                 >
-                    <Image
-                        src={getBallImage()}
-                        alt="Menu"
-                        width={28}
-                        height={28}
-                        unoptimized
-                        className="object-contain"
-                    />
+                    <motion.div
+                        animate={menuState === "closed" ? {
+                            rotate: [0, -20, 20, -20, 20, 0],
+                            transition: {
+                                duration: 0.6,
+                                repeat: Infinity,
+                                repeatDelay: 1.5,
+                                ease: "easeInOut"
+                            }
+                        } : { rotate: 0 }}
+                        style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+                    >
+                        <Image
+                            src={getBallImage()}
+                            alt="Menu"
+                            width={28}
+                            height={28}
+                            unoptimized
+                            className="object-contain"
+                        />
+                    </motion.div>
                 </button>
 
                 {/* CENTER: Logo */}
