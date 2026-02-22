@@ -1,6 +1,6 @@
 export default function AboutPhoenix({
     titleSize = "text-4xl md:text-5xl",
-    textSize = "text-lg md:text-xl",
+    textSize = "text-xl md:text-2xl",
 }: {
     titleSize?: string;
     textSize?: string;
@@ -18,13 +18,9 @@ export default function AboutPhoenix({
                 </h2>
 
                 <p
-                    className={`text-gray-300 leading-relaxed ${textSize}`}
+                    className={`text-gray-100 leading-relaxed ${textSize}`}
                 >
-                    Phoenix is a cutting-edge AI-powered code generation tool
-                    designed to revolutionize the way developers write code.
-                    With advanced natural language understanding, Phoenix
-                    translates human intent into efficient, production-ready
-                    solutions across multiple programming languages.
+                    Nourished with the love for technology and innovation, Phoenix, offers a myriad of competitions, hackathons, and experiences that keep the air buzzing with energy at Future Institute of Engineering and Management. Tech, art, debate, poetry, management, and trendy carnival events- we make sure to be everyone’s cup of tea! Flying higher every year since its dawn, Phoenix echoes with a thousand footfalls every day, with participants from all across India.
                 </p>
             </div>
         </section>
