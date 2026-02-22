@@ -177,7 +177,7 @@ export default function PokeNavbarHero() {
                 {/* 🔥 LOGO (ALWAYS FIXED, NEVER SWITCHES) */}
                 <motion.div
                     style={{ y: logoY, scale: logoScale }}
-                    className="fixed top-32 left-1/2 -translate-x-1/2 origin-top z-[60] pointer-events-auto w-full max-w-[450px] px-4"
+                    className="fixed top-32 pt-4 left-1/2 -translate-x-1/2 origin-top z-[60] pointer-events-auto w-full max-w-[450px] px-4"
                 >
                     <Link
                         href="/"
